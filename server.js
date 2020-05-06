@@ -8,8 +8,7 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
     console.log('a user connected');
-    
-    setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
+    setInterval(() => socket.emit('time', new Date().toTimeString()), 1000);
 });
 
 http.listen(3000, () => {
