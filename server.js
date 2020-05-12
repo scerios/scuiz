@@ -1,3 +1,7 @@
+// Define needed variables
+const INDEX = '/player-login.html';
+const PORT = process.env.PORT || 3000;
+
 // Implementing needed nodes + creating the server.
 const app = require('express')();
 const http = require('http').createServer(app);
