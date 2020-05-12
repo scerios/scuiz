@@ -15,8 +15,6 @@
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
-    "@hint/configuration-web-recommended": "^8.0.4",
-    "hint": "^6.0.5",
     "nodemon": "^2.0.3"
   }
 }
