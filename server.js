@@ -1,22 +1,26 @@
-let app = require('express')();
-let http = require('http').createServer(app);
-let io = require('socket.io')(http);
+// Implementing needed nodes + creating the server.
+const app = require('express')();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 
-let PORT = process.env.PORT || 3000;
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+// Listening on an open port.
+http.listen(PORT, () => {
+    console.log(`Listening on ${PORT}.`);
 });
 
+// Setting what should be loaded on different endpoints.
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + INDEX);
+});
+
+// Setting what should be done when someone connects.
 io.on('connection', (socket) => {
     console.log(`A user with ID: ${socket.id} connected.`);
-    setInterval(() => socket.emit('time', new Date().toTimeString()), 1000);
 
     io.on('disconnect', (socket) => {
         console.log(`A user with ID: ${socket.id} disconnected.`)
     })
 });
 
-http.listen(PORT, () => {
-    console.log(`Listening on ${PORT}.`);
-});
+// Emitting server time for testing purpose.
+setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
