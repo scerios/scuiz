@@ -19,19 +19,19 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <label for="player-name">Név</label>
+                        <label for="player-login-name">Név</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="player-name">
+                            <input type="text" class="form-control" id="player-login-name">
                         </div>
                     </div>
                     <div class="col-12">
-                        <label for="player-password">Jelszó</label>
+                        <label for="player-login-password">Jelszó</label>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="player-password">
+                            <input type="password" class="form-control" id="player-login-password">
                         </div>
                     </div>
                     <div class="col-12 button-container">
-                        <button class="btn btn-success" type="button" id="login-btn">Bejelentkezés</button>
+                        <button class="btn btn-success" type="button" id="player-login-btn">Bejelentkezés</button>
                     </div>
                 </div>
             </div>
@@ -45,19 +45,19 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <label for="register-name">Név</label>
+                        <label for="player-register-name">Név</label>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" id="register-name">
+                            <input type="text" class="form-control" id="player-register-name">
                         </div>
                     </div>
                     <div class="col-12">
-                        <label for="register-password">Jelszó</label>
+                        <label for="player-register-password">Jelszó</label>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="register-password">
+                            <input type="password" class="form-control" id="player-register-password">
                         </div>
                     </div>
                     <div class="col-12 button-container">
-                        <button class="btn btn-primary" type="button" id="register-btn">Regisztrálás</button>
+                        <button class="btn btn-primary" type="button" id="player-register-btn">Regisztrálás</button>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,10 @@
     let playerRegisterBtn = $('#player-register-btn');
 
     playerLoginBtn.on('click', function () {
-
+        socket.emit('login', {
+            name: playerLoginName.val(),
+            password: playerLoginPassword.val()
+        });
     });
 
     playerRegisterBtn.on('click', function () {
