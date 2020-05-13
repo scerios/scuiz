@@ -1,8 +1,9 @@
 // Define needed variables
-const INDEX = '/player-login.html';
+const PAGES_DIR = 'pages';
 const PORT = process.env.PORT || 3000;
 
 // Implementing needed nodes + creating the server.
+const path = require('path');
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
@@ -14,17 +15,18 @@ http.listen(PORT, () => {
 
 // Setting what should be loaded on different endpoints.
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + INDEX);
+    res.sendFile(path.join(__dirname, PAGES_DIR, 'player-login.html'));
+});
+
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, PAGES_DIR, 'admin-login.html'));
 });
 
 // Setting what should be done when someone connects.
 io.on('connection', (socket) => {
     console.log(`A user with ID: ${socket.id} connected.`);
 
-    io.on('disconnect', (socket) => {
+    socket.on('disconnect', () => {
         console.log(`A user with ID: ${socket.id} disconnected.`)
     })
 });
-
-// Emitting server time for testing purpose.
-setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
