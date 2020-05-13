@@ -10,33 +10,26 @@
     <script src="https://kit.fontawesome.com/06e7769758.js" crossorigin="anonymous"></script>
 </head>
 <body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
-        <p>QUIZ</p>
+<div class="card">
+    <div class="card-header text-center green font-weight-bold">
+        Belépés csak nagyon okosaknak
     </div>
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">Belépés csak nagyon okosaknak</p>
-            <div class="input-group mb-3">
-                <input id="admin-name" type="text" class="form-control" placeholder="Név">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-lock"></span>
-                    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <label for="player-name">Név</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="player-name">
                 </div>
             </div>
-            <div class="input-group mb-3">
-                <input id="admin-password" type="password" class="form-control" placeholder="Jelszó">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-lock"></span>
-                    </div>
+            <div class="col-12">
+                <label for="player-password">Jelszó</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="player-password">
                 </div>
             </div>
-            <div class="row">
-                <div class="col-4">
-                    <button id="admin-login-btn" type="button" class="btn btn-primary btn-block">Belépés</button>
-                </div>
+            <div class="col-12 button-container">
+                <button class="btn btn-success" type="button" id="login-btn">Bejelentkezés</button>
             </div>
         </div>
     </div>
@@ -54,5 +47,34 @@
     });
 </script>
 </body>
+<style>
+    body {
+        background-color: #333;
+    }
+
+    .green {
+        background-color: #28a745;
+    }
+
+    .card {
+        top: 200px;
+        left: 40%;
+        width: 20%;
+        background-color: #eeeeee;
+        border-color: #f5f5f5;
+    }
+
+    .card-header {
+        letter-spacing: 1px;
+    }
+
+    .button-container {
+        margin-top: 20px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+</style>
 </html>
 
