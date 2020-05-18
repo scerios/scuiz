@@ -1,8 +1,10 @@
 const errors = {
     standardError: 'Hiba történt',
-    namingError: 'Nem megfelelő név',
     connectionIssue: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.',
-    alreadyRegistered: 'Ezzel a névvel már regisztráltak, válassz másikat!'
+    namingError: 'Nem megfelelő név',
+    alreadyRegistered: 'Ezzel a névvel már regisztráltak, válassz másikat!',
+    notFound: 'Hibás adatok',
+    badCredentials: 'Nincs felhasználó a megadott adatokkal'
 }
 
 module.exports = errors;
