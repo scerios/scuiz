@@ -29,7 +29,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div id="login-container" class="row">
     <div class="col-6">
         <div class="card">
             <div class="card-header text-center green font-weight-bold">
@@ -85,11 +85,13 @@
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+    let socket = io();
+
     let popupWindow = $('#popup-window');
     let popUpTitle = $('#popup-title');
     let popUpMsg = $('#popup-msg');
 
-    let socket = io();
+    let loginContainer = $('#login-container');
 
     let playerLoginName = $('#player-login-name');
     let playerLoginPassword = $('#player-login-password');
@@ -115,6 +117,7 @@
 
     socket.on('customError', (data) => {
         setErrorPopupText(data.title, data.msg);
+        console.log(data.error);
         popupWindow.modal();
     });
 

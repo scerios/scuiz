@@ -40,7 +40,7 @@ io.on('connection', socket => {
 
     socket.on('login', data => {
         mySql.query(sqlQueries.getByNameAndPassword(data.name, data.password), (error, results, fields) => {
-            if (error) io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+            if (error) io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue, error: error });
 
             if (results.length === 1) {
                 io.to(socket.id).emit('loginSuccess', { adminSocketId: adminSocketId });
