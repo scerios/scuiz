@@ -9,6 +9,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 const mySql = require('./js/mysql-connect');
+const sqlQueries = require('./js/sql-queries');
 
 // Listening on an open port.
 http.listen(PORT, () => {
@@ -29,14 +30,26 @@ io.on('connection', socket => {
     console.log(`A user with ID: ${socket.id} connected.`);
 
     socket.on('disconnect', () => {
-        console.log(`A user with ID: ${socket.id} disconnected.`)
-    })
+        console.log(`A user with ID: ${socket.id} disconnected.`);
+    });
 
     socket.on('login', data => {
         mySql.connect();
 
-        mySql.query(`SELECT * FROM player WHERE name = '${data.name}' AND password = '${data.password}'`, (error, results, fields) => {
+        mySql.query(sqlQueries.loginQuery(data.name, data.password), (error, results, fields) => {
+            if (error) console.log(error);
             console.log(results);
+        });
+
+        mySql.end();
+    });
+
+    socket.on('register', data => {
+        mySql.connect();
+
+        mySql.query(sqlQueries.registerQuery(data.name, data.password), (error, results, fields) => {
+            if (error) console.log(error);
+            console.log(results.insertId);
         });
 
         mySql.end();
