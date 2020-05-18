@@ -18,11 +18,11 @@ http.listen(PORT, () => {
 
 // Setting what should be loaded on different endpoints.
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, PAGES_DIR, 'player-login.html'));
+    res.sendFile(path.join(__dirname, PAGES_DIR, 'player.html'));
 });
 
 app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, PAGES_DIR, 'admin-login.html'));
+    res.sendFile(path.join(__dirname, PAGES_DIR, 'admin.html'));
 });
 
 // Setting what should be done when someone connects.
@@ -36,7 +36,7 @@ io.on('connection', socket => {
     socket.on('login', data => {
         mySql.connect();
 
-        mySql.query(sqlQueries.login(data.name, data.password), (error, results, fields) => {
+        mySql.query(sqlQueries.getByNameAndPassword(data.name, data.password), (error, results, fields) => {
             if (error) console.log(error);
             console.log(results);
         });
@@ -47,7 +47,7 @@ io.on('connection', socket => {
     socket.on('register', data => {
         mySql.connect();
 
-        mySql.query(sqlQueries.register(data.name, data.password), (error, results, fields) => {
+        mySql.query(sqlQueries.postNameAndPassword(data.name, data.password), (error, results, fields) => {
             if (error) console.log(error);
             console.log(results.insertId);
         });
