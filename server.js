@@ -37,25 +37,25 @@ io.on('connection', socket => {
 
     socket.on('login', data => {
         mySql.query(sqlQueries.getByNameAndPassword(data.name, data.password), (error, results, fields) => {
-            if (error) io.to(socket.id).emit('error', { msg: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.'});
+            io.to(socket.id).emit('customError', { title: 'Hiba történt!', msg: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.'});
         });
     });
 
     socket.on('register', data => {
         mySql.query(sqlQueries.getByName(data.name), (error, results, fields) => {
-            if (error) io.to(socket.id).emit('error', { msg: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.'});
+            if (error) io.to(socket.id).emit('customError', { title: 'Hiba történt!', msg: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.'});
 
             if (results.length === 0) {
                 mySql.query(sqlQueries.postNameAndPassword(data.name, data.password), (error, results, fields) => {
                     if (error) {
-                        io.to(socket.id).emit('error', { msg: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.'});
+                        io.to(socket.id).emit('customError', { title: 'Hiba történt!', msg: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.'});
                     } else {
                         io.to(socket.id).emit('registerSuccess', { adminSocketId: adminSocketId});
                     }
                 });
             } else {
-                io.to(socket.id).emit('alreadyRegistered');
+                io.to(socket.id).emit('customError', { title: 'Nem megfelelő név', msg: 'Ezzel a névvel már regisztráltak, válassz másikat!' });
             }
         });
-    })
+    });
 });
