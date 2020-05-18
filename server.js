@@ -11,6 +11,8 @@ const io = require('socket.io')(http);
 const mySql = require('./js/mysql-connect');
 const sqlQueries = require('./js/sql-queries');
 
+let adminSocketId = '';
+
 // Listening on an open port.
 http.listen(PORT, () => {
     console.log(`Listening on ${PORT}.`);
@@ -34,24 +36,26 @@ io.on('connection', socket => {
     });
 
     socket.on('login', data => {
-        mySql.connect();
-
         mySql.query(sqlQueries.getByNameAndPassword(data.name, data.password), (error, results, fields) => {
-            if (error) console.log(error);
-            console.log(results);
+            if (error) io.to(socket.id).emit('error', { msg: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.'});
         });
-
-        mySql.end();
     });
 
     socket.on('register', data => {
-        mySql.connect();
+        mySql.query(sqlQueries.getByName(data.name), (error, results, fields) => {
+            if (error) io.to(socket.id).emit('error', { msg: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.'});
 
-        mySql.query(sqlQueries.postNameAndPassword(data.name, data.password), (error, results, fields) => {
-            if (error) console.log(error);
-            console.log(results.insertId);
+            if (results.length === 0) {
+                mySql.query(sqlQueries.postNameAndPassword(data.name, data.password), (error, results, fields) => {
+                    if (error) {
+                        io.to(socket.id).emit('error', { msg: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.'});
+                    } else {
+                        io.to(socket.id).emit('registerSuccess', { adminSocketId: adminSocketId});
+                    }
+                });
+            } else {
+                io.to(socket.id).emit('alreadyRegistered');
+            }
         });
-
-        mySql.end();
     })
 });
