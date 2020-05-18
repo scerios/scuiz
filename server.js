@@ -36,7 +36,7 @@ io.on('connection', socket => {
     socket.on('login', data => {
         mySql.connect();
 
-        mySql.query(sqlQueries.loginQuery(data.name, data.password), (error, results, fields) => {
+        mySql.query(sqlQueries.login(data.name, data.password), (error, results, fields) => {
             if (error) console.log(error);
             console.log(results);
         });
@@ -47,7 +47,7 @@ io.on('connection', socket => {
     socket.on('register', data => {
         mySql.connect();
 
-        mySql.query(sqlQueries.registerQuery(data.name, data.password), (error, results, fields) => {
+        mySql.query(sqlQueries.register(data.name, data.password), (error, results, fields) => {
             if (error) console.log(error);
             console.log(results.insertId);
         });

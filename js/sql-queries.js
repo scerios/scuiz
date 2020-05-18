@@ -1,10 +1,10 @@
-const loginQuery = (name, password) => {
+const login = (name, password) => {
     return `SELECT * FROM player WHERE name = '${name}' AND password = '${password}'`;
 };
 
-const registerQuery = (name, password) => {
+const register = (name, password) => {
     return `INSERT INTO player (name, password) VALUES ('${name}', '${password}')`;
 };
 
-exports.loginQuery = loginQuery;
-exports.registerQuery = registerQuery;
+exports.login = login;
+exports.register = register;
