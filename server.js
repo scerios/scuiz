@@ -8,8 +8,8 @@ const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-const mySql = require('./js/mysql-connect');
-const sqlQueries = require('./js/sql-queries');
+const mySql = require('./js/mySqlConnection');
+const sqlQueries = require('./js/sqlQueries');
 
 let adminSocketId = '';
 
