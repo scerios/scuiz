@@ -84,7 +84,10 @@
     });
 
     playerRegisterBtn.on('click', function () {
-
+        socket.emit('register', {
+            name: playerRegisterName.val(),
+            password: playerRegisterPassword.val()
+        });
     });
 </script>
 </body>
