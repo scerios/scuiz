@@ -8,10 +8,12 @@ const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
+// Implementing custom modules.
 const mySql = require('./js/mySqlConnection');
 const sqlQueries = require('./js/sqlQueries');
 const errors = require('./js/error');
 
+// Saving the socked ID for the admin. This will be emitted to all the users so eventually they will be able to send everything back to only the admin.
 let adminSocketId = '';
 
 // Listening on an open port.
