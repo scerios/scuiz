@@ -40,7 +40,13 @@ io.on('connection', socket => {
 
     socket.on('login', data => {
         mySql.query(sqlQueries.getByNameAndPassword(data.name, data.password), (error, results, fields) => {
-            io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+            if (error) io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+
+            if (results.length === 1) {
+                io.to(socket.id).emit('loginSuccess', { adminSocketId: adminSocketId });
+            } else {
+                io.to(socket.id).emit('customError', { title: errors.notFound, msg: errors.badCredentials });
+            }
         });
     });
 
@@ -53,7 +59,7 @@ io.on('connection', socket => {
                     if (error) {
                         io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
                     } else {
-                        io.to(socket.id).emit('registerSuccess', { adminSocketId: adminSocketId});
+                        io.to(socket.id).emit('registerSuccess', { adminSocketId: adminSocketId });
                     }
                 });
             } else {
