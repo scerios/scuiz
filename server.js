@@ -10,6 +10,7 @@ const io = require('socket.io')(http);
 
 const mySql = require('./js/mySqlConnection');
 const sqlQueries = require('./js/sqlQueries');
+const errors = require('./js/error');
 
 let adminSocketId = '';
 
@@ -37,24 +38,24 @@ io.on('connection', socket => {
 
     socket.on('login', data => {
         mySql.query(sqlQueries.getByNameAndPassword(data.name, data.password), (error, results, fields) => {
-            io.to(socket.id).emit('customError', { title: 'Hiba történt!', msg: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.'});
+            io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
         });
     });
 
     socket.on('register', data => {
         mySql.query(sqlQueries.getByName(data.name), (error, results, fields) => {
-            if (error) io.to(socket.id).emit('customError', { title: 'Hiba történt!', msg: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.'});
+            if (error) io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
 
             if (results.length === 0) {
                 mySql.query(sqlQueries.postNameAndPassword(data.name, data.password), (error, results, fields) => {
                     if (error) {
-                        io.to(socket.id).emit('customError', { title: 'Hiba történt!', msg: 'Nem sikerült kapcsolódni a szerverhez, kérlek próbáld újra.'});
+                        io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
                     } else {
                         io.to(socket.id).emit('registerSuccess', { adminSocketId: adminSocketId});
                     }
                 });
             } else {
-                io.to(socket.id).emit('customError', { title: 'Nem megfelelő név', msg: 'Ezzel a névvel már regisztráltak, válassz másikat!' });
+                io.to(socket.id).emit('customError', { title: errors.namingError, msg: errors.alreadyRegistered });
             }
         });
     });
