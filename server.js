@@ -72,3 +72,23 @@ io.on('connection', socket => {
         });
     });
 });
+
+function getAllCategories() {
+    mySql.query(sqlQueries.getAllCategories(), (error, results, fields) => {
+        let availabilities = [];
+        for (let category in results) {
+            if (category.index === 0) {
+                category.isAvailable = true;
+            } else {
+                category.isAvailable = category.index % 3 !== 0;
+            }
+            availabilities[category.id - 1] = category.isAvailable;
+        }
+        if (!availabilities.includes(true)) {
+            for (let category in results) {
+                category.isAvailable = true;
+            }
+        }
+        return results;
+    });
+}
