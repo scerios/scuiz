@@ -115,6 +115,7 @@
 
     let loginContainer = $('#login-container');
     let gameContainer = $('#game-container');
+    let categoryContainer = $('#category-container');
 
     let playerLoginName = $('#player-login-name');
     let playerLoginPassword = $('#player-login-password');
@@ -148,17 +149,35 @@
         adminSocketId = data.adminSocketId;
         loginContainer.fadeOut();
         gameContainer.fadeIn();
+        sortCategories(data.categories);
     });
 
     socket.on('registerSuccess', (data) => {
         adminSocketId = data.adminSocketId;
         loginContainer.fadeOut();
         gameContainer.fadeIn();
+        sortCategories(data.categories);
     });
 
     function setErrorPopupText(title, msg) {
         popUpTitle.text(title);
         popUpMsg.text(msg);
+    }
+
+    function sortCategories(categories) {
+        let categoryListHtml = '';
+        for (let category in categories) {
+            if (!category.isAvailable) {
+                categoryListHtml += '<div class="col-2">' +
+                    '               <button disabled id="category-' + category.id + '" class="btn btn-success" type="button">' + category.name + '</button>' +
+                    '            </div>';
+            } else {
+                categoryListHtml += '<div class="col-2">' +
+                    '               <button id="category-' + category.id + '" class="btn btn-success" type="button">' + category.name + '</button>' +
+                    '            </div>';
+            }
+        }
+        categoryContainer.html(categoryListHtml);
     }
 </script>
 </body>
@@ -191,6 +210,14 @@
 
     .btn {
         width: 100%;
+    }
+
+    #login-container {
+        /*display: none;*/
+    }
+
+    #game-container {
+        display: none;
     }
 </style>
 </html>
