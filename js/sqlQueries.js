@@ -11,7 +11,7 @@ const postNameAndPassword = (name, password) => {
 };
 
 const getAllCategories = () => {
-    return 'SELECT id, name FROM category';
+    return 'SELECT id, name, question_index FROM category';
 };
 
 exports.getByName = getByName;
