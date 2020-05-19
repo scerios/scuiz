@@ -10,6 +10,11 @@ const postNameAndPassword = (name, password) => {
     return `INSERT INTO player (name, password) VALUES ('${name}', '${password}')`;
 };
 
+const getAllCategories = () => {
+    return 'SELECT id, name FROM category';
+};
+
 exports.getByName = getByName;
 exports.getByNameAndPassword = getByNameAndPassword;
 exports.postNameAndPassword = postNameAndPassword;
+exports.getAllCategories = getAllCategories;
