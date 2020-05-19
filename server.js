@@ -40,30 +40,34 @@ io.on('connection', socket => {
 
     socket.on('login', data => {
         mySql.query(sqlQueries.getByNameAndPassword(data.name, data.password), (error, results, fields) => {
-            if (error) io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue, error: error });
-
-            if (results.length === 1) {
-                io.to(socket.id).emit('loginSuccess', { adminSocketId: adminSocketId });
+            if (error) {
+                io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue, error: error });
             } else {
-                io.to(socket.id).emit('customError', { title: errors.notFound, msg: errors.badCredentials });
+                if (results.length === 1) {
+                    io.to(socket.id).emit('loginSuccess', { adminSocketId: adminSocketId, categories: getAllCategories() });
+                } else {
+                    io.to(socket.id).emit('customError', { title: errors.notFound, msg: errors.badCredentials });
+                }
             }
         });
     });
 
     socket.on('register', data => {
         mySql.query(sqlQueries.getByName(data.name), (error, results, fields) => {
-            if (error) io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
-
-            if (results.length === 0) {
-                mySql.query(sqlQueries.postNameAndPassword(data.name, data.password), (error, results, fields) => {
-                    if (error) {
-                        io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
-                    } else {
-                        io.to(socket.id).emit('registerSuccess', { adminSocketId: adminSocketId });
-                    }
-                });
+            if (error) {
+                io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
             } else {
-                io.to(socket.id).emit('customError', { title: errors.namingError, msg: errors.alreadyRegistered });
+                if (results.length === 0) {
+                    mySql.query(sqlQueries.postNameAndPassword(data.name, data.password), (error, results, fields) => {
+                        if (error) {
+                            io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+                        } else {
+                            io.to(socket.id).emit('registerSuccess', { adminSocketId: adminSocketId, categories: getAllCategories() });
+                        }
+                    });
+                } else {
+                    io.to(socket.id).emit('customError', { title: errors.namingError, msg: errors.alreadyRegistered });
+                }
             }
         });
     });
