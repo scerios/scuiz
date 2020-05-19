@@ -107,12 +107,14 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     let socket = io();
+    let adminSocketId = '';
 
     let popupWindow = $('#popup-window');
     let popUpTitle = $('#popup-title');
     let popUpMsg = $('#popup-msg');
 
     let loginContainer = $('#login-container');
+    let gameContainer = $('#game-container');
 
     let playerLoginName = $('#player-login-name');
     let playerLoginPassword = $('#player-login-password');
@@ -140,6 +142,18 @@
         setErrorPopupText(data.title, data.msg);
         console.log(data.error);
         popupWindow.modal();
+    });
+
+    socket.on('loginSuccess', (data) => {
+        adminSocketId = data.adminSocketId;
+        loginContainer.fadeOut();
+        gameContainer.fadeIn();
+    });
+
+    socket.on('registerSuccess', (data) => {
+        adminSocketId = data.adminSocketId;
+        loginContainer.fadeOut();
+        gameContainer.fadeIn();
     });
 
     function setErrorPopupText(title, msg) {
