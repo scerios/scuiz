@@ -39,40 +39,71 @@ io.on('connection', socket => {
 
     socket.on('login', data => {
         let playerResult = sqlQueries.getPlayerByNameAndPassword(data.name, data.password);
+
         playerResult.then((players) => {
             if (players.length === 1) {
                 let categoryResult = sqlQueries.getAllCategories();
+
                 categoryResult.then((categories) => {
                     let categoryRoundLimitResult = sqlQueries.getCategoryRoundLimit();
+
                     categoryRoundLimitResult.then((roundLimit) => {
                         let sortedCategories = getCategoryAvailabilities(categories, roundLimit[0].round_limit);
+
                         io.to(socket.id).emit('loginSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
+
+                    }).catch(() => {
+                        io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
                     });
+
+                }).catch(() => {
+                    io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
                 });
+
             } else {
                 io.to(socket.id).emit('customError', { title: errors.notFound, msg: errors.badCredentials });
             }
-        })
+
+        }).catch(() => {
+            io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+        });
     });
 
     socket.on('register', data => {
         let isNameAlreadyRegistered = sqlQueries.getPlayerByName(data.name);
+
         isNameAlreadyRegistered.then((isRegistered) => {
             if (isRegistered.length > 0) {
                 io.to(socket.id).emit('customError', { title: errors.namingError, msg: errors.alreadyRegistered });
+
             } else {
                 let newPlayer = sqlQueries.postPlayerNameAndPassword(data.name, data.password);
+
                 newPlayer.then(() => {
                     let categoryResult = sqlQueries.getAllCategories();
+
                     categoryResult.then((categories) => {
                         let categoryRoundLimitResult = sqlQueries.getCategoryRoundLimit();
+
                         categoryRoundLimitResult.then((roundLimit) => {
                             let sortedCategories = getCategoryAvailabilities(categories, roundLimit[0].round_limit);
                             io.to(socket.id).emit('registerSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
+
+                        }).catch(() => {
+                            io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
                         });
+
+                    }).catch(() => {
+                        io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
                     });
-                })
+
+                }).catch(() => {
+                    io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+                });
             }
+
+        }).catch(() => {
+            io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
         });
     });
 });
