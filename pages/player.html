@@ -30,7 +30,7 @@
         </div>
     </div>
 </div>
-<div id="login-container" class="row">
+<div id="login-container" class="row max-width">
     <div class="col-6">
         <div class="card">
             <div class="card-header text-center green font-weight-bold">
@@ -85,24 +85,23 @@
     </div>
 </div>
 
-<div id="game-container" class="row">
+<div id="game-container" class="row max-width">
     <div class="col-12">
         <div id="category-container" class="row">
-
         </div>
     </div>
-    <div id="clock-container" class="col-12">
+<!--    <div id="clock-container" class="col-12">-->
 
-    </div>
-    <div id="question-container" class="col-6">
+<!--    </div>-->
+<!--    <div id="question-container" class="col-6">-->
 
-    </div>
-    <div id="answer-container" class="col-6">
+<!--    </div>-->
+<!--    <div id="answer-container" class="col-6">-->
 
-    </div>
-    <div id="button-container" class="col-12">
+<!--    </div>-->
+<!--    <div id="button-container" class="col-12">-->
 
-    </div>
+<!--    </div>-->
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -141,22 +140,25 @@
 
     socket.on('customError', (data) => {
         setErrorPopupText(data.title, data.msg);
-        console.log(data.error);
         popupWindow.modal();
     });
 
     socket.on('loginSuccess', (data) => {
         adminSocketId = data.adminSocketId;
-        loginContainer.fadeOut();
+        loginContainer.remove();
+        setTimeout(() => {
+            sortCategories(data.categories)
+        }, 1000);
         gameContainer.fadeIn();
-        sortCategories(data.categories);
     });
 
     socket.on('registerSuccess', (data) => {
         adminSocketId = data.adminSocketId;
-        loginContainer.fadeOut();
+        loginContainer.remove();
+        setTimeout(() => {
+            sortCategories(data.categories)
+        }, 1000);
         gameContainer.fadeIn();
-        sortCategories(data.categories);
     });
 
     function setErrorPopupText(title, msg) {
@@ -166,14 +168,16 @@
 
     function sortCategories(categories) {
         let categoryListHtml = '';
-        for (let category in categories) {
-            if (!category.isAvailable) {
-                categoryListHtml += '<div class="col-2">' +
-                    '               <button disabled id="category-' + category.id + '" class="btn btn-success" type="button">' + category.name + '</button>' +
+        for (let i = 0; i < categories.length; i++) {
+            if (!categories[i].isAvailable) {
+                categoryListHtml += '<div class="col-md-2">' +
+                    '               <button disabled id="category-' + categories[i].id + '" class="btn btn-danger btn-category" type="button">' +
+                    categories[i].name +
+                    '</button>' +
                     '            </div>';
             } else {
-                categoryListHtml += '<div class="col-2">' +
-                    '               <button id="category-' + category.id + '" class="btn btn-success" type="button">' + category.name + '</button>' +
+                categoryListHtml += '<div class="col-md-2">' +
+                    '               <button id="category-' + categories[i].id + '" class="btn btn-success btn-category" type="button">' + categories[i].name + '</button>' +
                     '            </div>';
             }
         }
@@ -182,8 +186,20 @@
 </script>
 </body>
 <style>
-    body {
+    * {
+        box-sizing: border-box;
+    }
+
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
         background-color: #333;
+    }
+
+    .max-width {
+        width: 100%;
     }
 
     .green {
@@ -210,6 +226,10 @@
 
     .btn {
         width: 100%;
+    }
+
+    .btn-category {
+        margin: 10px;
     }
 
     #login-container {
