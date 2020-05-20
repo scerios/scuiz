@@ -38,7 +38,7 @@ io.on('connection', socket => {
         console.log(`A user with ID: ${socket.id} disconnected.`);
     });
 
-    socket.on('login', data => {
+    socket.on('playerLogin', data => {
         let playerResult = sqlQueries.getPlayerByNameAndPassword(data.name, data.password);
 
         playerResult.then((players) => {
@@ -70,7 +70,7 @@ io.on('connection', socket => {
         });
     });
 
-    socket.on('register', data => {
+    socket.on('playerRegister', data => {
         let isNameAlreadyRegistered = sqlQueries.getPlayerByName(data.name);
 
         isNameAlreadyRegistered.then((isRegistered) => {

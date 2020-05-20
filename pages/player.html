@@ -130,14 +130,14 @@
     let playerRegisterBtn = $('#player-register-btn');
 
     playerLoginBtn.on('click', function () {
-        socket.emit('login', {
+        socket.emit('playerLogin', {
             name: playerLoginName.val(),
             password: playerLoginPassword.val()
         });
     });
 
     playerRegisterBtn.on('click', function () {
-        socket.emit('register', {
+        socket.emit('playerRegister', {
             name: playerRegisterName.val(),
             password: playerRegisterPassword.val()
         });
