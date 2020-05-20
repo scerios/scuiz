@@ -30,28 +30,38 @@
         </div>
     </div>
 </div>
-<div class="card">
-    <div class="card-header text-center green font-weight-bold">
-        Belépés csak nagyon okosaknak
+<div id="login-container" class="row max-width">
+    <div class="col-3">
+        &times;
     </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-12">
-                <label for="player-name">Név</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="player-name">
-                </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header text-center green font-weight-bold">
+                Belépés csak nagyon okosaknak
             </div>
-            <div class="col-12">
-                <label for="player-password">Jelszó</label>
-                <div class="input-group">
-                    <input type="password" class="form-control" id="player-password">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="admin-name">Név</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="admin-name">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="admin-password">Jelszó</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="admin-password">
+                        </div>
+                    </div>
+                    <div class="col-12 button-container">
+                        <button class="btn btn-success" type="button" id="admin-login-btn">Bejelentkezés</button>
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 button-container">
-                <button class="btn btn-success" type="button" id="login-btn">Bejelentkezés</button>
             </div>
         </div>
+    </div>
+    <div class="col-3">
+        &times;
     </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
@@ -84,20 +94,12 @@
         width: 100%;
     }
 
-    .hide {
-        display: none;
-    }
-
     .green {
         background-color: #28a745;
     }
 
-    .blue {
-        background-color: #007bff;
-    }
-
     .card {
-        margin: 200px;
+        margin: 300px;
         background-color: #eeeeee;
         border-color: #f5f5f5;
     }
@@ -112,18 +114,6 @@
 
     .btn {
         width: 100%;
-    }
-
-    .btn-category {
-        margin: 10px;
-    }
-
-    #login-container {
-        /*display: none;*/
-    }
-
-    #game-container {
-        display: none;
     }
 </style>
 </html>
