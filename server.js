@@ -11,6 +11,7 @@ const io = require('socket.io')(http);
 // Implementing custom modules.
 const sqlQueries = require('./js/sqlQueries');
 const errors = require('./js/error');
+const helper = require('./js/helper');
 
 // Saving the socked ID for the admin. This will be emitted to all the users so eventually they will be able to send everything back to only the admin.
 let adminSocketId = '';
@@ -48,7 +49,7 @@ io.on('connection', socket => {
                     let categoryRoundLimitResult = sqlQueries.getCategoryRoundLimit();
 
                     categoryRoundLimitResult.then((roundLimit) => {
-                        let sortedCategories = getCategoryAvailabilities(categories, roundLimit[0].round_limit);
+                        let sortedCategories = helper.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
 
                         io.to(socket.id).emit('loginSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
 
@@ -86,7 +87,7 @@ io.on('connection', socket => {
                         let categoryRoundLimitResult = sqlQueries.getCategoryRoundLimit();
 
                         categoryRoundLimitResult.then((roundLimit) => {
-                            let sortedCategories = getCategoryAvailabilities(categories, roundLimit[0].round_limit);
+                            let sortedCategories = helper.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
                             io.to(socket.id).emit('registerSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
 
                         }).catch(() => {
@@ -107,10 +108,3 @@ io.on('connection', socket => {
         });
     });
 });
-
-function getCategoryAvailabilities(categories, limit) {
-    for (let i = 0; i < categories.length; i++) {
-        categories[i].isAvailable = categories[i].question_index < limit;
-    }
-    return categories;
-}
