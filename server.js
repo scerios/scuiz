@@ -9,9 +9,6 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 // Implementing custom modules.
-const mySql = require('./js/mySqlConnection');
-const util = require('util');
-const query = util.promisify(mySql.query).bind(mySql);
 const sqlQueries = require('./js/sqlQueries');
 const errors = require('./js/error');
 
@@ -41,17 +38,17 @@ io.on('connection', socket => {
     });
 
     socket.on('login', data => {
-        let playerResult = getPlayerByNameAndPassword(data, query);
+        let playerResult = sqlQueries.getPlayerByNameAndPassword(data.name, data.password);
         playerResult.then((players) => {
             if (players.length === 1) {
-                let categoryResult = getAllCategories(query);
+                let categoryResult = sqlQueries.getAllCategories();
                 categoryResult.then((categories) => {
-                    let categoryRoundLimitResult = getCategoryRoundLimit(query);
+                    let categoryRoundLimitResult = sqlQueries.getCategoryRoundLimit();
                     categoryRoundLimitResult.then((roundLimit) => {
                         let sortedCategories = getCategoryAvailabilities(categories, roundLimit[0].round_limit);
                         io.to(socket.id).emit('loginSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
                     });
-                })
+                });
             } else {
                 io.to(socket.id).emit('customError', { title: errors.notFound, msg: errors.badCredentials });
             }
@@ -59,21 +56,22 @@ io.on('connection', socket => {
     });
 
     socket.on('register', data => {
-        mySql.query(sqlQueries.getByName(data.name), (error, results, fields) => {
-            if (error) {
-                io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+        let isNameAlreadyRegistered = sqlQueries.getPlayerByName(data.name);
+        isNameAlreadyRegistered.then((isRegistered) => {
+            if (isRegistered.length > 0) {
+                io.to(socket.id).emit('customError', { title: errors.namingError, msg: errors.alreadyRegistered });
             } else {
-                if (results.length === 0) {
-                    mySql.query(sqlQueries.postNameAndPassword(data.name, data.password), (error, results, fields) => {
-                        if (error) {
-                            io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
-                        } else {
-                            io.to(socket.id).emit('registerSuccess', { adminSocketId: adminSocketId, categories: getAllCategories() });
-                        }
+                let newPlayer = sqlQueries.postPlayerNameAndPassword(data.name, data.password);
+                newPlayer.then(() => {
+                    let categoryResult = sqlQueries.getAllCategories();
+                    categoryResult.then((categories) => {
+                        let categoryRoundLimitResult = sqlQueries.getCategoryRoundLimit();
+                        categoryRoundLimitResult.then((roundLimit) => {
+                            let sortedCategories = getCategoryAvailabilities(categories, roundLimit[0].round_limit);
+                            io.to(socket.id).emit('registerSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
+                        });
                     });
-                } else {
-                    io.to(socket.id).emit('customError', { title: errors.namingError, msg: errors.alreadyRegistered });
-                }
+                })
             }
         });
     });
@@ -84,16 +82,4 @@ function getCategoryAvailabilities(categories, limit) {
         categories[i].isAvailable = categories[i].question_index < limit;
     }
     return categories;
-}
-
-async function getPlayerByNameAndPassword(data, query) {
-    return await query(sqlQueries.getByNameAndPassword(data.name, data.password));
-}
-
-async function getAllCategories(query) {
-    return await query(sqlQueries.getAllCategories());
-}
-
-async function getCategoryRoundLimit(query) {
-    return await query(sqlQueries.getCategoryRoundLimit());
 }
