@@ -48,7 +48,8 @@ io.on('connection', socket => {
                 categoryResult.then((categories) => {
                     let categoryRoundLimitResult = getCategoryRoundLimit(query);
                     categoryRoundLimitResult.then((roundLimit) => {
-
+                        let sortedCategories = getCategoryAvailabilities(categories, roundLimit[0].round_limit);
+                        io.to(socket.id).emit('loginSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
                     });
                 })
             } else {
@@ -77,6 +78,13 @@ io.on('connection', socket => {
         });
     });
 });
+
+function getCategoryAvailabilities(categories, limit) {
+    for (let i = 0; i < categories.length; i++) {
+        categories[i].isAvailable = categories[i].question_index < limit;
+    }
+    return categories;
+}
 
 async function getPlayerByNameAndPassword(data, query) {
     return await query(sqlQueries.getByNameAndPassword(data.name, data.password));
