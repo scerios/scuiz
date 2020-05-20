@@ -4,7 +4,7 @@ const errors = {
     namingError: 'Nem megfelelő név',
     alreadyRegistered: 'Ezzel a névvel már regisztráltak, válassz másikat!',
     notFound: 'Hibás adatok',
-    badCredentials: 'Nincs felhasználó a megadott adatokkal'
+    badCredentials: 'Nincs felhasználó a megadott adatokkal.'
 }
 
 module.exports = errors;
