@@ -73,7 +73,10 @@
     let adminLoginBtn = $('#admin-login-btn');
 
     adminLoginBtn.on('click', function () {
-
+        socket.emit('adminLogin', {
+            name: adminName.val(),
+            password: adminPassword.val()
+        });
     });
 </script>
 </body>
