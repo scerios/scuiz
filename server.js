@@ -107,4 +107,20 @@ io.on('connection', socket => {
             io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
         });
     });
+
+    socket.on('adminLogin', (data) => {
+        let adminResult = sqlQueries.getAdminByNameAndPassword(data.name, data.password);
+
+        adminResult.then((admin) => {
+            if (admin.length === 1) {
+                adminSocketId = socket.id;
+
+            } else {
+                io.to(socket.id).emit('customError', { title: errors.notFound, msg: errors.badCredentials });
+            }
+
+        }).catch(() => {
+            io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+        });
+    });
 });
