@@ -86,22 +86,22 @@
 </div>
 
 <div id="game-container" class="row max-width">
-    <div class="col-12">
+    <div class="col-12 hide">
         <div id="category-container" class="row">
         </div>
     </div>
-<!--    <div id="clock-container" class="col-12">-->
+    <div id="clock-container" class="col-12 hide">
 
-<!--    </div>-->
-<!--    <div id="question-container" class="col-6">-->
+    </div>
+    <div id="question-container" class="col-6 hide">
 
-<!--    </div>-->
-<!--    <div id="answer-container" class="col-6">-->
+    </div>
+    <div id="answer-container" class="col-6 hide">
 
-<!--    </div>-->
-<!--    <div id="button-container" class="col-12">-->
+    </div>
+    <div id="button-container" class="col-12 hide">
 
-<!--    </div>-->
+    </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -115,6 +115,10 @@
     let loginContainer = $('#login-container');
     let gameContainer = $('#game-container');
     let categoryContainer = $('#category-container');
+    let clockContainer = $('#clock-container');
+    let questionContainer = $('#question-container');
+    let answerContainer = $('#answer-container');
+    let buttonContainer = $('#button-container');
 
     let playerLoginName = $('#player-login-name');
     let playerLoginPassword = $('#player-login-password');
@@ -200,6 +204,10 @@
 
     .max-width {
         width: 100%;
+    }
+
+    .hide {
+        display: none;
     }
 
     .green {
