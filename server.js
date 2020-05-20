@@ -10,6 +10,8 @@ const io = require('socket.io')(http);
 
 // Implementing custom modules.
 const mySql = require('./js/mySqlConnection');
+const util = require('util');
+const query = util.promisify(mySql.query).bind(mySql);
 const sqlQueries = require('./js/sqlQueries');
 const errors = require('./js/error');
 
@@ -39,17 +41,20 @@ io.on('connection', socket => {
     });
 
     socket.on('login', data => {
-        mySql.query(sqlQueries.getByNameAndPassword(data.name, data.password), (error, results, fields) => {
-            if (error) {
-                io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue, error: error });
+        let playerResult = getPlayerByNameAndPassword(data, query);
+        playerResult.then((players) => {
+            if (players.length === 1) {
+                let categoryResult = getAllCategories(query);
+                categoryResult.then((categories) => {
+                    let categoryRoundLimitResult = getCategoryRoundLimit(query);
+                    categoryRoundLimitResult.then((roundLimit) => {
+
+                    });
+                })
             } else {
-                if (results.length === 1) {
-                    io.to(socket.id).emit('loginSuccess', { adminSocketId: adminSocketId, categories: getAllCategories() });
-                } else {
-                    io.to(socket.id).emit('customError', { title: errors.notFound, msg: errors.badCredentials });
-                }
+                io.to(socket.id).emit('customError', { title: errors.notFound, msg: errors.badCredentials });
             }
-        });
+        })
     });
 
     socket.on('register', data => {
@@ -73,22 +78,14 @@ io.on('connection', socket => {
     });
 });
 
-function getAllCategories() {
-    mySql.query(sqlQueries.getAllCategories(), (error, results, fields) => {
-        let availabilities = [];
-        for (let category in results) {
-            if (category.index === 0) {
-                category.isAvailable = true;
-            } else {
-                category.isAvailable = category.index % 3 !== 0;
-            }
-            availabilities[category.id - 1] = category.isAvailable;
-        }
-        if (!availabilities.includes(true)) {
-            for (let category in results) {
-                category.isAvailable = true;
-            }
-        }
-        return results;
-    });
+async function getPlayerByNameAndPassword(data, query) {
+    return await query(sqlQueries.getByNameAndPassword(data.name, data.password));
+}
+
+async function getAllCategories(query) {
+    return await query(sqlQueries.getAllCategories());
+}
+
+async function getCategoryRoundLimit(query) {
+    return await query(sqlQueries.getCategoryRoundLimit());
 }
