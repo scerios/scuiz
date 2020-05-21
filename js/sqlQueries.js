@@ -10,6 +10,10 @@ async function putPlayerStatusAndSocketIdById(id, status, socketId) {
     return await query(`UPDATE player SET is_logged_in = ${status}, socket_id = '${socketId}' WHERE id = ${id}`);
 }
 
+async function putPlayerStatusAndSocketIdBySocketId(socketId, status) {
+    return await query(`UPDATE player SET is_logged_in = ${status}, socket_id = '' WHERE socket_id = '${socketId}'`);
+}
+
 async function getPlayerById(id) {
     return await query(`SELECT id, socket_id, name, point FROM player WHERE id = '${id}'`);
 }
@@ -36,6 +40,7 @@ async function getAdminByNameAndPassword(name, password) {
 
 exports.postPlayer = postPlayer;
 exports.putPlayerStatusAndSocketIdById = putPlayerStatusAndSocketIdById;
+exports.putPlayerStatusAndSocketIdBySocketId = putPlayerStatusAndSocketIdBySocketId;
 exports.getPlayerById = getPlayerById;
 exports.getPlayerByName = getPlayerByName;
 exports.getPlayerByNameAndPassword = getPlayerByNameAndPassword;
