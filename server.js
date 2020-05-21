@@ -43,24 +43,7 @@ io.on('connection', socket => {
 
         playerResult.then((players) => {
             if (players.length === 1) {
-                let categoryResult = sqlQueries.getAllCategories();
-
-                categoryResult.then((categories) => {
-                    let categoryRoundLimitResult = sqlQueries.getCategoryRoundLimit();
-
-                    categoryRoundLimitResult.then((roundLimit) => {
-                        let sortedCategories = helper.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
-
-                        io.to(socket.id).emit('loginSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
-
-                    }).catch(() => {
-                        io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
-                    });
-
-                }).catch(() => {
-                    io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
-                });
-
+                authenticatePlayerAndLoadCategories(socket.id);
             } else {
                 io.to(socket.id).emit('customError', { title: errors.notFound, msg: errors.badCredentials });
             }
@@ -81,23 +64,7 @@ io.on('connection', socket => {
                 let newPlayer = sqlQueries.postPlayerNameAndPassword(data.name, data.password);
 
                 newPlayer.then(() => {
-                    let categoryResult = sqlQueries.getAllCategories();
-
-                    categoryResult.then((categories) => {
-                        let categoryRoundLimitResult = sqlQueries.getCategoryRoundLimit();
-
-                        categoryRoundLimitResult.then((roundLimit) => {
-                            let sortedCategories = helper.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
-                            io.to(socket.id).emit('registerSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
-
-                        }).catch(() => {
-                            io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
-                        });
-
-                    }).catch(() => {
-                        io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
-                    });
-
+                    authenticatePlayerAndLoadCategories(socket.id);
                 }).catch(() => {
                     io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
                 });
@@ -124,3 +91,23 @@ io.on('connection', socket => {
         });
     });
 });
+
+function authenticatePlayerAndLoadCategories(socketId) {
+    let categoryResult = sqlQueries.getAllCategories();
+
+    categoryResult.then((categories) => {
+        let categoryRoundLimitResult = sqlQueries.getCategoryRoundLimit();
+
+        categoryRoundLimitResult.then((roundLimit) => {
+            let sortedCategories = helper.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
+
+            io.to(socketId).emit('enterSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
+
+        }).catch(() => {
+            io.to(socketId).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+        });
+
+    }).catch(() => {
+        io.to(socketId).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+    });
+}
