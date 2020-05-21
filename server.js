@@ -80,6 +80,7 @@ io.on('connection', socket => {
         adminResult.then((admin) => {
             if (admin.length === 1) {
                 adminSocketId = socket.id;
+                socket.broadcast.emit('adminSocketId', { adminSocketId: adminSocketId });
 
             } else {
                 io.to(socket.id).emit('customError', { title: errors.notFound, msg: errors.badCredentials });
