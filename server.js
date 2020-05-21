@@ -43,7 +43,7 @@ IO.on('connection', socket => {
 
         playerResult.then((playerIds) => {
             if (playerIds.length === 1) {
-                authenticatePlayerAndLoadCategories(socket.id);
+                authenticatePlayerAndLoadCategories(playerIds[0].id, socket.id);
             } else {
                 IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
             }
@@ -62,8 +62,8 @@ IO.on('connection', socket => {
             } else {
                 let newPlayer = SQL_QUERIES.postPlayer(data.name, data.password);
 
-                newPlayer.then(() => {
-                    authenticatePlayerAndLoadCategories(socket.id);
+                newPlayer.then((result) => {
+                    authenticatePlayerAndLoadCategories(result.insertId, socket.id);
                 }).catch(() => {
                     IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
                 });
@@ -92,7 +92,7 @@ IO.on('connection', socket => {
     });
 });
 
-function authenticatePlayerAndLoadCategories(socketId) {
+function authenticatePlayerAndLoadCategories(playerId, socketId) {
     let categoryResult = SQL_QUERIES.getAllCategories();
 
     categoryResult.then((categories) => {
@@ -100,8 +100,14 @@ function authenticatePlayerAndLoadCategories(socketId) {
 
         categoryRoundLimitResult.then((roundLimit) => {
             let sortedCategories = HELPER.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
+            let setPlayerStatusResult = SQL_QUERIES.putPlayerStatusById(playerId, 1);
 
-            IO.to(socketId).emit('enterSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
+            setPlayerStatusResult.then(() => {
+                IO.to(socketId).emit('enterSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
+
+            }).catch(() => {
+                IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
+            });
 
         }).catch(() => {
             IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
