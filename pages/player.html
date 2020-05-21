@@ -107,6 +107,7 @@
 <script>
     let socket = io();
     let adminSocketId = '';
+    let myId = 0;
 
     let popupWindow = $('#popup-window');
     let popUpTitle = $('#popup-title');
@@ -149,6 +150,7 @@
     });
 
     socket.on('enterSuccess', (data) => {
+        myId = data.myId;
         adminSocketId = data.adminSocketId;
         loginContainer.remove();
         setTimeout(() => {

@@ -111,7 +111,7 @@ function authenticatePlayerAndLoadCategories(playerId, socketId) {
             let setPlayerStatusAndSocketIdResult = SQL_QUERIES.putPlayerStatusAndSocketIdById(playerId, 1, socketId);
 
             setPlayerStatusAndSocketIdResult.then(() => {
-                IO.to(socketId).emit('enterSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
+                IO.to(socketId).emit('enterSuccess', { myId: playerId, adminSocketId: adminSocketId, categories: sortedCategories });
 
             }).catch((error) => {
                 console.log('setPlayerStatusAndSocketIdResult: ' + error);
