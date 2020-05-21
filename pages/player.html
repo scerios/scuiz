@@ -157,6 +157,10 @@
         gameContainer.fadeIn();
     });
 
+    socket.on('adminSocketId', (data) => {
+        adminSocketId = data.adminSocketId;
+    });
+
     function setErrorPopupText(title, msg) {
         popUpTitle.text(title);
         popUpMsg.text(msg);
