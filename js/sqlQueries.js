@@ -11,7 +11,7 @@ async function putPlayerStatusAndSocketIdById(id, status, socketId) {
 }
 
 async function getPlayerById(id) {
-    return await query(`SELECT socket_id, name, point FROM player WHERE id = '${id}'`);
+    return await query(`SELECT id, socket_id, name, point FROM player WHERE id = '${id}'`);
 }
 
 async function getPlayerByName(name) {
