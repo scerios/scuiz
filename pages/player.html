@@ -130,12 +130,6 @@
     let playerRegisterPassword = $('#player-register-password');
     let playerRegisterBtn = $('#player-register-btn');
 
-    $(window).on('unload', () => {
-        socket.emit('playerLeave', {
-            playerId: myId
-        });
-    });
-
     playerLoginBtn.on('click', function () {
         socket.emit('playerLogin', {
             name: playerLoginName.val(),
@@ -157,7 +151,6 @@
 
     socket.on('enterSuccess', (data) => {
         myId = data.myId;
-        console.log(myId);
         adminSocketId = data.adminSocketId;
         loginContainer.remove();
         setTimeout(() => {

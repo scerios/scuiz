@@ -36,10 +36,7 @@ IO.on('connection', socket => {
 
     socket.on('disconnect', () => {
         console.log(`A user with ID: ${socket.id} disconnected.`);
-    });
-
-    socket.on('playerLeave', (data) => {
-        let playerLeave = SQL_QUERIES.putPlayerStatusAndSocketIdById(data.playerId, 0, '');
+        let playerLeave = SQL_QUERIES.putPlayerStatusAndSocketIdBySocketId(socket.id, 0);
 
         playerLeave.then(() => {
 
