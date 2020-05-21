@@ -148,20 +148,11 @@
         popupWindow.modal();
     });
 
-    socket.on('loginSuccess', (data) => {
+    socket.on('enterSuccess', (data) => {
         adminSocketId = data.adminSocketId;
         loginContainer.remove();
         setTimeout(() => {
             sortCategories(data.categories);
-        }, 1000);
-        gameContainer.fadeIn();
-    });
-
-    socket.on('registerSuccess', (data) => {
-        adminSocketId = data.adminSocketId;
-        loginContainer.remove();
-        setTimeout(() => {
-            sortCategories(data.categories)
         }, 1000);
         gameContainer.fadeIn();
     });
