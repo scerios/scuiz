@@ -59,7 +59,6 @@ io.on('connection', socket => {
         isNameAlreadyRegistered.then((isRegistered) => {
             if (isRegistered.length > 0) {
                 io.to(socket.id).emit('customError', { title: errors.namingError, msg: errors.alreadyRegistered });
-
             } else {
                 let newPlayer = sqlQueries.postPlayerNameAndPassword(data.name, data.password);
 
