@@ -15,7 +15,7 @@ async function getPlayerByName(name) {
 }
 
 async function getPlayerByNameAndPassword(name, password) {
-    return await query(`SELECT id FROM player WHERE name = '${name}' AND password = '${password}'`);
+    return await query(`SELECT id, is_logged_in FROM player WHERE name = '${name}' AND password = '${password}'`);
 }
 
 async function getAllCategories() {
