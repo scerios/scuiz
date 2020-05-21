@@ -49,9 +49,9 @@ IO.on('connection', socket => {
     });
 
     socket.on('playerLogin', data => {
-        let playerResult = SQL_QUERIES.getPlayerByNameAndPassword(data.name, data.password);
+        let playerLoginResult = SQL_QUERIES.getPlayerByNameAndPassword(data.name, data.password);
 
-        playerResult.then((player) => {
+        playerLoginResult.then((player) => {
             if (player.length === 1) {
                 if (player[0].is_logged_in === 0) {
                     authenticatePlayerAndLoadCategories(player[0].id, socket.id);
@@ -63,7 +63,7 @@ IO.on('connection', socket => {
             }
 
         }).catch((error) => {
-            console.log('playerResult: ' + error);
+            console.log('playerLoginResult: ' + error);
             IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
         });
     });
@@ -106,6 +106,16 @@ IO.on('connection', socket => {
         }).catch((error) => {
             console.log('adminResult: ' + error);
             IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
+        });
+    });
+
+    socket.on('signUpForGame', (data) => {
+        let playerResult = SQL_QUERIES.getPlayerById(data.playerId);
+
+        playerResult.then((player) => {
+            IO.to(adminSocketId).emit('showPlayer', { player: player[0]});
+        }).catch((error) => {
+            console.log('playerResult:' + error);
         });
     });
 });
