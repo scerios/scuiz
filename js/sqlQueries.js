@@ -3,7 +3,7 @@ const util = require('util');
 const query = util.promisify(mySql.query).bind(mySql);
 
 async function postPlayer(name, password) {
-    return await query(`INSERT INTO player (name, password, is_logged_in) VALUES ('${name}', '${password}', 1)`);
+    return await query(`INSERT INTO player (name, password) VALUES ('${name}', '${password}')`);
 }
 
 async function putPlayerStatusById(id, status) {
@@ -31,6 +31,7 @@ async function getAdminByNameAndPassword(name, password) {
 }
 
 exports.postPlayer = postPlayer;
+exports.putPlayerStatusById = putPlayerStatusById;
 exports.getPlayerByName = getPlayerByName;
 exports.getPlayerByNameAndPassword = getPlayerByNameAndPassword;
 exports.getAllCategories = getAllCategories;
