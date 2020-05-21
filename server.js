@@ -98,6 +98,7 @@ IO.on('connection', socket => {
             if (admin.length === 1) {
                 adminSocketId = socket.id;
                 socket.broadcast.emit('adminSocketId', { adminSocketId: adminSocketId });
+                authenticateAdminAndLoadControlPanel();
 
             } else {
                 IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
@@ -136,6 +137,30 @@ function authenticatePlayerAndLoadCategories(playerId, socketId) {
             }).catch((error) => {
                 console.log('setPlayerStatusAndSocketIdResult: ' + error);
                 IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
+            });
+
+        }).catch((error) => {
+            console.log('categoryRoundLimitResult: ' + error);
+            IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
+        });
+
+    }).catch((error) => {
+        console.log('categoryResult: ' + error);
+        IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
+    });
+}
+
+function authenticateAdminAndLoadControlPanel(socketId) {
+    let categoryResult = SQL_QUERIES.getAllCategories();
+
+    categoryResult.then((categories) => {
+        let categoryRoundLimitResult = SQL_QUERIES.getCategoryRoundLimit();
+
+        categoryRoundLimitResult.then((roundLimit) => {
+            let sortedCategories = HELPER.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
+
+            IO.to(socketId).emit('enterSuccess', {
+                categories: sortedCategories
             });
 
         }).catch((error) => {
