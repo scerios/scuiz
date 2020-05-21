@@ -41,9 +41,13 @@ IO.on('connection', socket => {
     socket.on('playerLogin', data => {
         let playerResult = SQL_QUERIES.getPlayerByNameAndPassword(data.name, data.password);
 
-        playerResult.then((playerIds) => {
-            if (playerIds.length === 1) {
-                authenticatePlayerAndLoadCategories(playerIds[0].id, socket.id);
+        playerResult.then((player) => {
+            if (player.length === 1) {
+                if (player[0].is_logged_in === 0) {
+                    authenticatePlayerAndLoadCategories(player[0].id, socket.id);
+                } else {
+                    IO.to(socket.id).emit('customError', { title: ERRORS.alreadyLoggedIn, msg: ERRORS.onceAtATime });
+                }
             } else {
                 IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
             }
