@@ -164,6 +164,9 @@
             sortCategories(data.categories);
         }, 1000);
         gameContainer.fadeIn();
+        socket.emit('signUpForGame', {
+            playerId: myId
+        });
     });
 
     socket.on('adminSocketId', (data) => {
