@@ -52,7 +52,8 @@ IO.on('connection', socket => {
                 IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
             }
 
-        }).catch(() => {
+        }).catch((error) => {
+            console.log('playerResult: ' + error);
             IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
         });
     });
@@ -68,12 +69,14 @@ IO.on('connection', socket => {
 
                 newPlayer.then((result) => {
                     authenticatePlayerAndLoadCategories(result.insertId, socket.id);
-                }).catch(() => {
+                }).catch((error) => {
+                    console.log('newPlayer: ' + error);
                     IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
                 });
             }
 
-        }).catch(() => {
+        }).catch((error) => {
+            console.log('isNameAlreadyRegistered: ' + error);
             IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
         });
     });
@@ -90,7 +93,8 @@ IO.on('connection', socket => {
                 IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
             }
 
-        }).catch(() => {
+        }).catch((error) => {
+            console.log('adminResult: ' + error);
             IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
         });
     });
@@ -104,20 +108,23 @@ function authenticatePlayerAndLoadCategories(playerId, socketId) {
 
         categoryRoundLimitResult.then((roundLimit) => {
             let sortedCategories = HELPER.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
-            let setPlayerStatusResult = SQL_QUERIES.putPlayerStatusById(playerId, 1);
+            let setPlayerStatusAndSocketIdResult = SQL_QUERIES.putPlayerStatusAndSocketIdById(playerId, 1, socketId);
 
-            setPlayerStatusResult.then(() => {
+            setPlayerStatusAndSocketIdResult.then(() => {
                 IO.to(socketId).emit('enterSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
 
-            }).catch(() => {
+            }).catch((error) => {
+                console.log('setPlayerStatusAndSocketIdResult: ' + error);
                 IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
             });
 
-        }).catch(() => {
+        }).catch((error) => {
+            console.log('categoryRoundLimitResult: ' + error);
             IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
         });
 
-    }).catch(() => {
+    }).catch((error) => {
+        console.log('categoryResult: ' + error);
         IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
     });
 }
