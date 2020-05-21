@@ -38,6 +38,16 @@ IO.on('connection', socket => {
         console.log(`A user with ID: ${socket.id} disconnected.`);
     });
 
+    socket.on('playerLeave', (data) => {
+        let playerLeave = SQL_QUERIES.putPlayerStatusAndSocketIdById(data.playerId, 0, '');
+
+        playerLeave.then(() => {
+
+        }).catch((error) => {
+            console.log('playerLeave: ' + error);
+        });
+    });
+
     socket.on('playerLogin', data => {
         let playerResult = SQL_QUERIES.getPlayerByNameAndPassword(data.name, data.password);
 
