@@ -6,6 +6,10 @@ async function postPlayer(name, password) {
     return await query(`INSERT INTO player (name, password, is_logged_in) VALUES ('${name}', '${password}', 1)`);
 }
 
+async function putPlayerStatusById(id, status) {
+    return await query(`UPDATE player SET is_logged_in = ${status} WHERE id = ${id}`);
+}
+
 async function getPlayerByName(name) {
     return await query(`SELECT * FROM player WHERE name = '${name}'`);
 }
