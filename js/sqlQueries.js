@@ -6,8 +6,8 @@ async function postPlayer(name, password) {
     return await query(`INSERT INTO player (name, password) VALUES ('${name}', '${password}')`);
 }
 
-async function putPlayerStatusById(id, status) {
-    return await query(`UPDATE player SET is_logged_in = ${status} WHERE id = ${id}`);
+async function putPlayerStatusAndSocketIdById(id, status, socketId) {
+    return await query(`UPDATE player SET is_logged_in = ${status}, socket_id = '${socketId}' WHERE id = ${id}`);
 }
 
 async function getPlayerByName(name) {
@@ -31,7 +31,7 @@ async function getAdminByNameAndPassword(name, password) {
 }
 
 exports.postPlayer = postPlayer;
-exports.putPlayerStatusById = putPlayerStatusById;
+exports.putPlayerStatusAndSocketIdById = putPlayerStatusAndSocketIdById;
 exports.getPlayerByName = getPlayerByName;
 exports.getPlayerByNameAndPassword = getPlayerByNameAndPassword;
 exports.getAllCategories = getAllCategories;
