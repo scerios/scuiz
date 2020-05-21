@@ -2,8 +2,8 @@ const mySql = require('./mySqlConnection');
 const util = require('util');
 const query = util.promisify(mySql.query).bind(mySql);
 
-async function postPlayerNameAndPassword(name, password) {
-    return await query(`INSERT INTO player (name, password) VALUES ('${name}', '${password}')`);
+async function postPlayer(name, password) {
+    return await query(`INSERT INTO player (name, password, is_logged_in) VALUES ('${name}', '${password}', 1)`);
 }
 
 async function getPlayerByName(name) {
@@ -26,7 +26,7 @@ async function getAdminByNameAndPassword(name, password) {
     return await query(`SELECT * FROM admin WHERE name = '${name}' AND password = '${password}'`);
 }
 
-exports.postPlayerNameAndPassword = postPlayerNameAndPassword;
+exports.postPlayer = postPlayer;
 exports.getPlayerByName = getPlayerByName;
 exports.getPlayerByNameAndPassword = getPlayerByNameAndPassword;
 exports.getAllCategories = getAllCategories;
