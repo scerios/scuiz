@@ -11,11 +11,11 @@ async function putPlayerStatusById(id, status) {
 }
 
 async function getPlayerByName(name) {
-    return await query(`SELECT * FROM player WHERE name = '${name}'`);
+    return await query(`SELECT id FROM player WHERE name = '${name}'`);
 }
 
 async function getPlayerByNameAndPassword(name, password) {
-    return await query(`SELECT * FROM player WHERE name = '${name}' AND password = '${password}'`);
+    return await query(`SELECT id FROM player WHERE name = '${name}' AND password = '${password}'`);
 }
 
 async function getAllCategories() {
