@@ -3,35 +3,35 @@ const PAGES_DIR = 'pages';
 const PORT = process.env.PORT || 3000;
 
 // Implementing needed nodes + creating the server.
-const path = require('path');
-const app = require('express')();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const PATH = require('path');
+const APP = require('express')();
+const HTTP = require('http').createServer(APP);
+const IO = require('socket.io')(HTTP);
 
 // Implementing custom modules.
-const sqlQueries = require('./js/sqlQueries');
-const errors = require('./js/error');
-const helper = require('./js/helper');
+const SQL_QUERIES = require('./js/sqlQueries');
+const ERRORS = require('./js/error');
+const HELPER = require('./js/helper');
 
 // Saving the socked ID for the admin. This will be emitted to all the users so eventually they will be able to send everything back to only the admin.
 let adminSocketId = '';
 
 // Listening on an open port.
-http.listen(PORT, () => {
+HTTP.listen(PORT, () => {
     console.log(`Listening on ${PORT}.`);
 });
 
-// Setting what should be loaded on different endpoints.
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, PAGES_DIR, 'player.html'));
+// HTTP endpoint loadings.
+APP.get('/', (req, res) => {
+    res.sendFile(PATH.join(__dirname, PAGES_DIR, 'player.html'));
 });
 
-app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, PAGES_DIR, 'admin.html'));
+APP.get('/admin', (req, res) => {
+    res.sendFile(PATH.join(__dirname, PAGES_DIR, 'admin.html'));
 });
 
-// Setting what should be done when someone connects.
-io.on('connection', socket => {
+// Socket event listeners.
+IO.on('connection', socket => {
     console.log(`A user with ID: ${socket.id} connected.`);
 
     socket.on('disconnect', () => {
@@ -39,43 +39,43 @@ io.on('connection', socket => {
     });
 
     socket.on('playerLogin', data => {
-        let playerResult = sqlQueries.getPlayerByNameAndPassword(data.name, data.password);
+        let playerResult = SQL_QUERIES.getPlayerByNameAndPassword(data.name, data.password);
 
-        playerResult.then((players) => {
-            if (players.length === 1) {
+        playerResult.then((playerIds) => {
+            if (playerIds.length === 1) {
                 authenticatePlayerAndLoadCategories(socket.id);
             } else {
-                io.to(socket.id).emit('customError', { title: errors.notFound, msg: errors.badCredentials });
+                IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
             }
 
         }).catch(() => {
-            io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+            IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
         });
     });
 
     socket.on('playerRegister', data => {
-        let isNameAlreadyRegistered = sqlQueries.getPlayerByName(data.name);
+        let isNameAlreadyRegistered = SQL_QUERIES.getPlayerByName(data.name);
 
-        isNameAlreadyRegistered.then((isRegistered) => {
-            if (isRegistered.length > 0) {
-                io.to(socket.id).emit('customError', { title: errors.namingError, msg: errors.alreadyRegistered });
+        isNameAlreadyRegistered.then((playerIds) => {
+            if (playerIds.length > 0) {
+                IO.to(socket.id).emit('customError', { title: ERRORS.namingError, msg: ERRORS.alreadyRegistered });
             } else {
-                let newPlayer = sqlQueries.postPlayerNameAndPassword(data.name, data.password);
+                let newPlayer = SQL_QUERIES.postPlayer(data.name, data.password);
 
                 newPlayer.then(() => {
                     authenticatePlayerAndLoadCategories(socket.id);
                 }).catch(() => {
-                    io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+                    IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
                 });
             }
 
         }).catch(() => {
-            io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+            IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
         });
     });
 
     socket.on('adminLogin', (data) => {
-        let adminResult = sqlQueries.getAdminByNameAndPassword(data.name, data.password);
+        let adminResult = SQL_QUERIES.getAdminByNameAndPassword(data.name, data.password);
 
         adminResult.then((admin) => {
             if (admin.length === 1) {
@@ -83,31 +83,31 @@ io.on('connection', socket => {
                 socket.broadcast.emit('adminSocketId', { adminSocketId: adminSocketId });
 
             } else {
-                io.to(socket.id).emit('customError', { title: errors.notFound, msg: errors.badCredentials });
+                IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
             }
 
         }).catch(() => {
-            io.to(socket.id).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+            IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
         });
     });
 });
 
 function authenticatePlayerAndLoadCategories(socketId) {
-    let categoryResult = sqlQueries.getAllCategories();
+    let categoryResult = SQL_QUERIES.getAllCategories();
 
     categoryResult.then((categories) => {
-        let categoryRoundLimitResult = sqlQueries.getCategoryRoundLimit();
+        let categoryRoundLimitResult = SQL_QUERIES.getCategoryRoundLimit();
 
         categoryRoundLimitResult.then((roundLimit) => {
-            let sortedCategories = helper.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
+            let sortedCategories = HELPER.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
 
-            io.to(socketId).emit('enterSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
+            IO.to(socketId).emit('enterSuccess', { adminSocketId: adminSocketId, categories: sortedCategories });
 
         }).catch(() => {
-            io.to(socketId).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+            IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
         });
 
     }).catch(() => {
-        io.to(socketId).emit('customError', { title: errors.standardError, msg: errors.connectionIssue });
+        IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
     });
 }
