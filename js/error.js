@@ -4,7 +4,9 @@ const errors = {
     namingError: 'Nem megfelelő név',
     alreadyRegistered: 'Ezzel a névvel már regisztráltak, válassz másikat!',
     notFound: 'Hibás adatok',
-    badCredentials: 'Nincs felhasználó a megadott adatokkal.'
+    badCredentials: 'Nincs felhasználó a megadott adatokkal.',
+    alreadyLoggedIn: 'Lehet, hogy már bejelentkeztél?',
+    onceAtATime: 'Egyszerre egy játékos csak egy ablakban lehet bejelentkezve.'
 }
 
 module.exports = errors;
