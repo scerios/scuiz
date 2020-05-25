@@ -108,6 +108,8 @@
     let socket = io();
     let adminSocketId = '';
     let myId = 0;
+    let name = '';
+    let password = '';
 
     let popupWindow = $('#popup-window');
     let popUpTitle = $('#popup-title');
@@ -165,6 +167,12 @@
     socket.on('adminSocketId', (data) => {
         adminSocketId = data.adminSocketId;
     });
+
+    function setAuthCookie(name, password) {
+        document.cookie = 'name=' + name + '; password=' + password;
+        this.name = '';
+        this.password = '';
+    }
 
     function setErrorPopupText(title, msg) {
         popUpTitle.text(title);
