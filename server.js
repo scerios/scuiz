@@ -36,9 +36,9 @@ IO.on('connection', socket => {
 
     socket.on('disconnect', () => {
         console.log(`A user with ID: ${socket.id} disconnected.`);
-        let playerLeave = SQL_QUERIES.putPlayerStatusAndSocketIdBySocketId(socket.id, 0);
+        let playerLeft = SQL_QUERIES.putPlayerStatusAndSocketIdBySocketId(socket.id, 0);
 
-        playerLeave.then(() => {
+        playerLeft.then(() => {
             IO.to(adminSocketId).emit('playerLeft', { playerSocketId: socket.id });
         }).catch((error) => {
             console.log('playerLeave: ' + error);
@@ -114,6 +114,19 @@ IO.on('connection', socket => {
             IO.to(adminSocketId).emit('showPlayer', { player: player[0]});
         }).catch((error) => {
             console.log('playerResult:' + error);
+        });
+    });
+
+    socket.on('pickQuestion', (data) => {
+        let putCategoryResult = SQL_QUERIES.putCategoryQuestionIndexById(data.categoryId, data.index);
+        putCategoryResult.then(() => {
+            let test = SQL_QUERIES.getQuestionByCategoryIdAndQuestionIndex(data.categoryId, data.index);
+
+            test.then((base) => {
+            }).catch((error) => {
+            })
+        }).catch((error) => {
+            console.log('putCategoryResult: ' + error);
         });
     });
 });
