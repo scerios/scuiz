@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
+
     <!--    <link rel="stylesheet" href="../css/style.css" type="text/css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
@@ -75,14 +76,12 @@
     <div id="control-button-container" class="col-4">
 
     </div>
-    <div id="question-container" class="col-4">
-
-    </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     let socket = io();
 
+    let loginContainer = $('#login-container');
     let adminName = $('#admin-name');
     let adminPassword = $('#admin-password');
     let adminLoginBtn = $('#admin-login-btn');
@@ -92,7 +91,6 @@
     let categoryList = $('#category-list');
     let playerContainer = $('#player-container');
     let controlButtonContainer = $('#control-button-container');
-    let questionContainer = $('#question-container');
 
     adminLoginBtn.on('click', function () {
         socket.emit('adminLogin', {
@@ -103,7 +101,28 @@
 
     socket.on('enterSuccess', (data) => {
         loginContainer.fadeOut();
+        controlPanelContainer.fadeIn();
+        sortCategories(data.categories);
+
     });
+
+    function sortCategories(categories) {
+        let categoryListHtml = '';
+        for (let i = 0; i < categories.length; i++) {
+            if (!categories[i].isAvailable) {
+                categoryListHtml += '<div class="col-md-4">' +
+                    '               <button disabled id="category-' + categories[i].id + '" class="btn btn-danger btn-category" type="button">' +
+                    categories[i].name +
+                    '</button>' +
+                    '            </div>';
+            } else {
+                categoryListHtml += '<div class="col-md-4">' +
+                    '               <button id="category-' + categories[i].id + '" class="btn btn-success btn-category" type="button">' + categories[i].name + '</button>' +
+                    '            </div>';
+            }
+        }
+        categoryList.html(categoryListHtml);
+    }
 
 </script>
 </body>
@@ -118,6 +137,10 @@
         width: 100%;
         height: 100%;
         background-color: #333;
+    }
+
+    #control-panel-container {
+        display: none;
     }
 
     .max-width {
@@ -144,6 +167,10 @@
 
     .btn {
         width: 100%;
+    }
+
+    .btn-category {
+        margin: 10px;
     }
 </style>
 </html>
