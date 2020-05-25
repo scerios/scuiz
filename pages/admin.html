@@ -65,16 +65,29 @@
         &times;
     </div>
 </div>
-<div id="control-panel-container" class="row max-width">
-    <div id="category-container" class="col-4">
-        <div id="category-list" class="row">
+<div id="control-panel-container" class="max-width">
+    <div class="row">
+        <div id="category-container" class="col-4">
+            <div id="category-list" class="row">
+            </div>
         </div>
-    </div>
-    <div id="player-container" class="col-4">
+        <div id="player-container" class="col-4">
+            <table class="table">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Név</th>
+                    <th scope="col">Pontszám</th>
+                    <th scope="col">Kategória választás</th>
+                </tr>
+                </thead>
+                <tbody id="player-table-body">
 
-    </div>
-    <div id="control-button-container" class="col-4">
+                </tbody>
+            </table>
+        </div>
+        <div id="control-button-container" class="col-4">
 
+        </div>
     </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
@@ -90,6 +103,7 @@
     let categoryContainer = $('#category-container');
     let categoryList = $('#category-list');
     let playerContainer = $('#player-container');
+    let playerTableBody = $('#player-table-body');
     let controlButtonContainer = $('#control-button-container');
 
     adminLoginBtn.on('click', function () {
@@ -103,7 +117,7 @@
         loginContainer.fadeOut();
         controlPanelContainer.fadeIn();
         sortCategories(data.categories);
-
+        listPlayers(data.players);
     });
 
     function sortCategories(categories) {
@@ -124,6 +138,21 @@
         categoryList.html(categoryListHtml);
     }
 
+    function listPlayers(players) {
+        let playerListHtml = '';
+        for (let i = 0; i < players.length; i++) {
+            playerListHtml += '<tr id="player-' + players[i].id + '">' +
+                '                   <td>' + players[i].name + '</td>' +
+                '                   <td>' + players[i].point + '</td>' +
+                '                   <td>' +
+                '                       <button type="button" class="btn btn-primary btn-to-choose" data-socket-id="' + players[i].socket_id + '">' +
+                '                           Választás átadása' +
+                '                       </button>' +
+                '                   </td>' +
+                '               </tr>';
+        }
+        playerTableBody.html(playerListHtml);
+    }
 </script>
 </body>
 <style>
@@ -141,6 +170,19 @@
 
     #control-panel-container {
         display: none;
+    }
+
+    #player-container {
+        padding: 10px;
+    }
+
+    tr {
+        background-color: #333;
+        color: #eee;
+    }
+
+    th, td {
+        text-align: center;
     }
 
     .max-width {
