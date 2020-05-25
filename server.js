@@ -95,7 +95,7 @@ IO.on('connection', socket => {
             if (admin.length === 1) {
                 adminSocketId = socket.id;
                 socket.broadcast.emit('adminSocketId', { adminSocketId: adminSocketId });
-                authenticateAdminAndLoadControlPanel();
+                authenticateAdminAndLoadControlPanel(socket.id);
 
             } else {
                 IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
@@ -155,9 +155,16 @@ function authenticateAdminAndLoadControlPanel(socketId) {
 
         categoryRoundLimitResult.then((roundLimit) => {
             let sortedCategories = HELPER.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
+            let questionsResult = SQL_QUERIES.getAllQuestions();
 
-            IO.to(socketId).emit('enterSuccess', {
-                categories: sortedCategories
+            questionsResult.then((questions) => {
+                IO.to(socketId).emit('enterSuccess', {
+                    categories: sortedCategories,
+                    questions: questions
+                });
+
+            }).catch((error) => {
+                console.log('questionsResult: ' + error);
             });
 
         }).catch((error) => {
