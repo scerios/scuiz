@@ -155,12 +155,12 @@ function authenticateAdminAndLoadControlPanel(socketId) {
 
         categoryRoundLimitResult.then((roundLimit) => {
             let sortedCategories = HELPER.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
-            let questionsResult = SQL_QUERIES.getAllQuestions();
+            let playersResult = SQL_QUERIES.getAllLoggedInPlayers();
 
-            questionsResult.then((questions) => {
+            playersResult.then((players) => {
                 IO.to(socketId).emit('enterSuccess', {
                     categories: sortedCategories,
-                    questions: questions
+                    players: players
                 });
 
             }).catch((error) => {
