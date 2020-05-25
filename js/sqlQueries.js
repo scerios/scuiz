@@ -30,6 +30,10 @@ async function getPlayerByNameAndPassword(name, password) {
     return await query(`SELECT id, is_logged_in FROM player WHERE name = '${name}' AND password = '${password}'`);
 }
 
+async function putCategoryQuestionIndexById(id, index) {
+    return await query(`UPDATE category SET question_index = ${index} WHERE id = ${id}`);
+}
+
 async function getAllCategories() {
     return await query('SELECT id, name, question_index FROM category');
 }
@@ -57,6 +61,7 @@ exports.getAllLoggedInPlayers = getAllLoggedInPlayers;
 exports.getPlayerById = getPlayerById;
 exports.getPlayerByName = getPlayerByName;
 exports.getPlayerByNameAndPassword = getPlayerByNameAndPassword;
+exports.putCategoryQuestionIndexById = putCategoryQuestionIndexById;
 exports.getAllCategories = getAllCategories;
 exports.getCategoryRoundLimit = getCategoryRoundLimit;
 exports.getAdminByNameAndPassword = getAdminByNameAndPassword;
