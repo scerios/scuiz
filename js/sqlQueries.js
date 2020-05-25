@@ -54,6 +54,11 @@ async function getAllQuestions() {
     );
 }
 
+async function getQuestionByCategoryIdAndQuestionIndex(categoryId, index) {
+    index--;
+    return await query(`SELECT question, answer FROM question WHERE category_id = ${categoryId} LIMIT ${index}, 1`);
+}
+
 exports.postPlayer = postPlayer;
 exports.putPlayerStatusAndSocketIdById = putPlayerStatusAndSocketIdById;
 exports.putPlayerStatusAndSocketIdBySocketId = putPlayerStatusAndSocketIdBySocketId;
@@ -66,3 +71,4 @@ exports.getAllCategories = getAllCategories;
 exports.getCategoryRoundLimit = getCategoryRoundLimit;
 exports.getAdminByNameAndPassword = getAdminByNameAndPassword;
 exports.getAllQuestions = getAllQuestions;
+exports.getQuestionByCategoryIdAndQuestionIndex = getQuestionByCategoryIdAndQuestionIndex;
