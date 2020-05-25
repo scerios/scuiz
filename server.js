@@ -39,7 +39,7 @@ IO.on('connection', socket => {
         let playerLeave = SQL_QUERIES.putPlayerStatusAndSocketIdBySocketId(socket.id, 0);
 
         playerLeave.then(() => {
-
+            IO.to(adminSocketId).emit('playerLeft', { playerSocketId: socket.id });
         }).catch((error) => {
             console.log('playerLeave: ' + error);
         });
