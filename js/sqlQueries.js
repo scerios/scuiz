@@ -38,6 +38,14 @@ async function getAdminByNameAndPassword(name, password) {
     return await query(`SELECT * FROM admin WHERE name = '${name}' AND password = '${password}'`);
 }
 
+async function getAllQuestions() {
+    return await query(
+        'SELECT c.id, c.name, q.question, q.answer FROM question q ' +
+        'INNER JOIN category c ' +
+        'ON q.category_id = c.id'
+    );
+}
+
 exports.postPlayer = postPlayer;
 exports.putPlayerStatusAndSocketIdById = putPlayerStatusAndSocketIdById;
 exports.putPlayerStatusAndSocketIdBySocketId = putPlayerStatusAndSocketIdBySocketId;
@@ -47,3 +55,4 @@ exports.getPlayerByNameAndPassword = getPlayerByNameAndPassword;
 exports.getAllCategories = getAllCategories;
 exports.getCategoryRoundLimit = getCategoryRoundLimit;
 exports.getAdminByNameAndPassword = getAdminByNameAndPassword;
+exports.getAllQuestions = getAllQuestions;
