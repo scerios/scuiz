@@ -14,6 +14,10 @@ async function putPlayerStatusAndSocketIdBySocketId(socketId, status) {
     return await query(`UPDATE player SET is_logged_in = ${status}, socket_id = '' WHERE socket_id = '${socketId}'`);
 }
 
+async function getAllLoggedInPlayers() {
+    return await query('SELECT socket_id, name, point FROM player WHERE is_logged_in = 1');
+}
+
 async function getPlayerById(id) {
     return await query(`SELECT id, socket_id, name, point FROM player WHERE id = '${id}'`);
 }
@@ -40,7 +44,7 @@ async function getAdminByNameAndPassword(name, password) {
 
 async function getAllQuestions() {
     return await query(
-        'SELECT c.id, c.name, q.question, q.answer FROM question q ' +
+        'SELECT c.name, q.question, q.answer FROM question q ' +
         'INNER JOIN category c ' +
         'ON q.category_id = c.id'
     );
@@ -49,6 +53,7 @@ async function getAllQuestions() {
 exports.postPlayer = postPlayer;
 exports.putPlayerStatusAndSocketIdById = putPlayerStatusAndSocketIdById;
 exports.putPlayerStatusAndSocketIdBySocketId = putPlayerStatusAndSocketIdBySocketId;
+exports.getAllLoggedInPlayers = getAllLoggedInPlayers;
 exports.getPlayerById = getPlayerById;
 exports.getPlayerByName = getPlayerByName;
 exports.getPlayerByNameAndPassword = getPlayerByNameAndPassword;
