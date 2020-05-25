@@ -124,6 +124,10 @@
         addPlayerToList(data.player);
     });
 
+    socket.on('playerLeft', (data) => {
+        $(document).find('#' + data.playerSocketId).remove();
+    });
+
     function sortCategories(categories) {
         let categoryListHtml = '';
         for (let i = 0; i < categories.length; i++) {
@@ -145,7 +149,7 @@
     function listPlayers(players) {
         let playerListHtml = '';
         for (let i = 0; i < players.length; i++) {
-            playerListHtml += '<tr id="player-' + players[i].id + '">' +
+            playerListHtml += '<tr id="' + players[i].socket_id + '">' +
                 '                   <td>' + players[i].name + '</td>' +
                 '                   <td>' + players[i].point + '</td>' +
                 '                   <td>' +
@@ -160,7 +164,7 @@
 
     function addPlayerToList(player) {
         let playerListHtml = playerTableBody.html();
-        playerListHtml += '<tr id="player-' + player.id + '">' +
+        playerListHtml += '<tr id="' + player.socket_id + '">' +
             '                   <td>' + player.name + '</td>' +
             '                   <td>' + player.point + '</td>' +
             '                   <td>' +
