@@ -132,11 +132,22 @@
     let playerRegisterPassword = $('#player-register-password');
     let playerRegisterBtn = $('#player-register-btn');
 
+    $(document).ready(() => {
+        let name = tryGetCookieByName('name');
+        if (name !== null) {
+            let password = tryGetCookieByName('password');
+            playerLoginName.val(name);
+            playerLoginPassword.val(password);
+            playerLoginBtn.click();
+        }
+    });
+
     playerLoginBtn.on('click', function () {
         socket.emit('playerLogin', {
             name: playerLoginName.val(),
             password: playerLoginPassword.val()
         });
+        setAuth(playerLoginName.val(), playerLoginPassword.val());
     });
 
     playerRegisterBtn.on('click', function () {
@@ -144,6 +155,7 @@
             name: playerRegisterName.val(),
             password: playerRegisterPassword.val()
         });
+        setAuth(playerRegisterName.val(), playerRegisterPassword.val());
     });
 
     socket.on('customError', (data) => {
@@ -152,6 +164,9 @@
     });
 
     socket.on('enterSuccess', (data) => {
+        if (this.name.length > 0) {
+            setAuthCookie(this.name, this.password);
+        }
         myId = data.myId;
         adminSocketId = data.adminSocketId;
         loginContainer.remove();
@@ -168,8 +183,14 @@
         adminSocketId = data.adminSocketId;
     });
 
+    function setAuth(name, password) {
+        this.name = name;
+        this.password = password;
+    }
+
     function setAuthCookie(name, password) {
-        document.cookie = 'name=' + name + '; password=' + password;
+        document.cookie = 'name=' + name + '; SameSite=Strict';
+        document.cookie = 'password=' + password + '; SameSite=Strict';
         this.name = '';
         this.password = '';
     }
@@ -179,15 +200,15 @@
      * @param name {string} Name of the cookie.
      * @returns {string|null} Value of the cookie or null if cookie by given name doesn't exists.
      */
-    
+
     function tryGetCookieByName(name) {
         let cookies = document.cookie.split(';');
 
         for (let i = 0; i < cookies.length; i++) {
             let cookie = cookies[i];
             let indexOfEqualSign = cookie.indexOf('=');
-            if (cookie.substr(0, indexOfEqualSign) === name) {
-                return cookie.substr(indexOfEqualSign);
+            if (cookie.substr(0, indexOfEqualSign).trim() === name) {
+                return cookie.substr(indexOfEqualSign + 1);
             }
         }
 
