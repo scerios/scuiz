@@ -114,8 +114,7 @@
     });
 
     $(document).on('click', '.btn-category', (element) => {
-        socket.emit('pickQuestion', { categoryId: element.target.dataset.categoryId });
-        updateElement(element);
+        socket.emit('pickQuestion', { categoryId: element.target.dataset.categoryId, index: getCategoryIndexAndUpdateElement(element) });
     });
 
     socket.on('enterSuccess', (data) => {
@@ -185,7 +184,7 @@
         playerTableBody.html(playerListHtml);
     }
 
-    function updateElement(element) {
+    function getCategoryIndexAndUpdateElement(element) {
         let index = parseInt(element.target.dataset.categoryIndex);
         index++;
         if (index % 3 === 0) {
@@ -194,6 +193,7 @@
             element.target.classList.add('btn-danger');
         }
         element.target.dataset.categoryIndex = index.toString();
+        return index;
     }
 </script>
 </body>
