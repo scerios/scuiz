@@ -15,7 +15,7 @@ async function putPlayerStatusAndSocketIdBySocketId(socketId, status) {
 }
 
 async function getAllLoggedInPlayers() {
-    return await query('SELECT socket_id, name, point FROM player WHERE is_logged_in = 1');
+    return await query('SELECT id, socket_id, name, point FROM player WHERE is_logged_in = 1');
 }
 
 async function getPlayerById(id) {
