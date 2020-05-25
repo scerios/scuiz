@@ -106,11 +106,16 @@
     let playerTableBody = $('#player-table-body');
     let controlButtonContainer = $('#control-button-container');
 
-    adminLoginBtn.on('click', function () {
+    adminLoginBtn.on('click', () => {
         socket.emit('adminLogin', {
             name: adminName.val(),
             password: adminPassword.val()
         });
+    });
+
+    $(document).on('click', '.btn-category', (element) => {
+        socket.emit('pickQuestion', { categoryId: element.target.dataset.categoryId });
+        updateElement(element);
     });
 
     socket.on('enterSuccess', (data) => {
@@ -133,14 +138,18 @@
         for (let i = 0; i < categories.length; i++) {
             if (!categories[i].isAvailable) {
                 categoryListHtml += '<div class="col-md-4">' +
-                    '               <button disabled id="category-' + categories[i].id + '" class="btn btn-danger btn-category" type="button">' +
-                    categories[i].name +
-                    '</button>' +
-                    '            </div>';
+                    '                   <button disabled class="btn btn-danger btn-category" type="button"' +
+                    '                           data-category-id="' + categories[i].id + '" data-category-index="' + categories[i].question_index + '">' +
+                                            categories[i].name +
+                    '                   </button>' +
+                    '               </div>';
             } else {
                 categoryListHtml += '<div class="col-md-4">' +
-                    '               <button id="category-' + categories[i].id + '" class="btn btn-success btn-category" type="button">' + categories[i].name + '</button>' +
-                    '            </div>';
+                    '                   <button class="btn btn-success btn-category" type="button"' +
+                    '                           data-category-id="' + categories[i].id + '" data-category-index="' + categories[i].question_index + '">' +
+                                            categories[i].name +
+                    '                   </button>' +
+                    '               </div>';
             }
         }
         categoryList.html(categoryListHtml);
@@ -174,6 +183,17 @@
             '                   </td>' +
             '               </tr>';
         playerTableBody.html(playerListHtml);
+    }
+
+    function updateElement(element) {
+        let index = parseInt(element.target.dataset.categoryIndex);
+        index++;
+        if (index % 3 === 0) {
+            element.target.disabled = true;
+            element.target.classList.remove('btn-success');
+            element.target.classList.add('btn-danger');
+        }
+        element.target.dataset.categoryIndex = index.toString();
     }
 </script>
 </body>
