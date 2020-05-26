@@ -85,8 +85,13 @@
                 </tbody>
             </table>
         </div>
-        <div id="control-button-container" class="col-4">
-
+        <div id="settings-container" class="col-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"><i class="far fa-clock"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
         </div>
     </div>
 </div>
@@ -104,7 +109,7 @@
     let categoryList = $('#category-list');
     let playerContainer = $('#player-container');
     let playerTableBody = $('#player-table-body');
-    let controlButtonContainer = $('#control-button-container');
+    let settingsContainer = $('#settings-container');
 
     adminLoginBtn.on('click', () => {
         socket.emit('adminLogin', {
@@ -215,6 +220,10 @@
     }
 
     #player-container {
+        padding: 10px;
+    }
+
+    #settings-container {
         padding: 10px;
     }
 
