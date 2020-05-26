@@ -120,10 +120,12 @@ IO.on('connection', socket => {
     socket.on('pickQuestion', (data) => {
         let putCategoryResult = SQL_QUERIES.putCategoryQuestionIndexById(data.categoryId, data.index);
         putCategoryResult.then(() => {
-            let test = SQL_QUERIES.getQuestionByCategoryIdAndQuestionIndex(data.categoryId, data.index);
+            let getQuestionResult = SQL_QUERIES.getQuestionByCategoryIdAndQuestionIndex(data.categoryId, data.index);
 
-            test.then((base) => {
+            getQuestionResult.then((question) => {
+                console.log(question);
             }).catch((error) => {
+                console.log('getQuestionResult: ' + error);
             })
         }).catch((error) => {
             console.log('putCategoryResult: ' + error);
