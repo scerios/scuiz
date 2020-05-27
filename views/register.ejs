@@ -4,6 +4,7 @@
       <h1 class="text-center mb-3">
         <i class="fas fa-user-plus"></i> <%- welcomeMsg %>
       </h1>
+      <%- include('partials/error-messages'); %>
       <form action="/register" method="POST">
         <div class="form-group">
           <label for="name"><%- nameLabel %></label>
@@ -38,11 +39,11 @@
             value="<%= typeof confirmPassword != 'undefined' ? confirmPassword : '' %>"
           />
         </div>
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" class="btn btn-success btn-block">
           <%- registerBtn %>
         </button>
       </form>
-      <p class="lead mt-4"><%- isRegisteredQuestion %> <a href="/login"><%- loginLink %></a></p>
+      <p class="lead mt-4"><%- isRegisteredQuestion %> <a class="text-info" href="/login"><%- loginLink %></a></p>
     </div>
   </div>
 </div>
