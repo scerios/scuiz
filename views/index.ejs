@@ -1,26 +1,26 @@
 <div class="row mt-5">
-  <div class="col-md-6 m-auto">
-    <div class="card card-body text-center">
-      <h1><i class="fab fa-quora"></i></h1>
-      <% if(typeof registerSuccess != 'undefined') { %>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <%= registerSuccess %>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      <% } %>
-      <% if(typeof alreadyLoggedIn != 'undefined') { %>
-              <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <%= alreadyLoggedIn %>
+    <div class="col-md-6 m-auto">
+        <div class="card card-body text-center">
+            <h1><i class="fab fa-quora"></i></h1>
+            <% if(typeof registerSuccess != 'undefined') { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= registerSuccess %>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-              </div>
+            </div>
             <% } %>
-      <p><%- welcomeMsg %></p>
-      <a href="/login" class="btn btn-primary btn-block mb-2"><%- loginBtn %></a>
-      <a href="/register" class="btn btn-warning btn-block"><%- registerBtn %></a>
+            <% if(typeof alreadyLoggedIn != 'undefined') { %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <%= alreadyLoggedIn %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <% } %>
+            <p><%- welcomeMsg %></p>
+            <a href="/login" class="btn btn-primary btn-block mb-2"><%- loginBtn %></a>
+            <a href="/register" class="btn btn-warning btn-block"><%- registerBtn %></a>
+        </div>
     </div>
-  </div>
 </div>
