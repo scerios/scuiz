@@ -36,6 +36,7 @@ APP.get('/login', require('./routes/players'));
 APP.get('/admin', require('./routes/admin'));
 
 APP.post('/register', require('./routes/players'));
+APP.post('/login', require('./routes/players'));
 
 // Socket event listeners.
 IO.on('connection', socket => {
@@ -50,49 +51,6 @@ IO.on('connection', socket => {
         }).catch((error) => {
             console.log('playerLeave: ' + error);
         });
-    });
-
-    socket.on('playerLogin', data => {
-        let playerLoginResult = SQL_QUERIES.getPlayerByNameAndPassword(data.name, data.password);
-
-        playerLoginResult.then((player) => {
-            if (player.length === 1) {
-                if (player[0].is_logged_in === 0) {
-                    authenticatePlayerAndLoadCategories(player[0].id, socket.id);
-                } else {
-                    IO.to(socket.id).emit('customError', { title: ERRORS.alreadyLoggedIn, msg: ERRORS.onceAtATime });
-                }
-            } else {
-                IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
-            }
-
-        }).catch((error) => {
-            console.log('playerLoginResult: ' + error);
-            IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
-        });
-    });
-
-    socket.on('playerRegister', data => {
-        // let isNameAlreadyRegistered = SQL_QUERIES.getPlayerByName(data.name);
-        //
-        // isNameAlreadyRegistered.then((playerIds) => {
-        //     if (playerIds.length > 0) {
-        //         IO.to(socket.id).emit('customError', { title: ERRORS.namingError, msg: ERRORS.alreadyRegistered });
-        //     } else {
-        //         let newPlayer = SQL_QUERIES.postPlayer(data.name, data.password);
-        //
-        //         newPlayer.then((result) => {
-        //             authenticatePlayerAndLoadCategories(result.insertId, socket.id);
-        //         }).catch((error) => {
-        //             console.log('newPlayer: ' + error);
-        //             IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
-        //         });
-        //     }
-        //
-        // }).catch((error) => {
-        //     console.log('isNameAlreadyRegistered: ' + error);
-        //     IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
-        // });
     });
 
     socket.on('adminLogin', (data) => {
