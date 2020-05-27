@@ -90,7 +90,9 @@ ROUTER.post('/login', (req, res) => {
         if (player.length === 1) {
             if (BCRYPT.compareSync(password, player[0].password)) {
                 if (player[0].is_logged_in === 0) {
-                    res.send('<h1>Hello</h1>');
+                    res.render('game-board', {
+                        logoutBtn: language.gameBoard.logoutBtn
+                    });
                 } else {
                     res.render('login', {
                         welcomeMsg: language.login.welcomeMsg,
