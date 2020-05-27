@@ -15,6 +15,16 @@ const LANG_EN = {
         registerBtn: 'Register',
         isRegisteredQuestion: 'Are you already registered?',
         loginLink: 'Login'
+    },
+    login: {
+        welcomeMsg: 'Login',
+        nameLabel: 'Name',
+        namePlaceholder: 'Enter your name',
+        passwordLabel: 'Password',
+        passwordPlaceholder: 'Enter your password',
+        loginBtn: 'Login',
+        isNotRegisteredQuestion: 'Not registered yet?',
+        registerLink: 'Register'
     }
 }
 
@@ -35,6 +45,16 @@ const LANG_HU = {
         registerBtn: 'Regisztráció',
         isRegisteredQuestion: 'Regisztráltál már?',
         loginLink: 'Bejelentkezés'
+    },
+    login: {
+        welcomeMsg: 'Bejelentkezés',
+        nameLabel: 'Név',
+        namePlaceholder: 'Add meg a neved',
+        passwordLabel: 'Jelszó',
+        passwordPlaceholder: 'Add meg a jelszavad',
+        loginBtn: 'Bejelentkezek',
+        isNotRegisteredQuestion: 'Még nem regisztráltál?',
+        registerLink: 'Regisztráció'
     }
 }
 
