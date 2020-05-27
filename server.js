@@ -26,6 +26,7 @@ APP.set('view engine', 'ejs');
 
 // Routes definition
 APP.get('/', require('./routes/players'));
+APP.get('/register', require('./routes/players'));
 
 APP.get('/admin', require('./routes/admin'));
 
