@@ -1,5 +1,5 @@
 // Define needed variables
-const PAGES_DIR = 'pages';
+const VIEWS_DIR = 'views';
 const PORT = process.env.PORT || 3000;
 
 // Implementing needed nodes + creating the server.
@@ -23,11 +23,11 @@ HTTP.listen(PORT, () => {
 
 // HTTP endpoint loadings.
 APP.get('/', (req, res) => {
-    res.sendFile(PATH.join(__dirname, PAGES_DIR, 'player.html'));
+    res.sendFile(PATH.join(__dirname, VIEWS_DIR, 'player.html'));
 });
 
 APP.get('/admin', (req, res) => {
-    res.sendFile(PATH.join(__dirname, PAGES_DIR, 'admin.html'));
+    res.sendFile(PATH.join(__dirname, VIEWS_DIR, 'admin.html'));
 });
 
 // Socket event listeners.
