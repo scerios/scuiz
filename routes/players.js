@@ -81,6 +81,52 @@ ROUTER.post('/register', (req, res) => {
     }
 });
 
+ROUTER.post('/login', (req, res) => {
+    let { name, password } = req.body;
+
+    let playerLoginResult = SQL_QUERIES.getPlayerByName(name);
+
+    playerLoginResult.then((player) => {
+        if (player.length === 1) {
+            if (BCRYPT.compareSync(password, player[0].password)) {
+                if (player[0].is_logged_in === 0) {
+                    res.send('<h1>Hello</h1>');
+                } else {
+                    res.render('login', {
+                        welcomeMsg: language.login.welcomeMsg,
+                        nameLabel: language.login.nameLabel,
+                        namePlaceholder: language.login.namePlaceholder,
+                        passwordLabel: language.login.passwordLabel,
+                        passwordPlaceholder: language.login.passwordPlaceholder,
+                        loginBtn: language.login.loginBtn,
+                        isNotRegisteredQuestion: language.login.isNotRegisteredQuestion,
+                        registerLink: language.login.registerLink,
+                        alreadyLoggedIn: language.index.alreadyLoggedIn
+                    });
+                }
+            } else {
+                res.render('login', {
+                    welcomeMsg: language.login.welcomeMsg,
+                    nameLabel: language.login.nameLabel,
+                    namePlaceholder: language.login.namePlaceholder,
+                    passwordLabel: language.login.passwordLabel,
+                    passwordPlaceholder: language.login.passwordPlaceholder,
+                    loginBtn: language.login.loginBtn,
+                    isNotRegisteredQuestion: language.login.isNotRegisteredQuestion,
+                    registerLink: language.login.registerLink,
+                    badCredentials: language.login.badCredentials
+                });
+            }
+        } else {
+            IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
+        }
+
+    }).catch((error) => {
+        console.log('playerLoginResult: ' + error);
+        IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
+    });
+});
+
 function renderRegister(res, errors, name, password, confirmPassword, registerLanguage) {
     res.render('register', {
         errors,
