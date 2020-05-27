@@ -12,6 +12,9 @@ const LANG_EN = {
         passwordPlaceHolder: 'Enter a password',
         confirmPasswordLabel: 'Confirm password',
         confirmPasswordPlaceHolder: 'Confirm your password',
+        registerBtn: 'Register',
+        isRegisteredQuestion: 'Are you already registered?',
+        loginLink: 'Login'
     }
 }
 
@@ -29,6 +32,9 @@ const LANG_HU = {
         passwordPlaceHolder: 'Adj meg egy jelszót',
         confirmPasswordLabel: 'Jelszó újra',
         confirmPasswordPlaceHolder: 'Add meg újra a jelszavad',
+        registerBtn: 'Regisztráció',
+        isRegisteredQuestion: 'Regisztráltál már?',
+        loginLink: 'Bejelentkezés'
     }
 }
 
