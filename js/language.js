@@ -11,7 +11,8 @@ const LANG_EN = {
         welcomeMsg: "Hi",
         loginBtn: "Login",
         registerBtn: "Register",
-        registerSuccess: "Registered successfully. Now you can log in to play!"
+        registerSuccess: "Registered successfully. Now you can log in to play!",
+        alreadyLoggedIn:  "You may already be logged in. A player can be logged in only at one tab at a time."
     },
     register: {
         welcomeMsg: "Register",
@@ -50,7 +51,8 @@ const LANG_HU = {
         welcomeMsg: "Szia",
         loginBtn: "Bejelentkezés",
         registerBtn: "Regisztrálás",
-        registerSuccess: "Sikeresen regisztráltál. Most már be tudsz jelentkezni járszani!"
+        registerSuccess: "Sikeresen regisztráltál. Most már be tudsz jelentkezni járszani!",
+        alreadyLoggedIn:  "Lehet, hogy már bejelentkeztél? Egyszerre egy játékos csak egy ablakban lehet bejelentkezve."
     },
     register: {
         welcomeMsg: "Regisztráció",
