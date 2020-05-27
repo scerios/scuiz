@@ -16,11 +16,11 @@ ROUTER.get('/register', (req, res) => {
     res.render('register', {
         welcomeMsg: language.register.welcomeMsg,
         nameLabel: language.register.nameLabel,
-        namePlaceHolder: language.register.namePlaceHolder,
+        namePlaceholder: language.register.namePlaceholder,
         passwordLabel: language.register.passwordLabel,
-        passwordPlaceHolder: language.register.passwordPlaceHolder,
+        passwordPlaceholder: language.register.passwordPlaceholder,
         confirmPasswordLabel: language.register.confirmPasswordLabel,
-        confirmPasswordPlaceHolder: language.register.confirmPasswordPlaceHolder,
+        confirmPasswordPlaceholder: language.register.confirmPasswordPlaceholder,
         registerBtn: language.register.registerBtn,
         isRegisteredQuestion: language.register.isRegisteredQuestion,
         loginLink: language.register.loginLink

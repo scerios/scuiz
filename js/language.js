@@ -7,11 +7,11 @@ const LANG_EN = {
     register: {
         welcomeMsg: 'Register',
         nameLabel: 'Name',
-        namePlaceHolder: 'Enter your name',
+        namePlaceholder: 'Enter your name',
         passwordLabel: 'Password',
-        passwordPlaceHolder: 'Enter a password',
+        passwordPlaceholder: 'Enter a password',
         confirmPasswordLabel: 'Confirm password',
-        confirmPasswordPlaceHolder: 'Confirm your password',
+        confirmPasswordPlaceholder: 'Confirm your password',
         registerBtn: 'Register',
         isRegisteredQuestion: 'Are you already registered?',
         loginLink: 'Login'
@@ -27,11 +27,11 @@ const LANG_HU = {
     register: {
         welcomeMsg: 'Regisztráció',
         nameLabel: 'Név',
-        namePlaceHolder: 'Add meg a neved',
+        namePlaceholder: 'Add meg a neved',
         passwordLabel: 'Jelszó',
-        passwordPlaceHolder: 'Adj meg egy jelszót',
+        passwordPlaceholder: 'Adj meg egy jelszót',
         confirmPasswordLabel: 'Jelszó újra',
-        confirmPasswordPlaceHolder: 'Add meg újra a jelszavad',
+        confirmPasswordPlaceholder: 'Add meg újra a jelszavad',
         registerBtn: 'Regisztráció',
         isRegisteredQuestion: 'Regisztráltál már?',
         loginLink: 'Bejelentkezés'

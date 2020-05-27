@@ -12,12 +12,12 @@
             id="name"
             name="name"
             class="form-control"
-            placeholder="<%- namePlaceHolder %>"
+            placeholder="<%- namePlaceholder %>"
             value="<%= typeof name != 'undefined' ? name : '' %>"
           />
         </div>
         <div class="form-group">
-          <label for="password"><%- password %></label>
+          <label for="password"><%- passwordLabel %></label>
           <input
             type="password"
             id="password"
@@ -28,21 +28,21 @@
           />
         </div>
         <div class="form-group">
-          <label for="password2"><%- confirmPassword %></label>
+          <label for="confirmPassword"><%- confirmPasswordLabel %></label>
           <input
             type="password"
             id="confirmPassword"
             name="confirmPassword"
             class="form-control"
             placeholder="<%- confirmPasswordPlaceholder %>"
-            value="<%= typeof confirmPassword != 'undefined' ? password2 : '' %>"
+            value="<%= typeof confirmPassword != 'undefined' ? confirmPassword : '' %>"
           />
         </div>
         <button type="submit" class="btn btn-primary btn-block">
           <%- registerBtn %>
         </button>
       </form>
-      <p class="lead mt-4"><%- isRegisteredQuestion %> <a href="/players/login"><%- loginLink %></a></p>
+      <p class="lead mt-4"><%- isRegisteredQuestion %> <a href="/login"><%- loginLink %></a></p>
     </div>
   </div>
 </div>
