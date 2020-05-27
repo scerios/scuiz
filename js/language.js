@@ -34,7 +34,8 @@ const LANG_EN = {
         passwordPlaceholder: "Enter your password",
         loginBtn: "Login",
         isNotRegisteredQuestion: "Not registered yet?",
-        registerLink: "Register"
+        registerLink: "Register",
+        badCredentials: "Bad credentials."
     }
 }
 
@@ -74,7 +75,8 @@ const LANG_HU = {
         passwordPlaceholder: "Add meg a jelszavad",
         loginBtn: "Bejelentkezek",
         isNotRegisteredQuestion: "Még nem regisztráltál?",
-        registerLink: "Regisztráció"
+        registerLink: "Regisztráció",
+        badCredentials: "Rossz felhasználónév vagy jelszó."
     }
 }
 
