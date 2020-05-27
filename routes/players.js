@@ -1,5 +1,6 @@
 const EXPRESS = require('express');
 const ROUTER = EXPRESS.Router();
+const BCRYPT = require('bcryptjs');
 const LANGUAGE = require('./../js/language');
 const SQL_QUERIES = require('./../js/sqlQueries');
 const HELPER = require('./../js/helper');
@@ -54,7 +55,7 @@ ROUTER.post('/register', (req, res) => {
                 errors.push(language.error.registered);
                 renderRegister(res, errors, name, password, confirmPassword, language.register);
             } else {
-                let newPlayer = SQL_QUERIES.postPlayer(name, password);
+                let newPlayer = SQL_QUERIES.postPlayer(name, BCRYPT.hashSync(password, BCRYPT.genSaltSync(10)));
 
                 newPlayer.then(() => {
                     res.render('index', {
