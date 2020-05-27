@@ -27,4 +27,17 @@ ROUTER.get('/register', (req, res) => {
     });
 });
 
+ROUTER.get('/login', (req, res) => {
+    res.render('login', {
+        welcomeMsg: language.login.welcomeMsg,
+        nameLabel: language.login.nameLabel,
+        namePlaceholder: language.login.namePlaceholder,
+        passwordLabel: language.login.passwordLabel,
+        passwordPlaceholder: language.login.passwordPlaceholder,
+        loginBtn: language.login.loginBtn,
+        isNotRegisteredQuestion: language.login.isNotRegisteredQuestion,
+        registerLink: language.login.registerLink
+    });
+});
+
 module.exports = ROUTER;
