@@ -3,6 +3,15 @@ const LANG_EN = {
         welcomeMsg: 'Hi',
         loginBtn: 'Login',
         registerBtn: 'Register'
+    },
+    register: {
+        welcomeMsg: 'Register',
+        nameLabel: 'Name',
+        namePlaceHolder: 'Enter your name',
+        passwordLabel: 'Password',
+        passwordPlaceHolder: 'Enter a password',
+        confirmPasswordLabel: 'Confirm password',
+        confirmPasswordPlaceHolder: 'Confirm your password',
     }
 }
 
@@ -11,6 +20,15 @@ const LANG_HU = {
         welcomeMsg: 'Szia',
         loginBtn: 'Bejelentkezés',
         registerBtn: 'Regisztrálás'
+    },
+    register: {
+        welcomeMsg: 'Regisztráció',
+        nameLabel: 'Név',
+        namePlaceHolder: 'Add meg a neved',
+        passwordLabel: 'Jelszó',
+        passwordPlaceHolder: 'Adj meg egy jelszót',
+        confirmPasswordLabel: 'Jelszó újra',
+        confirmPasswordPlaceHolder: 'Add meg újra a jelszavad',
     }
 }
 
