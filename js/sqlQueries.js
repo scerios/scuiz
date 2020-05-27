@@ -23,11 +23,7 @@ async function getPlayerById(id) {
 }
 
 async function getPlayerByName(name) {
-    return await query(`SELECT id FROM player WHERE name = '${name}'`);
-}
-
-async function getPlayerByNameAndPassword(name, password) {
-    return await query(`SELECT id, is_logged_in FROM player WHERE name = '${name}' AND password = '${password}'`);
+    return await query(`SELECT id, password, is_logged_in FROM player WHERE name = '${name}'`);
 }
 
 async function putCategoryQuestionIndexById(id, index) {
@@ -65,7 +61,6 @@ exports.putPlayerStatusAndSocketIdBySocketId = putPlayerStatusAndSocketIdBySocke
 exports.getAllLoggedInPlayers = getAllLoggedInPlayers;
 exports.getPlayerById = getPlayerById;
 exports.getPlayerByName = getPlayerByName;
-exports.getPlayerByNameAndPassword = getPlayerByNameAndPassword;
 exports.putCategoryQuestionIndexById = putCategoryQuestionIndexById;
 exports.getAllCategories = getAllCategories;
 exports.getCategoryRoundLimit = getCategoryRoundLimit;
