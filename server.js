@@ -3,7 +3,8 @@ const PORT = process.env.PORT || 3000;
 
 // Implementing needed nodes + creating the server.
 const EXPRESS_LAYOUTS = require('express-ejs-layouts');
-const APP = require('express')();
+const EXPRESS = require('express');
+const APP = EXPRESS();
 const HTTP = require('http').createServer(APP);
 const IO = require('socket.io')(HTTP);
 
@@ -24,12 +25,17 @@ HTTP.listen(PORT, () => {
 APP.use(EXPRESS_LAYOUTS);
 APP.set('view engine', 'ejs');
 
+// Express body parser
+APP.use(EXPRESS.urlencoded({ extended: true }));
+
 // Routes definition
 APP.get('/', require('./routes/players'));
 APP.get('/register', require('./routes/players'));
 APP.get('/login', require('./routes/players'));
 
 APP.get('/admin', require('./routes/admin'));
+
+APP.post('/register', require('./routes/players'));
 
 // Socket event listeners.
 IO.on('connection', socket => {
@@ -67,26 +73,26 @@ IO.on('connection', socket => {
     });
 
     socket.on('playerRegister', data => {
-        let isNameAlreadyRegistered = SQL_QUERIES.getPlayerByName(data.name);
-
-        isNameAlreadyRegistered.then((playerIds) => {
-            if (playerIds.length > 0) {
-                IO.to(socket.id).emit('customError', { title: ERRORS.namingError, msg: ERRORS.alreadyRegistered });
-            } else {
-                let newPlayer = SQL_QUERIES.postPlayer(data.name, data.password);
-
-                newPlayer.then((result) => {
-                    authenticatePlayerAndLoadCategories(result.insertId, socket.id);
-                }).catch((error) => {
-                    console.log('newPlayer: ' + error);
-                    IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
-                });
-            }
-
-        }).catch((error) => {
-            console.log('isNameAlreadyRegistered: ' + error);
-            IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
-        });
+        // let isNameAlreadyRegistered = SQL_QUERIES.getPlayerByName(data.name);
+        //
+        // isNameAlreadyRegistered.then((playerIds) => {
+        //     if (playerIds.length > 0) {
+        //         IO.to(socket.id).emit('customError', { title: ERRORS.namingError, msg: ERRORS.alreadyRegistered });
+        //     } else {
+        //         let newPlayer = SQL_QUERIES.postPlayer(data.name, data.password);
+        //
+        //         newPlayer.then((result) => {
+        //             authenticatePlayerAndLoadCategories(result.insertId, socket.id);
+        //         }).catch((error) => {
+        //             console.log('newPlayer: ' + error);
+        //             IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
+        //         });
+        //     }
+        //
+        // }).catch((error) => {
+        //     console.log('isNameAlreadyRegistered: ' + error);
+        //     IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
+        // });
     });
 
     socket.on('adminLogin', (data) => {
