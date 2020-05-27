@@ -1,8 +1,10 @@
 const EXPRESS = require('express');
 const ROUTER = EXPRESS.Router();
 const LANGUAGE = require('./../js/language');
+const SQL_QUERIES = require('./../js/sqlQueries');
+const HELPER = require('./../js/helper');
 
-let language = LANGUAGE.getLanguage('hu');
+let language = LANGUAGE.getLanguage('en');
 
 ROUTER.get('/', (req, res) => {
     res.render('index', {
@@ -39,5 +41,62 @@ ROUTER.get('/login', (req, res) => {
         registerLink: language.login.registerLink
     });
 });
+
+ROUTER.post('/register', (req, res) => {
+    let { name, password, confirmPassword } = req.body;
+    let errors = HELPER.tryGetInputErrors(req.body, language.error);
+
+    if (errors.length === 0) {
+        let isNameAlreadyRegistered = SQL_QUERIES.getPlayerByName(name);
+
+        isNameAlreadyRegistered.then((playerId) => {
+            if (playerId.length > 0) {
+                errors.push(language.error.registered);
+                renderRegister(res, errors, name, password, confirmPassword, language.register);
+            } else {
+                let newPlayer = SQL_QUERIES.postPlayer(name, password);
+
+                newPlayer.then(() => {
+                    res.render('index', {
+                        welcomeMsg: language.index.welcomeMsg,
+                        loginBtn: language.index.loginBtn,
+                        registerBtn: language.index.registerBtn,
+                        registerSuccess: language.index.registerSuccess
+                    });
+                }).catch((error) => {
+                    console.log('newPlayer: ' + error);
+                    errors.push(language.error.connection);
+                    renderRegister(res, errors, name, password, confirmPassword, language.register);
+                });
+            }
+
+        }).catch((error) => {
+            console.log('isNameAlreadyRegistered: ' + error);
+            errors.push(language.error.connection);
+            renderRegister(res, errors, name, password, confirmPassword, language.register);
+        });
+    } else {
+        renderRegister(res, errors, name, password, confirmPassword, language.register);
+    }
+});
+
+function renderRegister(res, errors, name, password, confirmPassword, registerLanguage) {
+    res.render('register', {
+        errors,
+        name,
+        password,
+        confirmPassword,
+        welcomeMsg: registerLanguage.welcomeMsg,
+        nameLabel: registerLanguage.nameLabel,
+        namePlaceholder: registerLanguage.namePlaceholder,
+        passwordLabel: registerLanguage.passwordLabel,
+        passwordPlaceholder: registerLanguage.passwordPlaceholder,
+        confirmPasswordLabel: registerLanguage.confirmPasswordLabel,
+        confirmPasswordPlaceholder: registerLanguage.confirmPasswordPlaceholder,
+        registerBtn: registerLanguage.registerBtn,
+        isRegisteredQuestion: registerLanguage.isRegisteredQuestion,
+        loginLink: registerLanguage.loginLink
+    });
+}
 
 module.exports = ROUTER;
