@@ -1,9 +1,8 @@
 // Define needed variables
-const VIEWS_DIR = 'views';
 const PORT = process.env.PORT || 3000;
 
 // Implementing needed nodes + creating the server.
-const PATH = require('path');
+const EXPRESS_LAYOUTS = require('express-ejs-layouts');
 const APP = require('express')();
 const HTTP = require('http').createServer(APP);
 const IO = require('socket.io')(HTTP);
@@ -13,7 +12,7 @@ const SQL_QUERIES = require('./js/sqlQueries');
 const ERRORS = require('./js/error');
 const HELPER = require('./js/helper');
 
-// Saving the socked ID for the admin. This will be emitted to all the users so eventually they will be able to send everything back to only the admin.
+// Saving the socked ID of the admin. This will be emitted to all the users so eventually they will be able to send everything back to only the admin.
 let adminSocketId = '';
 
 // Listening on an open port.
@@ -21,14 +20,14 @@ HTTP.listen(PORT, () => {
     console.log(`Listening on ${PORT}.`);
 });
 
-// HTTP endpoint loadings.
-APP.get('/', (req, res) => {
-    res.sendFile(PATH.join(__dirname, VIEWS_DIR, 'player.html'));
-});
+// Definition and config of express layouts.
+APP.use(EXPRESS_LAYOUTS);
+APP.set('view engine', 'ejs');
 
-APP.get('/admin', (req, res) => {
-    res.sendFile(PATH.join(__dirname, VIEWS_DIR, 'admin.html'));
-});
+// Routes definition
+APP.get('/', require('./routes/players'));
+
+APP.get('/admin', require('./routes/admin'));
 
 // Socket event listeners.
 IO.on('connection', socket => {
