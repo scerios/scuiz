@@ -36,6 +36,9 @@ const LANG_EN = {
         isNotRegisteredQuestion: "Not registered yet?",
         registerLink: "Register",
         badCredentials: "Bad credentials."
+    },
+    gameBoard: {
+        logoutBtn: "Logout"
     }
 }
 
@@ -77,6 +80,9 @@ const LANG_HU = {
         isNotRegisteredQuestion: "Még nem regisztráltál?",
         registerLink: "Regisztráció",
         badCredentials: "Rossz felhasználónév vagy jelszó."
+    },
+    gameBoard: {
+        logoutBtn: "Kilépés"
     }
 }
 
