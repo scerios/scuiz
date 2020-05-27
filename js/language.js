@@ -1,13 +1,17 @@
 const LANG_EN = {
-    indexWelcomeMsg: 'Hi',
-    indexLoginBtn: 'Login',
-    indexRegisterBtn: 'Register'
+    index: {
+        welcomeMsg: 'Hi',
+        loginBtn: 'Login',
+        registerBtn: 'Register'
+    }
 }
 
 const LANG_HU = {
-    indexWelcomeMsg: 'Szia',
-    indexLoginBtn: 'Bejelentkezés',
-    indexRegisterBtn: 'Regisztrálás'
+    index: {
+        welcomeMsg: 'Szia',
+        loginBtn: 'Bejelentkezés',
+        registerBtn: 'Regisztrálás'
+    }
 }
 
 function getLanguage(lang) {
