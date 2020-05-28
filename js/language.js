@@ -10,7 +10,10 @@ const LANG_EN = {
     index: {
         welcomeMsg: "Hello and welcome to Scuiz! To play the game you must first register an account and then you'll be able to login.",
         loginBtn: "Login",
-        registerBtn: "Register"
+        registerBtn: "Register",
+        languageSelect: "Select language",
+        english: "English",
+        hungarian: "Hungarian"
     },
     register: {
         welcomeMsg: "Register",
@@ -54,7 +57,10 @@ const LANG_HU = {
     index: {
         welcomeMsg: "Szia, légy üdvözölve a Scuiz-nél! Ahhoz, hogy játszani tudj, először regisztálj, utána tudsz majd belépni.",
         loginBtn: "Bejelentkezés",
-        registerBtn: "Regisztrálás"
+        registerBtn: "Regisztrálás",
+        languageSelect: "Válassz nyelvet",
+        english: "Angol",
+        hungarian: "Magyar"
     },
     register: {
         welcomeMsg: "Regisztráció",
