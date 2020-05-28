@@ -6,6 +6,7 @@ const SQL_QUERIES = require('./../js/sqlQueries');
 const HELPER = require('./../js/helper');
 
 let language = LANGUAGE.getLanguage('en');
+
 let index = {
     welcomeMsg: language.index.welcomeMsg,
     loginBtn: language.index.loginBtn,
@@ -25,6 +26,17 @@ let register = {
     loginLink: language.register.loginLink
 };
 
+let login = {
+    welcomeMsg: language.login.welcomeMsg,
+    nameLabel: language.login.nameLabel,
+    namePlaceholder: language.login.namePlaceholder,
+    passwordLabel: language.login.passwordLabel,
+    passwordPlaceholder: language.login.passwordPlaceholder,
+    loginBtn: language.login.loginBtn,
+    isNotRegisteredQuestion: language.login.isNotRegisteredQuestion,
+    registerLink: language.login.registerLink
+};
+
 ROUTER.get('/', (req, res) => {
     res.render('index', {
         index
@@ -39,14 +51,7 @@ ROUTER.get('/register', (req, res) => {
 
 ROUTER.get('/login', (req, res) => {
     res.render('login', {
-        welcomeMsg: language.login.welcomeMsg,
-        nameLabel: language.login.nameLabel,
-        namePlaceholder: language.login.namePlaceholder,
-        passwordLabel: language.login.passwordLabel,
-        passwordPlaceholder: language.login.passwordPlaceholder,
-        loginBtn: language.login.loginBtn,
-        isNotRegisteredQuestion: language.login.isNotRegisteredQuestion,
-        registerLink: language.login.registerLink
+        login
     });
 });
 
@@ -65,11 +70,9 @@ ROUTER.post('/register', (req, res) => {
                 let newPlayer = SQL_QUERIES.postPlayer(name, BCRYPT.hashSync(password, BCRYPT.genSaltSync(10)));
 
                 newPlayer.then(() => {
+                    login.registerSuccess = language.login.registerSuccess;
                     res.render('index', {
-                        welcomeMsg: language.index.welcomeMsg,
-                        loginBtn: language.index.loginBtn,
-                        registerBtn: language.index.registerBtn,
-                        registerSuccess: language.index.registerSuccess
+                        login
                     });
                 }).catch((error) => {
                     console.log('newPlayer: ' + error);
@@ -101,29 +104,15 @@ ROUTER.post('/login', (req, res) => {
                         logoutBtn: language.gameBoard.logoutBtn
                     });
                 } else {
+                    login.alreadyLoggedIn = language.login.alreadyLoggedIn;
                     res.render('login', {
-                        welcomeMsg: language.login.welcomeMsg,
-                        nameLabel: language.login.nameLabel,
-                        namePlaceholder: language.login.namePlaceholder,
-                        passwordLabel: language.login.passwordLabel,
-                        passwordPlaceholder: language.login.passwordPlaceholder,
-                        loginBtn: language.login.loginBtn,
-                        isNotRegisteredQuestion: language.login.isNotRegisteredQuestion,
-                        registerLink: language.login.registerLink,
-                        alreadyLoggedIn: language.login.alreadyLoggedIn
+                        login
                     });
                 }
             } else {
+                login.badCredentials = language.login.badCredentials;
                 res.render('login', {
-                    welcomeMsg: language.login.welcomeMsg,
-                    nameLabel: language.login.nameLabel,
-                    namePlaceholder: language.login.namePlaceholder,
-                    passwordLabel: language.login.passwordLabel,
-                    passwordPlaceholder: language.login.passwordPlaceholder,
-                    loginBtn: language.login.loginBtn,
-                    isNotRegisteredQuestion: language.login.isNotRegisteredQuestion,
-                    registerLink: language.login.registerLink,
-                    badCredentials: language.login.badCredentials
+                    login
                 });
             }
         } else {
