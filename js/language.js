@@ -8,11 +8,9 @@ const LANG_EN = {
         connection: "Due to some connection error your request has failed. Please try again."
     },
     index: {
-        welcomeMsg: "Hi",
+        welcomeMsg: "Hello and welcome to Scuiz! To play the game you must first register an account and then you'll be able to login.",
         loginBtn: "Login",
-        registerBtn: "Register",
-        registerSuccess: "Registered successfully. Now you can log in to play!",
-        alreadyLoggedIn:  "You may already be logged in. A player can be logged in only at one tab at a time."
+        registerBtn: "Register"
     },
     register: {
         welcomeMsg: "Register",
@@ -35,7 +33,9 @@ const LANG_EN = {
         loginBtn: "Login",
         isNotRegisteredQuestion: "Not registered yet?",
         registerLink: "Register",
-        badCredentials: "Bad credentials."
+        registerSuccess: "Registered successfully. Now you can log in to play!",
+        badCredentials: "Bad credentials.",
+        alreadyLoggedIn:  "You may already be logged in. A player can be logged in only at one tab at a time."
     },
     gameBoard: {
         logoutBtn: "Logout"
@@ -52,11 +52,9 @@ const LANG_HU = {
         connection: "Csatlakozási hiba miatt nem sikerült a művelet. Kérlek próbáld újra."
     },
     index: {
-        welcomeMsg: "Szia",
+        welcomeMsg: "Szia, légy üdvözölve a Scuiz-nél! Ahhoz, hogy játszani tudj, először regisztálj, utána tudsz majd belépni.",
         loginBtn: "Bejelentkezés",
-        registerBtn: "Regisztrálás",
-        registerSuccess: "Sikeresen regisztráltál. Most már be tudsz jelentkezni járszani!",
-        alreadyLoggedIn:  "Lehet, hogy már bejelentkeztél? Egyszerre egy játékos csak egy ablakban lehet bejelentkezve."
+        registerBtn: "Regisztrálás"
     },
     register: {
         welcomeMsg: "Regisztráció",
@@ -79,7 +77,9 @@ const LANG_HU = {
         loginBtn: "Bejelentkezek",
         isNotRegisteredQuestion: "Még nem regisztráltál?",
         registerLink: "Regisztráció",
-        badCredentials: "Rossz felhasználónév vagy jelszó."
+        registerSuccess: "Sikeresen regisztráltál. Most már be tudsz jelentkezni járszani!",
+        badCredentials: "Rossz felhasználónév vagy jelszó.",
+        alreadyLoggedIn:  "Lehet, hogy már bejelentkeztél? Egyszerre egy játékos csak egy ablakban lehet bejelentkezve."
     },
     gameBoard: {
         logoutBtn: "Kilépés"
