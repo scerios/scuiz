@@ -1,9 +1,12 @@
 // Define needed variables
 const PORT = process.env.PORT || 3000;
+const COOKIE_MAX_AGE = process.env.COOKIE_MAX_AGE || 1000 * 60 * 60 * 10;
+const IS_COOKIE_SECURE = process.env.COOKIE_SECURE || false;
 
 // Implementing needed nodes + creating the server.
 const EXPRESS_LAYOUTS = require('express-ejs-layouts');
 const EXPRESS = require('express');
+const SESSION = require('express-session');
 const APP = EXPRESS();
 const HTTP = require('http').createServer(APP);
 const IO = require('socket.io')(HTTP);
@@ -20,6 +23,18 @@ let adminSocketId = '';
 HTTP.listen(PORT, () => {
     console.log(`Listening on ${PORT}.`);
 });
+
+APP.use(SESSION({
+    name: 'sid',
+    resave: false,
+    saveUninitialized: false,
+    secret: 'outrageous',
+    cookie: {
+        maxAge: COOKIE_MAX_AGE,
+        sameSite: true,
+        secure: IS_COOKIE_SECURE
+    }
+}));
 
 // Definition and config of express layouts.
 APP.use(EXPRESS_LAYOUTS);
