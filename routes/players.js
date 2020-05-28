@@ -37,10 +37,20 @@ let login = {
     registerLink: language.login.registerLink
 };
 
+let gameBoard = {
+    logoutBtn: language.gameBoard.logoutBtn
+}
+
 ROUTER.get('/', (req, res) => {
-    res.render('index', {
-        index
-    });
+    if (req.session.userId) {
+        res.render('game-board', {
+            gameBoard
+        });
+    } else {
+        res.render('index', {
+            index
+        });
+    }
 });
 
 ROUTER.get('/register', (req, res) => {
@@ -53,6 +63,18 @@ ROUTER.get('/login', (req, res) => {
     res.render('login', {
         login
     });
+});
+
+ROUTER.get('/gameBoard', (req, res) => {
+    if (req.session.userId) {
+        res.render('game-board', {
+            gameBoard
+        });
+    } else {
+        res.render('index', {
+            index
+        });
+    }
 });
 
 ROUTER.post('/register', (req, res) => {
@@ -100,6 +122,8 @@ ROUTER.post('/login', (req, res) => {
         if (player.length === 1) {
             if (BCRYPT.compareSync(password, player[0].password)) {
                 if (player[0].is_logged_in === 0) {
+                    req.session.userId = player[0].id;
+                    req.session.username = name;
                     res.render('game-board', {
                         logoutBtn: language.gameBoard.logoutBtn
                     });
