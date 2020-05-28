@@ -1,18 +1,26 @@
 <div class="row mt-5">
     <div class="col-md-6 m-auto">
         <div class="card card-body">
-            <h1 class="text-center mb-3"><i class="fas fa-sign-in-alt"></i> <%- welcomeMsg %></h1>
-            <% if(typeof badCredentials != 'undefined') { %>
+            <h1 class="text-center mb-3"><i class="fas fa-sign-in-alt"></i> <%- login.welcomeMsg %></h1>
+            <% if(typeof login.badCredentials != 'undefined') { %>
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <%= badCredentials %>
+                    <%= login.badCredentials %>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
             <% } %>
-            <% if(typeof alreadyLoggedIn != 'undefined') { %>
+            <% if(typeof login.alreadyLoggedIn != 'undefined') { %>
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <%= alreadyLoggedIn %>
+                    <%= login.alreadyLoggedIn %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <% } %>
+            <% if(typeof login.registerSuccess != 'undefined') { %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <%= login.registerSuccess %>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -20,29 +28,29 @@
             <% } %>
             <form action="/login" method="POST">
                 <div class="form-group">
-                    <label for="name"><%- nameLabel %></label>
+                    <label for="name"><%- login.nameLabel %></label>
                     <input
                     type="text"
                     id="name"
                     name="name"
                     class="form-control"
-                    placeholder="<%- namePlaceholder %>"
+                    placeholder="<%- login.namePlaceholder %>"
                     />
                 </div>
                 <div class="form-group">
-                    <label for="password"><%- passwordLabel %></label>
+                    <label for="password"><%- login.passwordLabel %></label>
                     <input
                     type="password"
                     id="password"
                     name="password"
                     class="form-control"
-                    placeholder="<%- passwordPlaceholder %>"
+                    placeholder="<%- login.passwordPlaceholder %>"
                     />
                 </div>
-                <button type="submit" class="btn btn-success btn-block"><%- loginBtn %></button>
+                <button type="submit" class="btn btn-success btn-block"><%- login.loginBtn %></button>
             </form>
             <p class="lead mt-4">
-                <%- isNotRegisteredQuestion %> <a class="text-info" href="/register"><%- registerLink %></a>
+                <%- login.isNotRegisteredQuestion %> <a class="text-info" href="/register"><%- login.registerLink %></a>
             </p>
         </div>
     </div>
