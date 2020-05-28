@@ -71,9 +71,7 @@ ROUTER.get('/gameBoard', (req, res) => {
             gameBoard
         });
     } else {
-        res.render('index', {
-            index
-        });
+        res.redirect('/');
     }
 });
 
@@ -124,9 +122,7 @@ ROUTER.post('/login', (req, res) => {
                 if (player[0].is_logged_in === 0) {
                     req.session.userId = player[0].id;
                     req.session.username = name;
-                    res.render('game-board', {
-                        logoutBtn: language.gameBoard.logoutBtn
-                    });
+                    res.redirect('/gameBoard');
                 } else {
                     login.alreadyLoggedIn = language.login.alreadyLoggedIn;
                     res.render('login', {
@@ -153,6 +149,20 @@ ROUTER.post('/login', (req, res) => {
             login
         });
     });
+});
+
+ROUTER.post('/logout', (req, res) => {
+    res.redirect('/');
+});
+
+ROUTER.get('/gameBoard', (req, res) => {
+    if (req.session.userId) {
+        res.render('game-board', {
+            gameBoard
+        });
+    } else {
+        res.redirect('/');
+    }
 });
 
 function renderRegister(res, errors, name, password, confirmPassword) {
