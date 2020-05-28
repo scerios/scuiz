@@ -1,6 +1,6 @@
 // Define needed variables
 const PORT = process.env.PORT || 3000;
-const COOKIE_MAX_AGE = process.env.COOKIE_MAX_AGE || 1000 * 60 * 60 * 10;
+const COOKIE_MAX_AGE = process.env.COOKIE_MAX_AGE || 1000 * 60 * 60;
 const IS_COOKIE_SECURE = process.env.COOKIE_SECURE || false;
 
 // Implementing needed nodes + creating the server.
