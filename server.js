@@ -7,6 +7,7 @@ const IS_COOKIE_SECURE = process.env.COOKIE_SECURE || false;
 const EXPRESS_LAYOUTS = require('express-ejs-layouts');
 const EXPRESS = require('express');
 const SESSION = require('express-session');
+const MYSQL_STORE = require('express-mysql-session')(SESSION);
 const APP = EXPRESS();
 const HTTP = require('http').createServer(APP);
 const IO = require('socket.io')(HTTP);
@@ -19,16 +20,30 @@ const HELPER = require('./js/helper');
 // Saving the socked ID of the admin. This will be emitted to all the users so eventually they will be able to send everything back to only the admin.
 let adminSocketId = '';
 
+// Express MySQL Session configuration
+const STORE_OPTIONS = {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    pass: process.env.DB_PASS,
+    database: process.env.DB_NAME
+};
+
+const SESSION_STORE = new MYSQL_STORE(STORE_OPTIONS);
+
 // Listening on an open port.
 HTTP.listen(PORT, () => {
     console.log(`Listening on ${PORT}.`);
 });
 
+// Session configuration
 APP.use(SESSION({
     name: 'sid',
     resave: false,
     saveUninitialized: false,
+    key: 'scuiz_session',
     secret: 'outrageous',
+    store: SESSION_STORE,
     cookie: {
         maxAge: COOKIE_MAX_AGE,
         sameSite: true,
