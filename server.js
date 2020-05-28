@@ -1,13 +1,12 @@
 // Define needed variables
 const PORT = process.env.PORT || 3000;
 const COOKIE_MAX_AGE = process.env.COOKIE_MAX_AGE || 1000 * 60 * 60;
-const IS_COOKIE_SECURE = process.env.COOKIE_SECURE || false;
+const IS_COOKIE_SECURE = process.env.COOKIE_SECURE !== undefined || false;
 
 // Implementing needed nodes + creating the server.
 const EXPRESS_LAYOUTS = require('express-ejs-layouts');
 const EXPRESS = require('express');
 const SESSION = require('express-session');
-const MYSQL_STORE = require('express-mysql-session')(SESSION);
 const APP = EXPRESS();
 const HTTP = require('http').createServer(APP);
 const IO = require('socket.io')(HTTP);
@@ -16,20 +15,10 @@ const IO = require('socket.io')(HTTP);
 const SQL_QUERIES = require('./js/sqlQueries');
 const ERRORS = require('./js/error');
 const HELPER = require('./js/helper');
+const SESSION_STORE = require('./js/sessionStore');
 
 // Saving the socked ID of the admin. This will be emitted to all the users so eventually they will be able to send everything back to only the admin.
 let adminSocketId = '';
-
-// Express MySQL Session configuration
-const STORE_OPTIONS = {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME
-};
-
-const SESSION_STORE = new MYSQL_STORE(STORE_OPTIONS);
 
 // Listening on an open port.
 HTTP.listen(PORT, () => {
@@ -51,6 +40,14 @@ APP.use(SESSION({
     }
 }));
 
+// Custom middleware to destroy the session on logout.
+const destroySession = (req, res, next) => {
+    req.session.destroy((error) => {
+        if (error) console.log("Couldn't log out error: " + error);
+    });
+    next();
+};
+
 // Definition and config of express layouts.
 APP.use(EXPRESS_LAYOUTS);
 APP.set('view engine', 'ejs');
@@ -68,6 +65,7 @@ APP.get('/admin', require('./routes/admin'));
 
 APP.post('/register', require('./routes/players'));
 APP.post('/login', require('./routes/players'));
+APP.post('/logout', destroySession, require('./routes/players'));
 
 // Socket event listeners.
 IO.on('connection', socket => {
