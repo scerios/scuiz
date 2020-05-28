@@ -5,79 +5,98 @@ const LANGUAGE = require('./../js/language');
 const SQL_QUERIES = require('./../js/sqlQueries');
 const HELPER = require('./../js/helper');
 
-let tryGetPreferredLang = (req, res) => {
-    if (req.session.language) {
-        return req.session.language;
-    } else {
-        return 'hu';
-    }
-};
 
-let language = LANGUAGE.getLanguage(tryGetPreferredLang);
+function getIndexPage(language) {
+    return {
+        welcomeMsg: language.index.welcomeMsg,
+        loginBtn: language.index.loginBtn,
+        registerBtn: language.index.registerBtn,
+        languageSelect: language.index.languageSelect,
+        english: language.index.english,
+        hungarian: language.index.hungarian
+    };
+}
 
-let index = {
-    welcomeMsg: language.index.welcomeMsg,
-    loginBtn: language.index.loginBtn,
-    registerBtn: language.index.registerBtn,
-    languageSelect: language.index.languageSelect,
-    english: language.index.english,
-    hungarian: language.index.hungarian
-};
+function getRegisterPage(language) {
+    return {
+        welcomeMsg: language.register.welcomeMsg,
+        nameLabel: language.register.nameLabel,
+        namePlaceholder: language.register.namePlaceholder,
+        passwordLabel: language.register.passwordLabel,
+        passwordPlaceholder: language.register.passwordPlaceholder,
+        confirmPasswordLabel: language.register.confirmPasswordLabel,
+        confirmPasswordPlaceholder: language.register.confirmPasswordPlaceholder,
+        registerBtn: language.register.registerBtn,
+        isRegisteredQuestion: language.register.isRegisteredQuestion,
+        loginLink: language.register.loginLink
+    };
+}
 
-let register = {
-    welcomeMsg: language.register.welcomeMsg,
-    nameLabel: language.register.nameLabel,
-    namePlaceholder: language.register.namePlaceholder,
-    passwordLabel: language.register.passwordLabel,
-    passwordPlaceholder: language.register.passwordPlaceholder,
-    confirmPasswordLabel: language.register.confirmPasswordLabel,
-    confirmPasswordPlaceholder: language.register.confirmPasswordPlaceholder,
-    registerBtn: language.register.registerBtn,
-    isRegisteredQuestion: language.register.isRegisteredQuestion,
-    loginLink: language.register.loginLink
-};
+function getLoginPage(language) {
+    return {
+        welcomeMsg: language.login.welcomeMsg,
+        nameLabel: language.login.nameLabel,
+        namePlaceholder: language.login.namePlaceholder,
+        passwordLabel: language.login.passwordLabel,
+        passwordPlaceholder: language.login.passwordPlaceholder,
+        loginBtn: language.login.loginBtn,
+        isNotRegisteredQuestion: language.login.isNotRegisteredQuestion,
+        registerLink: language.login.registerLink
+    };
+}
 
-let login = {
-    welcomeMsg: language.login.welcomeMsg,
-    nameLabel: language.login.nameLabel,
-    namePlaceholder: language.login.namePlaceholder,
-    passwordLabel: language.login.passwordLabel,
-    passwordPlaceholder: language.login.passwordPlaceholder,
-    loginBtn: language.login.loginBtn,
-    isNotRegisteredQuestion: language.login.isNotRegisteredQuestion,
-    registerLink: language.login.registerLink
-};
-
-let gameBoard = {
-    logoutBtn: language.gameBoard.logoutBtn
+function getGameBoardPage(language) {
+    return {
+        logoutBtn: language.gameBoard.logoutBtn
+    };
 }
 
 ROUTER.get('/', (req, res) => {
+    let language = LANGUAGE.getLanguage(req.session.language);
+
     if (req.session.userId) {
+        let gameBoard = getGameBoardPage(language);
         res.render('game-board', {
             gameBoard
         });
     } else {
+        let index = getIndexPage(language);
         res.render('index', {
             index
         });
     }
 });
 
+ROUTER.get('/setLanguageEn', (req, res) => {
+    req.session.language = 'en';
+    res.redirect('/');
+});
+
+ROUTER.get('/setLanguageHu', (req, res) => {
+    req.session.language = 'hu';
+    res.redirect('/');
+});
+
 ROUTER.get('/register', (req, res) => {
+    let language = LANGUAGE.getLanguage(req.session.language);
+    let register = getRegisterPage(language);
     res.render('register', {
         register
     });
 });
 
 ROUTER.get('/login', (req, res) => {
+    let language = LANGUAGE.getLanguage(req.session.language);
+    let login = getLoginPage(language);
     res.render('login', {
         login
     });
 });
 
 ROUTER.get('/gameBoard', (req, res) => {
+    let language = LANGUAGE.getLanguage(req.session.language);
     if (req.session.userId) {
+        let gameBoard = getGameBoardPage(language);
         res.render('game-board', {
             gameBoard
         });
@@ -87,6 +106,7 @@ ROUTER.get('/gameBoard', (req, res) => {
 });
 
 ROUTER.post('/register', (req, res) => {
+    let language = LANGUAGE.getLanguage(req.session.language);
     let { name, password, confirmPassword } = req.body;
     let errors = HELPER.tryGetInputErrors(req.body, language.error);
 
@@ -96,11 +116,12 @@ ROUTER.post('/register', (req, res) => {
         isNameAlreadyRegistered.then((playerId) => {
             if (playerId.length > 0) {
                 errors.push(language.error.registered);
-                renderRegister(res, errors, name, password, confirmPassword);
+                renderRegister(res, errors, name, password, confirmPassword, language);
             } else {
                 let newPlayer = SQL_QUERIES.postPlayer(name, BCRYPT.hashSync(password, BCRYPT.genSaltSync(10)));
 
                 newPlayer.then(() => {
+                    let login = getLoginPage(language);
                     login.registerSuccess = language.login.registerSuccess;
                     res.render('login', {
                         login
@@ -108,21 +129,22 @@ ROUTER.post('/register', (req, res) => {
                 }).catch((error) => {
                     console.log('newPlayer: ' + error);
                     errors.push(language.error.connection);
-                    renderRegister(res, errors, name, password, confirmPassword);
+                    renderRegister(res, errors, name, password, confirmPassword, language);
                 });
             }
 
         }).catch((error) => {
             console.log('isNameAlreadyRegistered: ' + error);
             errors.push(language.error.connection);
-            renderRegister(res, errors, name, password, confirmPassword);
+            renderRegister(res, errors, name, password, confirmPassword, language);
         });
     } else {
-        renderRegister(res, errors, name, password, confirmPassword);
+        renderRegister(res, errors, name, password, confirmPassword, language);
     }
 });
 
 ROUTER.post('/login', (req, res) => {
+    let language = LANGUAGE.getLanguage(req.session.language);
     let { name, password } = req.body;
 
     let playerLoginResult = SQL_QUERIES.getPlayerByName(name);
@@ -135,18 +157,21 @@ ROUTER.post('/login', (req, res) => {
                     req.session.username = name;
                     res.redirect('/gameBoard');
                 } else {
+                    let login = getLoginPage(language);
                     login.alreadyLoggedIn = language.login.alreadyLoggedIn;
                     res.render('login', {
                         login
                     });
                 }
             } else {
+                let login = getLoginPage(language);
                 login.badCredentials = language.login.badCredentials;
                 res.render('login', {
                     login
                 });
             }
         } else {
+            let login = getLoginPage(language);
             login.badCredentials = language.login.badCredentials;
             res.render('login', {
                 login
@@ -155,6 +180,7 @@ ROUTER.post('/login', (req, res) => {
 
     }).catch((error) => {
         console.log('playerLoginResult: ' + error);
+        let login = getLoginPage(language);
         login.connectionError = language.error.connection;
         res.render('login', {
             login
@@ -162,12 +188,14 @@ ROUTER.post('/login', (req, res) => {
     });
 });
 
-ROUTER.post('/logout', (req, res) => {
+ROUTER.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
 ROUTER.get('/gameBoard', (req, res) => {
+    let language = LANGUAGE.getLanguage(req.session.language);
     if (req.session.userId) {
+        let gameBoard = getGameBoardPage(language);
         res.render('game-board', {
             gameBoard
         });
@@ -176,7 +204,8 @@ ROUTER.get('/gameBoard', (req, res) => {
     }
 });
 
-function renderRegister(res, errors, name, password, confirmPassword) {
+function renderRegister(res, errors, name, password, confirmPassword, language) {
+    let register = getRegisterPage(language);
     res.render('register', {
         errors,
         name,
