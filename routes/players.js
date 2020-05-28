@@ -12,6 +12,19 @@ let index = {
     registerBtn: language.index.registerBtn
 };
 
+let register = {
+    welcomeMsg: language.register.welcomeMsg,
+    nameLabel: language.register.nameLabel,
+    namePlaceholder: language.register.namePlaceholder,
+    passwordLabel: language.register.passwordLabel,
+    passwordPlaceholder: language.register.passwordPlaceholder,
+    confirmPasswordLabel: language.register.confirmPasswordLabel,
+    confirmPasswordPlaceholder: language.register.confirmPasswordPlaceholder,
+    registerBtn: language.register.registerBtn,
+    isRegisteredQuestion: language.register.isRegisteredQuestion,
+    loginLink: language.register.loginLink
+};
+
 ROUTER.get('/', (req, res) => {
     res.render('index', {
         index
@@ -20,16 +33,7 @@ ROUTER.get('/', (req, res) => {
 
 ROUTER.get('/register', (req, res) => {
     res.render('register', {
-        welcomeMsg: language.register.welcomeMsg,
-        nameLabel: language.register.nameLabel,
-        namePlaceholder: language.register.namePlaceholder,
-        passwordLabel: language.register.passwordLabel,
-        passwordPlaceholder: language.register.passwordPlaceholder,
-        confirmPasswordLabel: language.register.confirmPasswordLabel,
-        confirmPasswordPlaceholder: language.register.confirmPasswordPlaceholder,
-        registerBtn: language.register.registerBtn,
-        isRegisteredQuestion: language.register.isRegisteredQuestion,
-        loginLink: language.register.loginLink
+        register
     });
 });
 
@@ -56,7 +60,7 @@ ROUTER.post('/register', (req, res) => {
         isNameAlreadyRegistered.then((playerId) => {
             if (playerId.length > 0) {
                 errors.push(language.error.registered);
-                renderRegister(res, errors, name, password, confirmPassword, language.register);
+                renderRegister(res, errors, name, password, confirmPassword);
             } else {
                 let newPlayer = SQL_QUERIES.postPlayer(name, BCRYPT.hashSync(password, BCRYPT.genSaltSync(10)));
 
@@ -70,17 +74,17 @@ ROUTER.post('/register', (req, res) => {
                 }).catch((error) => {
                     console.log('newPlayer: ' + error);
                     errors.push(language.error.connection);
-                    renderRegister(res, errors, name, password, confirmPassword, language.register);
+                    renderRegister(res, errors, name, password, confirmPassword);
                 });
             }
 
         }).catch((error) => {
             console.log('isNameAlreadyRegistered: ' + error);
             errors.push(language.error.connection);
-            renderRegister(res, errors, name, password, confirmPassword, language.register);
+            renderRegister(res, errors, name, password, confirmPassword);
         });
     } else {
-        renderRegister(res, errors, name, password, confirmPassword, language.register);
+        renderRegister(res, errors, name, password, confirmPassword);
     }
 });
 
@@ -132,22 +136,13 @@ ROUTER.post('/login', (req, res) => {
     });
 });
 
-function renderRegister(res, errors, name, password, confirmPassword, registerLanguage) {
+function renderRegister(res, errors, name, password, confirmPassword) {
     res.render('register', {
         errors,
         name,
         password,
         confirmPassword,
-        welcomeMsg: registerLanguage.welcomeMsg,
-        nameLabel: registerLanguage.nameLabel,
-        namePlaceholder: registerLanguage.namePlaceholder,
-        passwordLabel: registerLanguage.passwordLabel,
-        passwordPlaceholder: registerLanguage.passwordPlaceholder,
-        confirmPasswordLabel: registerLanguage.confirmPasswordLabel,
-        confirmPasswordPlaceholder: registerLanguage.confirmPasswordPlaceholder,
-        registerBtn: registerLanguage.registerBtn,
-        isRegisteredQuestion: registerLanguage.isRegisteredQuestion,
-        loginLink: registerLanguage.loginLink
+        register
     });
 }
 
