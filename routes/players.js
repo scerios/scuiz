@@ -6,12 +6,15 @@ const SQL_QUERIES = require('./../js/sqlQueries');
 const HELPER = require('./../js/helper');
 
 let language = LANGUAGE.getLanguage('en');
+let index = {
+    welcomeMsg: language.index.welcomeMsg,
+    loginBtn: language.index.loginBtn,
+    registerBtn: language.index.registerBtn
+};
 
 ROUTER.get('/', (req, res) => {
     res.render('index', {
-        welcomeMsg: language.index.welcomeMsg,
-        loginBtn: language.index.loginBtn,
-        registerBtn: language.index.registerBtn
+        index
     });
 });
 
@@ -103,7 +106,7 @@ ROUTER.post('/login', (req, res) => {
                         loginBtn: language.login.loginBtn,
                         isNotRegisteredQuestion: language.login.isNotRegisteredQuestion,
                         registerLink: language.login.registerLink,
-                        alreadyLoggedIn: language.index.alreadyLoggedIn
+                        alreadyLoggedIn: language.login.alreadyLoggedIn
                     });
                 }
             } else {
