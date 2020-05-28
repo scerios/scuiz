@@ -153,9 +153,20 @@ ROUTER.post('/login', (req, res) => {
         if (player.length === 1) {
             if (BCRYPT.compareSync(password, player[0].password)) {
                 if (player[0].is_logged_in === 0) {
-                    req.session.userId = player[0].id;
-                    req.session.username = name;
-                    res.redirect('/gameBoard');
+                    let putPlayerStatusResult = SQL_QUERIES.putPlayerStatusById(player[0].id, 1);
+
+                    putPlayerStatusResult.then(() => {
+                        req.session.userId = player[0].id;
+                        req.session.username = name;
+                        res.redirect('/gameBoard');
+                    }).catch((error) => {
+                        console.log('playerLoginResult: ' + error);
+                        let login = getLoginPage(language);
+                        login.connectionError = language.error.connection;
+                        res.render('login', {
+                            login
+                        });
+                    });
                 } else {
                     let login = getLoginPage(language);
                     login.alreadyLoggedIn = language.login.alreadyLoggedIn;
