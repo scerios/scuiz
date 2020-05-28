@@ -2,6 +2,14 @@
     <div class="col-md-6 m-auto">
         <div class="card card-body">
             <h1 class="text-center mb-3"><i class="fas fa-sign-in-alt"></i> <%- login.welcomeMsg %></h1>
+            <% if(typeof login.connectionError != 'undefined') { %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <%= login.connectionError %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <% } %>
             <% if(typeof login.badCredentials != 'undefined') { %>
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <%= login.badCredentials %>
