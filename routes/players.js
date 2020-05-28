@@ -71,7 +71,7 @@ ROUTER.post('/register', (req, res) => {
 
                 newPlayer.then(() => {
                     login.registerSuccess = language.login.registerSuccess;
-                    res.render('index', {
+                    res.render('login', {
                         login
                     });
                 }).catch((error) => {
@@ -116,12 +116,18 @@ ROUTER.post('/login', (req, res) => {
                 });
             }
         } else {
-            IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
+            login.badCredentials = language.login.badCredentials;
+            res.render('login', {
+                login
+            });
         }
 
     }).catch((error) => {
         console.log('playerLoginResult: ' + error);
-        IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
+        login.connectionError = language.error.connection;
+        res.render('login', {
+            login
+        });
     });
 });
 
