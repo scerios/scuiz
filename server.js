@@ -43,7 +43,7 @@ APP.use(SESSION({
 // Custom middleware to destroy the session on logout.
 let destroySession = (req, res, next) => {
     req.session.destroy((error) => {
-        if (error) console.log("Couldn't log out error: " + error);
+        if (error) console.log("Couldn't log out. error: " + error);
     });
     next();
 };
@@ -57,15 +57,17 @@ APP.use(EXPRESS.urlencoded({ extended: true }));
 
 // Routes definition
 APP.get('/', require('./routes/players'));
+APP.get('/setLanguageEn', require('./routes/players'));
+APP.get('/setLanguageHu', require('./routes/players'));
 APP.get('/register', require('./routes/players'));
 APP.get('/login', require('./routes/players'));
+APP.get('/logout', destroySession, require('./routes/players'));
 APP.get('/gameBoard', require('./routes/players'));
 
 APP.get('/admin', require('./routes/admin'));
 
 APP.post('/register', require('./routes/players'));
 APP.post('/login', require('./routes/players'));
-APP.post('/logout', destroySession, require('./routes/players'));
 
 // Socket event listeners.
 IO.on('connection', socket => {
