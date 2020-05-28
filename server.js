@@ -25,7 +25,7 @@ const STORE_OPTIONS = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     user: process.env.DB_USER,
-    pass: process.env.DB_PASS,
+    password: process.env.DB_PASS,
     database: process.env.DB_NAME
 };
 
@@ -62,6 +62,7 @@ APP.use(EXPRESS.urlencoded({ extended: true }));
 APP.get('/', require('./routes/players'));
 APP.get('/register', require('./routes/players'));
 APP.get('/login', require('./routes/players'));
+APP.get('/gameBoard', require('./routes/players'));
 
 APP.get('/admin', require('./routes/admin'));
 
