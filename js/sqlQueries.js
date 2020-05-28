@@ -6,8 +6,12 @@ async function postPlayer(name, password) {
     return await query(`INSERT INTO player (name, password) VALUES ('${name}', '${password}')`);
 }
 
-async function putPlayerStatusAndSocketIdById(id, status, socketId) {
-    return await query(`UPDATE player SET is_logged_in = ${status}, socket_id = '${socketId}' WHERE id = ${id}`);
+async function putPlayerStatusById(id, status) {
+    return await query(`UPDATE player SET is_logged_in = ${status} WHERE id = ${id}`);
+}
+
+async function putPlayerSocketIdById(id, socketId) {
+    return await query(`UPDATE player SET socket_id = '${socketId}' WHERE id = ${id}`);
 }
 
 async function putPlayerStatusAndSocketIdBySocketId(socketId, status) {
@@ -56,7 +60,8 @@ async function getQuestionByCategoryIdAndQuestionIndex(categoryId, index) {
 }
 
 exports.postPlayer = postPlayer;
-exports.putPlayerStatusAndSocketIdById = putPlayerStatusAndSocketIdById;
+exports.putPlayerStatusById = putPlayerStatusById;
+exports.putPlayerSocketIdById = putPlayerSocketIdById;
 exports.putPlayerStatusAndSocketIdBySocketId = putPlayerStatusAndSocketIdBySocketId;
 exports.getAllLoggedInPlayers = getAllLoggedInPlayers;
 exports.getPlayerById = getPlayerById;
