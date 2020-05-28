@@ -40,14 +40,6 @@ APP.use(SESSION({
     }
 }));
 
-// Custom middleware to destroy the session on logout.
-let destroySession = (req, res, next) => {
-    req.session.destroy((error) => {
-        if (error) console.log("Couldn't log out. error: " + error);
-    });
-    next();
-};
-
 // Definition and config of express layouts.
 APP.use(EXPRESS_LAYOUTS);
 APP.set('view engine', 'ejs');
@@ -61,7 +53,7 @@ APP.get('/setLanguageEn', require('./routes/players'));
 APP.get('/setLanguageHu', require('./routes/players'));
 APP.get('/register', require('./routes/players'));
 APP.get('/login', require('./routes/players'));
-APP.get('/logout', destroySession, require('./routes/players'));
+APP.get('/logout', require('./routes/players'));
 APP.get('/gameBoard', require('./routes/players'));
 
 APP.get('/admin', require('./routes/admin'));

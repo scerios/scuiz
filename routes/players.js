@@ -5,7 +5,6 @@ const LANGUAGE = require('./../js/language');
 const SQL_QUERIES = require('./../js/sqlQueries');
 const HELPER = require('./../js/helper');
 
-
 function getIndexPage(language) {
     return {
         welcomeMsg: language.index.welcomeMsg,
@@ -54,7 +53,7 @@ function getGameBoardPage(language) {
 ROUTER.get('/', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
 
-    if (req.session.userId) {
+    if (req.session.userId !== undefined) {
         let gameBoard = getGameBoardPage(language);
         res.render('game-board', {
             gameBoard
@@ -80,29 +79,10 @@ ROUTER.get('/setLanguageHu', (req, res) => {
 ROUTER.get('/register', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
     let register = getRegisterPage(language);
+
     res.render('register', {
         register
     });
-});
-
-ROUTER.get('/login', (req, res) => {
-    let language = LANGUAGE.getLanguage(req.session.language);
-    let login = getLoginPage(language);
-    res.render('login', {
-        login
-    });
-});
-
-ROUTER.get('/gameBoard', (req, res) => {
-    let language = LANGUAGE.getLanguage(req.session.language);
-    if (req.session.userId) {
-        let gameBoard = getGameBoardPage(language);
-        res.render('game-board', {
-            gameBoard
-        });
-    } else {
-        res.redirect('/');
-    }
 });
 
 ROUTER.post('/register', (req, res) => {
@@ -138,15 +118,24 @@ ROUTER.post('/register', (req, res) => {
             errors.push(language.error.connection);
             renderRegister(res, errors, name, password, confirmPassword, language);
         });
+
     } else {
         renderRegister(res, errors, name, password, confirmPassword, language);
     }
 });
 
+ROUTER.get('/login', (req, res) => {
+    let language = LANGUAGE.getLanguage(req.session.language);
+    let login = getLoginPage(language);
+
+    res.render('login', {
+        login
+    });
+});
+
 ROUTER.post('/login', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
     let { name, password } = req.body;
-
     let playerLoginResult = SQL_QUERIES.getPlayerByName(name);
 
     playerLoginResult.then((player) => {
@@ -167,9 +156,11 @@ ROUTER.post('/login', (req, res) => {
                             login
                         });
                     });
+
                 } else {
                     let login = getLoginPage(language);
                     login.alreadyLoggedIn = language.login.alreadyLoggedIn;
+
                     res.render('login', {
                         login
                     });
@@ -177,6 +168,7 @@ ROUTER.post('/login', (req, res) => {
             } else {
                 let login = getLoginPage(language);
                 login.badCredentials = language.login.badCredentials;
+
                 res.render('login', {
                     login
                 });
@@ -184,6 +176,7 @@ ROUTER.post('/login', (req, res) => {
         } else {
             let login = getLoginPage(language);
             login.badCredentials = language.login.badCredentials;
+
             res.render('login', {
                 login
             });
@@ -193,20 +186,19 @@ ROUTER.post('/login', (req, res) => {
         console.log('playerLoginResult: ' + error);
         let login = getLoginPage(language);
         login.connectionError = language.error.connection;
+
         res.render('login', {
             login
         });
     });
 });
 
-ROUTER.get('/logout', (req, res) => {
-    res.redirect('/');
-});
-
 ROUTER.get('/gameBoard', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
+
     if (req.session.userId) {
         let gameBoard = getGameBoardPage(language);
+
         res.render('game-board', {
             gameBoard
         });
@@ -215,8 +207,28 @@ ROUTER.get('/gameBoard', (req, res) => {
     }
 });
 
+ROUTER.get('/logout', (req, res) => {
+    let language = LANGUAGE.getLanguage(req.session.language);
+    let putPlayerStatusResult = SQL_QUERIES.putPlayerStatusById(req.session.userId, 0);
+
+    putPlayerStatusResult.then(() => {
+        delete req.session.userId;
+        delete req.session.username;
+        res.redirect('/');
+    }).catch((error) => {
+        console.log('playerLoginResult: ' + error);
+        let login = getLoginPage(language);
+        login.connectionError = language.error.connection;
+
+        res.render('login', {
+            login
+        });
+    });
+});
+
 function renderRegister(res, errors, name, password, confirmPassword, language) {
     let register = getRegisterPage(language);
+
     res.render('register', {
         errors,
         name,
