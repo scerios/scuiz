@@ -5,12 +5,23 @@ const LANGUAGE = require('./../js/language');
 const SQL_QUERIES = require('./../js/sqlQueries');
 const HELPER = require('./../js/helper');
 
-let language = LANGUAGE.getLanguage('en');
+let tryGetPreferredLang = (req, res) => {
+    if (req.session.language) {
+        return req.session.language;
+    } else {
+        return 'hu';
+    }
+};
+
+let language = LANGUAGE.getLanguage(tryGetPreferredLang);
 
 let index = {
     welcomeMsg: language.index.welcomeMsg,
     loginBtn: language.index.loginBtn,
-    registerBtn: language.index.registerBtn
+    registerBtn: language.index.registerBtn,
+    languageSelect: language.index.languageSelect,
+    english: language.index.english,
+    hungarian: language.index.hungarian
 };
 
 let register = {
