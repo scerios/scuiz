@@ -41,7 +41,7 @@ APP.use(SESSION({
 }));
 
 // Custom middleware to destroy the session on logout.
-const destroySession = (req, res, next) => {
+let destroySession = (req, res, next) => {
     req.session.destroy((error) => {
         if (error) console.log("Couldn't log out error: " + error);
     });
