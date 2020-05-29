@@ -1,3 +1,5 @@
+//#region Constants + variables
+
 // Define needed variables.
 const PORT = process.env.PORT || 3000;
 const COOKIE_MAX_AGE = process.env.COOKIE_MAX_AGE || 1000 * 60 * 60;
@@ -19,6 +21,10 @@ const SESSION_STORE = require('./js/sessionStore');
 
 // Saving the socked ID of the admin. This will be emitted to all the users so eventually they will be able to send everything back to only the admin.
 let adminSocketId = '';
+
+//#endregion
+
+//#region App config
 
 // Listening on an open port.
 HTTP.listen(PORT, () => {
@@ -50,7 +56,12 @@ APP.set('view engine', 'ejs');
 // Express body parser.
 APP.use(EXPRESS.urlencoded({ extended: true }));
 
-// Routes definition.
+//#endregion
+
+//#region Routes definition.
+
+//#region Player
+
 APP.get('/', require('./routes/players'));
 APP.get('/setLanguageEn', require('./routes/players'));
 APP.get('/setLanguageHu', require('./routes/players'));
@@ -59,12 +70,22 @@ APP.get('/login', require('./routes/players'));
 APP.get('/logout', require('./routes/players'));
 APP.get('/gameBoard', require('./routes/players'));
 
-APP.get('/admin', require('./routes/admin'));
-
 APP.post('/register', require('./routes/players'));
 APP.post('/login', require('./routes/players'));
 
-// Socket event listeners.
+//#endregion
+
+//#region Admin
+APP.get('/admin', require('./routes/admin'));
+
+APP.post('/adminLogin', require('./routes/admin'));
+
+//#endregion
+
+//#endregion
+
+//#region Socket event listeners.
+
 IO.on('connection', socket => {
     console.log(`A user with ID: ${socket.id} connected.`);
 
@@ -124,34 +145,7 @@ IO.on('connection', socket => {
     });
 });
 
-function authenticatePlayerAndLoadCategories(playerId, socketId) {
-    let categoryResult = SQL_QUERIES.getAllCategories();
-
-    categoryResult.then((categories) => {
-        let categoryRoundLimitResult = SQL_QUERIES.getCategoryRoundLimit();
-
-        categoryRoundLimitResult.then((roundLimit) => {
-            let sortedCategories = HELPER.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
-            let setPlayerStatusAndSocketIdResult = SQL_QUERIES.putPlayerStatusAndSocketIdById(playerId, 1, socketId);
-
-            setPlayerStatusAndSocketIdResult.then(() => {
-                IO.to(socketId).emit('enterSuccess', { myId: playerId, adminSocketId: adminSocketId, categories: sortedCategories });
-
-            }).catch((error) => {
-                console.log('setPlayerStatusAndSocketIdResult: ' + error);
-                IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
-            });
-
-        }).catch((error) => {
-            console.log('categoryRoundLimitResult: ' + error);
-            IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
-        });
-
-    }).catch((error) => {
-        console.log('categoryResult: ' + error);
-        IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
-    });
-}
+//#endregion
 
 function authenticateAdminAndLoadControlPanel(socketId) {
     let categoryResult = SQL_QUERIES.getAllCategories();
