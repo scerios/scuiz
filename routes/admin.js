@@ -29,9 +29,9 @@ ROUTER.get('/admin', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
 
     if (req.session.adminId !== undefined) {
-        let gameBoard = getControlPanelPage(language);
+        let controlPanel = getControlPanelPage(language);
         res.render('control-panel', {
-            gameBoard
+            controlPanel
         });
     } else {
         let adminLogin = getAdminLoginPage(language);
@@ -39,6 +39,39 @@ ROUTER.get('/admin', (req, res) => {
             adminLogin
         });
     }
+});
+
+ROUTER.post('/adminLogin', (req, res) => {
+    let language = LANGUAGE.getLanguage(req.session.language);
+    let { name, password } = req.body;
+    let adminLoginResult = SQL_QUERIES.getAdminPasswordByName(name);
+
+    adminLoginResult.then((admin) => {
+        if (admin.length === 1) {
+            if (password === admin[0].password) {
+                req.session.adminId = 1;
+                req.session.adminName = name;
+            }
+
+            res.redirect('/admin');
+        } else {
+            let login = getLoginPage(language);
+            login.badCredentials = language.login.badCredentials;
+
+            res.render('login', {
+                login
+            });
+        }
+
+    }).catch((error) => {
+        console.log('playerLoginResult: ' + error);
+        let login = getLoginPage(language);
+        login.connectionError = language.error.connection;
+
+        res.render('login', {
+            login
+        });
+    });
 });
 
 module.exports = ROUTER;
