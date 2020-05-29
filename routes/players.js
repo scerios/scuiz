@@ -44,13 +44,14 @@ function getLoginPage(language) {
     };
 }
 
-function getGameBoardPage(language) {
+function getGameBoardPage(language, id) {
     return {
         logoutBtn: language.gameBoard.logoutBtn,
         question: language.gameBoard.question,
         timer: language.gameBoard.timer,
         answer: language.gameBoard.answer,
-        category: language.gameBoard.category
+        category: language.gameBoard.category,
+        myId: id
     };
 }
 
@@ -201,7 +202,7 @@ ROUTER.get('/gameBoard', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
 
     if (req.session.userId) {
-        let gameBoard = getGameBoardPage(language);
+        let gameBoard = getGameBoardPage(language, req.session.userId);
 
         res.render('game-board', {
             gameBoard
