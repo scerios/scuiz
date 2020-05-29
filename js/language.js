@@ -41,7 +41,11 @@ const LANG_EN = {
         alreadyLoggedIn:  "You may already be logged in. A player can be logged in only at one tab at a time."
     },
     gameBoard: {
-        logoutBtn: "Logout"
+        logoutBtn: "Logout",
+        question: "Question",
+        timer: "Time",
+        answer: "Your answer",
+        category: "Category"
     }
 }
 
@@ -88,7 +92,11 @@ const LANG_HU = {
         alreadyLoggedIn:  "Lehet, hogy már bejelentkeztél? Egyszerre egy játékos csak egy ablakban lehet bejelentkezve."
     },
     gameBoard: {
-        logoutBtn: "Kilépés"
+        logoutBtn: "Kilépés",
+        question: "Kérdés",
+        timer: "Idő",
+        answer: "A válaszod",
+        category: "Kategória"
     }
 }
 

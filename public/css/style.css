@@ -16,3 +16,15 @@
 #welcome-msg {
     margin: 40px 0 40px 0;
 }
+
+#logout-btn-container {
+    margin-bottom: 40px;
+}
+
+.max-width {
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}

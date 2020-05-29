@@ -1,12 +1,46 @@
 <div class="row">
-    <div class="col-lg-12">
+    <div id="logout-btn-container" class="col-12">
         <form action="/logout" method="GET">
-            <button type="submit" class="btn btn-primary max-width btn-lg"><%- gameBoard.logoutBtn %></button>
+            <button type="submit" class="btn btn-dark max-width"><%- gameBoard.logoutBtn %></button>
         </form>
+    </div>
+    <div class="col-4 text-center">
+        <div class="card text-white bg-secondary mb-3">
+            <div class="card-header">
+                <%- gameBoard.question %>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title"><%- gameBoard.category %>: <span id="question-category"></span></h4>
+                <p id="question" class="card-text"></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-4 text-center">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">
+                <%- gameBoard.timer %>
+            </div>
+            <div class="card-body">
+                <h4 id="timer" class="card-title"></h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-4 text-center">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">
+                <%- gameBoard.answer %>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                      <label for="answer">Example textarea</label>
+                      <textarea disabled class="form-control" id="answer" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <style>
-    .max-width {
-        width: 100%;
+    #logo-container {
+        display: none;
     }
 </style>

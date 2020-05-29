@@ -46,7 +46,11 @@ function getLoginPage(language) {
 
 function getGameBoardPage(language) {
     return {
-        logoutBtn: language.gameBoard.logoutBtn
+        logoutBtn: language.gameBoard.logoutBtn,
+        question: language.gameBoard.question,
+        timer: language.gameBoard.timer,
+        answer: language.gameBoard.answer,
+        category: language.gameBoard.category
     };
 }
 
