@@ -42,8 +42,8 @@ async function getCategoryRoundLimit() {
     return await query('SELECT round_limit FROM round_count WHERE id = 1');
 }
 
-async function getAdminByNameAndPassword(name, password) {
-    return await query(`SELECT * FROM admin WHERE name = '${name}' AND password = '${password}'`);
+async function getAdminPasswordByName(name) {
+    return await query(`SELECT password FROM admin WHERE name = '${name}'`);
 }
 
 async function getAllQuestions() {
@@ -69,6 +69,6 @@ exports.getPlayerByName = getPlayerByName;
 exports.putCategoryQuestionIndexById = putCategoryQuestionIndexById;
 exports.getAllCategories = getAllCategories;
 exports.getCategoryRoundLimit = getCategoryRoundLimit;
-exports.getAdminByNameAndPassword = getAdminByNameAndPassword;
+exports.getAdminPasswordByName = getAdminPasswordByName;
 exports.getAllQuestions = getAllQuestions;
 exports.getQuestionByCategoryIdAndQuestionIndex = getQuestionByCategoryIdAndQuestionIndex;
