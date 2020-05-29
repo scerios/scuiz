@@ -1,4 +1,4 @@
-// Define needed variables
+// Define needed variables.
 const PORT = process.env.PORT || 3000;
 const COOKIE_MAX_AGE = process.env.COOKIE_MAX_AGE || 1000 * 60 * 60;
 const IS_COOKIE_SECURE = process.env.COOKIE_SECURE !== undefined || false;
@@ -25,7 +25,10 @@ HTTP.listen(PORT, () => {
     console.log(`Listening on ${PORT}.`);
 });
 
-// Session configuration
+// Default folder for static content.
+APP.use(EXPRESS.static("public"));
+
+// Session configuration.
 APP.use(SESSION({
     name: 'sid',
     resave: false,
@@ -44,10 +47,10 @@ APP.use(SESSION({
 APP.use(EXPRESS_LAYOUTS);
 APP.set('view engine', 'ejs');
 
-// Express body parser
+// Express body parser.
 APP.use(EXPRESS.urlencoded({ extended: true }));
 
-// Routes definition
+// Routes definition.
 APP.get('/', require('./routes/players'));
 APP.get('/setLanguageEn', require('./routes/players'));
 APP.get('/setLanguageHu', require('./routes/players'));
