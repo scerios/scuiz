@@ -52,25 +52,13 @@ ROUTER.post('/adminLogin', (req, res) => {
                 req.session.adminId = 1;
                 req.session.adminName = name;
             }
-
-            res.redirect('/admin');
-        } else {
-            let login = getLoginPage(language);
-            login.badCredentials = language.login.badCredentials;
-
-            res.render('login', {
-                login
-            });
         }
 
+        res.redirect('/admin');
     }).catch((error) => {
         console.log('playerLoginResult: ' + error);
-        let login = getLoginPage(language);
-        login.connectionError = language.error.connection;
 
-        res.render('login', {
-            login
-        });
+        res.redirect('/admin');
     });
 });
 
