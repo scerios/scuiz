@@ -46,6 +46,12 @@ const LANG_EN = {
         timer: "Time",
         answer: "Your answer",
         category: "Category"
+    },
+    adminLogin: {
+        welcomeMsg: "Smart only",
+        nameLabel: "Name",
+        passwordLabel: "Password",
+        loginBtn: "Login",
     }
 }
 
@@ -97,6 +103,12 @@ const LANG_HU = {
         timer: "Idő",
         answer: "A válaszod",
         category: "Kategória"
+    },
+    adminLogin: {
+        welcomeMsg: "Csak okosoknak",
+        nameLabel: "Név",
+        passwordLabel: "Jelszó",
+        loginBtn: "Belépés",
     }
 }
 
