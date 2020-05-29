@@ -15,8 +15,6 @@ const IO = require('socket.io')(HTTP);
 
 // Implementing custom modules.
 const SQL_QUERIES = require('./js/sqlQueries');
-const ERRORS = require('./js/error');
-const HELPER = require('./js/helper');
 const SESSION_STORE = require('./js/sessionStore');
 
 // Saving the socked ID of the admin. This will be emitted to all the users so eventually they will be able to send everything back to only the admin.
@@ -101,25 +99,6 @@ IO.on('connection', socket => {
         });
     });
 
-    socket.on('adminLogin', (data) => {
-        // let adminResult = SQL_QUERIES.getAdminByNameAndPassword(data.name, data.password);
-        //
-        // adminResult.then((admin) => {
-        //     if (admin.length === 1) {
-        //         adminSocketId = socket.id;
-        //         socket.broadcast.emit('adminSocketId', { adminSocketId: adminSocketId });
-        //         authenticateAdminAndLoadControlPanel(socket.id);
-        //
-        //     } else {
-        //         IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
-        //     }
-        //
-        // }).catch((error) => {
-        //     console.log('adminResult: ' + error);
-        //     IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
-        // });
-    });
-
     socket.on('signUpForGame', (data) => {
         let playerResult = SQL_QUERIES.getPlayerById(data.playerId);
 
@@ -147,34 +126,3 @@ IO.on('connection', socket => {
 });
 
 //#endregion
-
-function authenticateAdminAndLoadControlPanel(socketId) {
-    let categoryResult = SQL_QUERIES.getAllCategories();
-
-    categoryResult.then((categories) => {
-        let categoryRoundLimitResult = SQL_QUERIES.getCategoryRoundLimit();
-
-        categoryRoundLimitResult.then((roundLimit) => {
-            let sortedCategories = HELPER.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
-            let playersResult = SQL_QUERIES.getAllLoggedInPlayers();
-
-            playersResult.then((players) => {
-                IO.to(socketId).emit('enterSuccess', {
-                    categories: sortedCategories,
-                    players: players
-                });
-
-            }).catch((error) => {
-                console.log('questionsResult: ' + error);
-            });
-
-        }).catch((error) => {
-            console.log('categoryRoundLimitResult: ' + error);
-            IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
-        });
-
-    }).catch((error) => {
-        console.log('categoryResult: ' + error);
-        IO.to(socketId).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
-    });
-}
