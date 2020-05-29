@@ -99,6 +99,11 @@ IO.on('connection', socket => {
         });
     });
 
+    socket.on('postAdminSocketId', () => {
+        adminSocketId = socket.id;
+        socket.broadcast.emit('adminSocketId', { adminSocketId: socket.id });
+    });
+
     socket.on('signUpForGame', (data) => {
         let playerResult = SQL_QUERIES.getPlayerById(data.playerId);
 
