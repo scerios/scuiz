@@ -39,6 +39,23 @@
         </div>
     </div>
 </div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    let socket = io();
+    let adminSocketId = '';
+    let myId = <%- gameBoard.myId %>;
+
+    $(document).ready(() => {
+        socket.emit('signUpForGame', {
+            playerId: myId
+        });
+    });
+
+    socket.on('adminSocketId', (data) => {
+        adminSocketId = data.adminSocketId;
+    });
+
+</script>
 <style>
     #logo-container {
         display: none;
