@@ -77,6 +77,7 @@ APP.post('/login', require('./routes/players'));
 
 //#region Admin
 APP.get('/admin', require('./routes/admin'));
+APP.get('/controlPanel', require('./routes/admin'));
 
 APP.post('/adminLogin', require('./routes/admin'));
 
@@ -101,22 +102,22 @@ IO.on('connection', socket => {
     });
 
     socket.on('adminLogin', (data) => {
-        let adminResult = SQL_QUERIES.getAdminByNameAndPassword(data.name, data.password);
-
-        adminResult.then((admin) => {
-            if (admin.length === 1) {
-                adminSocketId = socket.id;
-                socket.broadcast.emit('adminSocketId', { adminSocketId: adminSocketId });
-                authenticateAdminAndLoadControlPanel(socket.id);
-
-            } else {
-                IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
-            }
-
-        }).catch((error) => {
-            console.log('adminResult: ' + error);
-            IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
-        });
+        // let adminResult = SQL_QUERIES.getAdminByNameAndPassword(data.name, data.password);
+        //
+        // adminResult.then((admin) => {
+        //     if (admin.length === 1) {
+        //         adminSocketId = socket.id;
+        //         socket.broadcast.emit('adminSocketId', { adminSocketId: adminSocketId });
+        //         authenticateAdminAndLoadControlPanel(socket.id);
+        //
+        //     } else {
+        //         IO.to(socket.id).emit('customError', { title: ERRORS.notFound, msg: ERRORS.badCredentials });
+        //     }
+        //
+        // }).catch((error) => {
+        //     console.log('adminResult: ' + error);
+        //     IO.to(socket.id).emit('customError', { title: ERRORS.standardError, msg: ERRORS.connectionIssue });
+        // });
     });
 
     socket.on('signUpForGame', (data) => {
