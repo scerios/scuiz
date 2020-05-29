@@ -1,0 +1,17 @@
+<% controlPanel.categories.forEach((category) => { %>
+    <% if(category.isAvailable) { %>
+        <div class="col-3 btn-category">
+            <button class="btn btn-success max-width" type="button"
+                    data-category-id="<%= category.id %>" data-category-index="<%= category.question_index %>">
+                <%= category.name %>
+            </button>
+        </div>
+    <% } else { %>
+        <div class="col-3 btn-category">
+            <button disabled class="btn btn-warning max-width" type="button"
+                    data-category-id="<%= category.id %>" data-category-index="<%= category.question_index %>">
+                <%= category.name %>
+            </button>
+        </div>
+    <% } %>
+<% }); %>
