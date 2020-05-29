@@ -95,7 +95,7 @@ IO.on('connection', socket => {
         playerLeft.then(() => {
             IO.to(adminSocketId).emit('playerLeft', { playerSocketId: socket.id });
         }).catch((error) => {
-            console.log('playerLeave: ' + error);
+            console.log('playerLeft: ' + error);
         });
     });
 
@@ -105,12 +105,18 @@ IO.on('connection', socket => {
     });
 
     socket.on('signUpForGame', (data) => {
-        let playerResult = SQL_QUERIES.getPlayerById(data.playerId);
+        let setSocketIdResult = SQL_QUERIES.putPlayerSocketIdById(data.playerId, socket.id);
 
-        playerResult.then((player) => {
-            IO.to(adminSocketId).emit('showPlayer', { player: player[0]});
+        setSocketIdResult.then(() => {
+            let playerResult = SQL_QUERIES.getPlayerById(data.playerId);
+
+            playerResult.then((player) => {
+                IO.to(adminSocketId).emit('showPlayer', { player: player[0] });
+            }).catch((error) => {
+                console.log('playerResult:' + error);
+            });
         }).catch((error) => {
-            console.log('playerResult:' + error);
+            console.log('setSocketIdResult:' + error);
         });
     });
 
