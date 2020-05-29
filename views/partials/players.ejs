@@ -1,0 +1,12 @@
+<% controlPanel.players.forEach((player) => { %>
+    <tr id="<%= player.socket_id %>">
+        <td><%= player.name %></td>
+        <td><%= player.point %></td>
+        <td>
+            <button type="button" class="btn btn-info btn-sm btn-authorize"
+                    data-socket-id="<%= player.socket_id %>">
+                <%= controlPanel.authorizeBtn %>
+            </button>
+        </td>
+    </tr>
+<% }); %>

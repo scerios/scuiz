@@ -17,6 +17,7 @@ function getAdminLoginPage(language) {
 
 function getControlPanelPage(language, categories, players) {
     return {
+        authorizeBtn: language.controlPanel.authorizeBtn,
         categories: categories,
         players: players
     };

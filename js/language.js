@@ -52,6 +52,9 @@ const LANG_EN = {
         nameLabel: "Name",
         passwordLabel: "Password",
         loginBtn: "Login",
+    },
+    controlPanel: {
+        authorizeBtn: "Authorize"
     }
 }
 
@@ -109,6 +112,9 @@ const LANG_HU = {
         nameLabel: "Név",
         passwordLabel: "Jelszó",
         loginBtn: "Belépés",
+    },
+    controlPanel: {
+        authorizeBtn: "Felhatalmaz"
     }
 }
 
