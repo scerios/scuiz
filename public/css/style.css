@@ -1,0 +1,14 @@
+#logo {
+    width: 200px;
+    height: 200px;
+}
+
+#language-select {
+    margin-top: 40px;
+    width: 50%;
+    left: 25%
+}
+
+#welcome-msg {
+    margin: 40px 0 40px 0;
+}
