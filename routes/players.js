@@ -59,7 +59,7 @@ ROUTER.get('/', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
 
     if (req.session.userId !== undefined) {
-        let gameBoard = getGameBoardPage(language);
+        let gameBoard = getGameBoardPage(language, req.session.userId);
         res.render('game-board', {
             gameBoard
         });
