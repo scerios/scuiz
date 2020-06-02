@@ -54,7 +54,14 @@ const LANG_EN = {
         loginBtn: "Login",
     },
     controlPanel: {
-        authorizeBtn: "Authorize"
+        tableHead: {
+            name: "Name",
+            points: "Points",
+            authorizeBtn: "Authorize"
+        },
+        authorizeBtn: "Authorize",
+        timer: "How much time for players to answer?",
+        timerLegend: "numbers only, in seconds, if 0: infinite"
     }
 }
 
@@ -114,7 +121,14 @@ const LANG_HU = {
         loginBtn: "Belépés",
     },
     controlPanel: {
-        authorizeBtn: "Felhatalmaz"
+        tableHead: {
+            name: "Név",
+            points: "Pontok",
+            authorizeBtn: "Felhatalmazás"
+        },
+        authorizeBtn: "Felhatalmaz",
+        timer: "Mennyi idő alatt kell válaszolni?",
+        timerLegend: "csak számok, másodpercben, ha 0: végtelen"
     }
 }
 
