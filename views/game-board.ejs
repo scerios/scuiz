@@ -44,6 +44,9 @@
     let socket = io();
     let adminSocketId = '';
     let myId = <%- gameBoard.myId %>;
+    let questionCategory = $('#question-category');
+    let question = $('#question');
+    let answer = $('#answer');
 
     $(document).ready(() => {
         socket.emit('signUpForGame', {
@@ -53,6 +56,12 @@
 
     socket.on('adminSocketId', (data) => {
         adminSocketId = data.adminSocketId;
+    });
+
+    socket.on('getNextQuestion', (data) => {
+        answer.prop('disabled', false);
+        questionCategory.text(data.category);
+        question.text(data.question);
     });
 
 </script>
