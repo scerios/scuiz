@@ -18,15 +18,26 @@
             </tbody>
         </table>
     </div>
+    <div class="col-4">
+        <div class="row">
+            <div class="form-group max-width default-padding">
+                <label for="time"><%- controlPanel.time %></label>
+                <input type="numbers" class="form-control" id="time">
+                <small class="form-text text-muted"><%- controlPanel.timeLegend %></small>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     let socket = io();
     let playerTableBody = $('#playerTableBody');
     let categoryBtn = $('.btn-category');
+    let time = $('#time');
 
     $(document).ready(() => {
         socket.emit('postAdminSocketId');
+        time.val(0);
     });
 
     socket.on('showPlayer', (data) => {
@@ -38,11 +49,17 @@
     });
 
     categoryBtn.on('click', function () {
-        socket.emit('pickQuestion', { categoryId: $(this).attr('data-category-id'), index: getCategoryIndexAndUpdateElement($(this)) });
+        socket.emit('pickQuestion', { categoryId: $(this).attr('data-category-id'), index: getCategoryIndexAndUpdateElement($(this)), time: time.val() });
 
         if (getHowManyCategoryLeft(categoryBtn) === 0) {
             let index = getCategoryIndexAndEnableAllCategories(categoryBtn);
             socket.emit('raiseCategoryLimit', { index: index });
+        }
+    });
+
+    time.on('blur', function() {
+        if (time.val() === '') {
+            time.val(0);
         }
     });
 
