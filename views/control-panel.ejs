@@ -41,7 +41,8 @@
         socket.emit('pickQuestion', { categoryId: $(this).attr('data-category-id'), index: getCategoryIndexAndUpdateElement($(this)) });
 
         if (getHowManyCategoryLeft(categoryBtn) === 0) {
-            enableAllCategories(categoryBtn);
+            let index = getCategoryIndexAndEnableAllCategories(categoryBtn);
+            socket.emit('raiseCategoryLimit', { index: index });
         }
     });
 
@@ -81,7 +82,7 @@
         return counter;
     }
 
-    function enableAllCategories(categories) {
+    function getCategoryIndexAndEnableAllCategories(categories) {
         let index = 0;
         for (let i = 0; i < categories.length; i++) {
             $(categories[i]).prop('disabled', false);
@@ -91,7 +92,7 @@
                 index = $(categories[i]).attr('data-category-index');
             }
         }
-        socket.emit('raiseCategoryLimit', { index: index });
+        return index;
     }
 
 </script>
