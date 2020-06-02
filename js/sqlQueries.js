@@ -56,7 +56,11 @@ async function getAllQuestions() {
 
 async function getQuestionByCategoryIdAndQuestionIndex(categoryId, index) {
     index--;
-    return await query(`SELECT question, answer FROM question WHERE category_id = ${categoryId} LIMIT ${index}, 1`);
+    return await query(
+            `SELECT q.question, q.answer, c.name FROM question q ` +
+            `INNER JOIN category c ` +
+            `ON q.category_id = c.id ` +
+            `WHERE category_id = ${categoryId} LIMIT ${index}, 1`);
 }
 
 exports.postPlayer = postPlayer;
