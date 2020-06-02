@@ -126,7 +126,7 @@ IO.on('connection', socket => {
             let getQuestionResult = SQL_QUERIES.getQuestionByCategoryIdAndQuestionIndex(data.categoryId, data.index);
 
             getQuestionResult.then((question) => {
-                socket.broadcast.emit('getNextQuestion', { question: question[0].question, category: question[0].name });
+                socket.broadcast.emit('getNextQuestion', { question: question[0].question, category: question[0].name, timer: data.timer });
                 IO.to(adminSocketId).emit('getQuestion', { question: question[0] });
             }).catch((error) => {
                 console.log('getQuestionResult: ' + error);
