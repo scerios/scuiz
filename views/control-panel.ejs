@@ -21,9 +21,9 @@
     <div class="col-4">
         <div class="row">
             <div class="form-group max-width default-padding">
-                <label for="time"><%- controlPanel.time %></label>
-                <input type="numbers" class="form-control" id="time">
-                <small class="form-text text-muted"><%- controlPanel.timeLegend %></small>
+                <label for="timer"><%- controlPanel.timer %></label>
+                <input type="numbers" class="form-control" id="timer">
+                <small class="form-text text-muted"><%- controlPanel.timerLegend %></small>
             </div>
         </div>
     </div>
@@ -33,11 +33,11 @@
     let socket = io();
     let playerTableBody = $('#playerTableBody');
     let categoryBtn = $('.btn-category');
-    let time = $('#time');
+    let timer = $('#timer');
 
     $(document).ready(() => {
         socket.emit('postAdminSocketId');
-        time.val(0);
+        timer.val(0);
     });
 
     socket.on('showPlayer', (data) => {
@@ -49,7 +49,7 @@
     });
 
     categoryBtn.on('click', function () {
-        socket.emit('pickQuestion', { categoryId: $(this).attr('data-category-id'), index: getCategoryIndexAndUpdateElement($(this)), time: time.val() });
+        socket.emit('pickQuestion', { categoryId: $(this).attr('data-category-id'), index: getCategoryIndexAndUpdateElement($(this)), timer: timer.val() });
 
         if (getHowManyCategoryLeft(categoryBtn) === 0) {
             let index = getCategoryIndexAndEnableAllCategories(categoryBtn);
@@ -57,9 +57,9 @@
         }
     });
 
-    time.on('blur', function() {
-        if (time.val() === '') {
-            time.val(0);
+    timer.on('blur', function() {
+        if (timer.val() === '') {
+            timer.val(0);
         }
     });
 
