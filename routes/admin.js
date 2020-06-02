@@ -86,8 +86,8 @@ function renderControlPanel(res, language) {
     categoryResult.then((categories) => {
         let categoryRoundLimitResult = SQL_QUERIES.getCategoryRoundLimit();
 
-        categoryRoundLimitResult.then((roundLimit) => {
-            let sortedCategories = HELPER.getCategoryAvailabilities(categories, roundLimit[0].round_limit);
+        categoryRoundLimitResult.then((categoryLimit) => {
+            let sortedCategories = HELPER.getCategoryAvailabilities(categories, categoryLimit[0].round_limit);
             let playersResult = SQL_QUERIES.getAllLoggedInPlayers();
 
             playersResult.then((players) => {

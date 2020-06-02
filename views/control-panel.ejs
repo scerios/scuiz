@@ -53,7 +53,7 @@
 
         if (getHowManyCategoryLeft(categoryBtn) === 0) {
             let index = getCategoryIndexAndEnableAllCategories(categoryBtn);
-            socket.emit('raiseCategoryLimit', { index: index });
+            socket.emit('raiseCategoryLimit', { index: parseInt(index) });
         }
     });
 

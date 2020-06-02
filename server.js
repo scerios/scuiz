@@ -135,6 +135,16 @@ IO.on('connection', socket => {
             console.log('putCategoryResult: ' + error);
         });
     });
+
+    socket.on('raiseCategoryLimit', (data) => {
+        let putCategoryLimitResult = SQL_QUERIES.putCategoryLimit(data.index);
+
+        putCategoryLimitResult.then(() => {
+
+        }).catch((error) => {
+            console.log('putCategoryLimitResult: ' + error);
+        });
+    });
 });
 
 //#endregion

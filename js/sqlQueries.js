@@ -39,7 +39,7 @@ async function getAllCategories() {
 }
 
 async function getCategoryRoundLimit() {
-    return await query('SELECT round_limit FROM round_count WHERE id = 1');
+    return await query('SELECT round_limit FROM category_limit WHERE id = 1');
 }
 
 async function getAdminPasswordByName(name) {
@@ -63,6 +63,11 @@ async function getQuestionByCategoryIdAndQuestionIndex(categoryId, index) {
             `WHERE category_id = ${categoryId} LIMIT ${index}, 1`);
 }
 
+async function putCategoryLimit(limit) {
+    limit += 3;
+    return await query(`UPDATE category_limit SET round_limit = ${limit} WHERE id = 1`);
+}
+
 exports.postPlayer = postPlayer;
 exports.putPlayerStatusById = putPlayerStatusById;
 exports.putPlayerSocketIdById = putPlayerSocketIdById;
@@ -76,3 +81,4 @@ exports.getCategoryRoundLimit = getCategoryRoundLimit;
 exports.getAdminPasswordByName = getAdminPasswordByName;
 exports.getAllQuestions = getAllQuestions;
 exports.getQuestionByCategoryIdAndQuestionIndex = getQuestionByCategoryIdAndQuestionIndex;
+exports.putCategoryLimit = putCategoryLimit;
