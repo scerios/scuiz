@@ -23,18 +23,26 @@
 <script>
     let socket = io();
     let playerTableBody = $('#playerTableBody');
+    let categoryBtn = $('.btn-category');
 
     $(document).ready(() => {
         socket.emit('postAdminSocketId');
     });
 
     socket.on('showPlayer', (data) => {
-        console.log(1);
         addPlayerToList(data.player);
     });
 
     socket.on('playerLeft', (data) => {
         $(document).find('#' + data.playerSocketId).remove();
+    });
+
+    categoryBtn.on('click', function () {
+        socket.emit('pickQuestion', { categoryId: $(this).attr('data-category-id'), index: getCategoryIndexAndUpdateElement($(this)) });
+
+        if (getHowManyCategoryLeft(categoryBtn) === 0) {
+            enableAllCategories(categoryBtn);
+        }
     });
 
     function addPlayerToList(player) {
@@ -49,6 +57,41 @@
             '                   </td>' +
             '               </tr>';
         playerTableBody.html(playerListHtml);
+    }
+
+    function getCategoryIndexAndUpdateElement(element) {
+        let index = element.attr('data-category-index');
+        index++;
+        if (index % 3 === 0) {
+            element.prop('disabled', true);
+            element.removeClass('btn-success');
+            element.addClass('btn-warning');
+        }
+        element.attr('data-category-index', index);
+        return index;
+    }
+
+    function getHowManyCategoryLeft(categories) {
+        counter = 0;
+        for (let i = 0; i < categories.length; i++) {
+            if (!$(categories[i]).prop('disabled')) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    function enableAllCategories(categories) {
+        let index = 0;
+        for (let i = 0; i < categories.length; i++) {
+            $(categories[i]).prop('disabled', false);
+            $(categories[i]).removeClass('btn-warning');
+            $(categories[i]).addClass('btn-success');
+            if (i === 0) {
+                index = $(categories[i]).attr('data-category-index');
+            }
+        }
+        socket.emit('raiseCategoryLimit', { index: index });
     }
 
 </script>
