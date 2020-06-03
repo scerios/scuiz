@@ -59,9 +59,15 @@ ROUTER.get('/', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
 
     if (req.session.userId !== undefined) {
-        let gameBoard = getGameBoardPage(language, req.session.userId);
-        res.render('game-board', {
-            gameBoard
+        let putPlayerStatus = SQL_QUERIES.putPlayerStatusById(req.session.userId, 1);
+
+        putPlayerStatus.then(() => {
+            let gameBoard = getGameBoardPage(language, req.session.userId);
+            res.render('game-board', {
+                gameBoard
+            });
+        }).catch((error) => {
+            console.log('putPlayerStatus : ' + error);
         });
     } else {
         let index = getIndexPage(language);
@@ -202,10 +208,15 @@ ROUTER.get('/gameBoard', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
 
     if (req.session.userId) {
-        let gameBoard = getGameBoardPage(language, req.session.userId);
+        let putPlayerStatus = SQL_QUERIES.putPlayerStatusById(req.session.userId, 1);
 
-        res.render('game-board', {
-            gameBoard
+        putPlayerStatus.then(() => {
+            let gameBoard = getGameBoardPage(language, req.session.userId);
+            res.render('game-board', {
+                gameBoard
+            });
+        }).catch((error) => {
+            console.log('putPlayerStatus : ' + error);
         });
     } else {
         res.redirect('/');
