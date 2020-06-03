@@ -57,6 +57,7 @@ const LANG_EN = {
         tableHead: {
             name: "Name",
             points: "Points",
+            currentAnswer: "Current answer",
             authorizeBtn: "Authorize"
         },
         authorizeBtn: "Authorize",
@@ -124,6 +125,7 @@ const LANG_HU = {
         tableHead: {
             name: "Név",
             points: "Pontok",
+            currentAnswer: "Aktuális válasz",
             authorizeBtn: "Felhatalmazás"
         },
         authorizeBtn: "Felhatalmaz",
