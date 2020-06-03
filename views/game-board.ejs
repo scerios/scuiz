@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="col-4 text-center">
-        <div class="card text-white bg-primary mb-3">
+        <div id="timer-container" class="card text-white bg-success mb-3">
             <div class="card-header">
                 <%- gameBoard.timer %>
             </div>
@@ -26,13 +26,12 @@
         </div>
     </div>
     <div class="col-4 text-center">
-        <div class="card text-white bg-success mb-3">
+        <div class="card text-white bg-secondary mb-3">
             <div class="card-header">
                 <%- gameBoard.answer %>
             </div>
             <div class="card-body">
                 <div class="form-group">
-                      <label for="answer">Example textarea</label>
                       <textarea disabled class="form-control" id="answer" rows="3"></textarea>
                 </div>
             </div>
@@ -44,9 +43,15 @@
     let socket = io();
     let adminSocketId = '';
     let myId = <%- gameBoard.myId %>;
+
     let questionCategory = $('#question-category');
     let question = $('#question');
+    let timerContainer = $('#timer-container');
+    let timer = $('#timer');
     let answer = $('#answer');
+
+    let isPrimary = false;
+    let isWarning = false;
 
     $(document).ready(() => {
         socket.emit('signUpForGame', {
@@ -59,10 +64,41 @@
     });
 
     socket.on('getNextQuestion', (data) => {
+        if (data.timer === 0) {
+            timer.html('<i class="fas fa-infinity"></i>');
+        } else {
+            timer.text(data.timer);
+
+            let counter = setInterval(() => {
+                time = parseFloat(timer.text());
+
+                changeTimerColor(time);
+
+                if (time === 0) {
+                    clearInterval(counter);
+                } else {
+                    timer.text((time - 0.1).toFixed(1));
+                }
+            }, 100);
+        }
         answer.prop('disabled', false);
         questionCategory.text(data.category);
         question.text(data.question);
     });
+
+    function changeTimerColor(time) {
+        if (time < 15 && !isPrimary) {
+            timerContainer.removeClass('bg-success');
+            timerContainer.addClass('bg-primary');
+            isPrimary = true;
+        }
+
+        if (time < 5 && !isWarning) {
+            timerContainer.removeClass('bg-primary');
+            timerContainer.addClass('bg-warning');
+            isWarning = true;
+        }
+    }
 
 </script>
 <style>
