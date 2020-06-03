@@ -41,7 +41,6 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     let socket = io();
-    let adminSocketId = '';
     let myId = <%- gameBoard.myId %>;
 
     let questionCategory = $('#question-category');
@@ -57,10 +56,6 @@
         socket.emit('signUpForGame', {
             playerId: myId
         });
-    });
-
-    socket.on('adminSocketId', (data) => {
-        adminSocketId = data.adminSocketId;
     });
 
     socket.on('getNextQuestion', (data) => {
@@ -90,14 +85,12 @@
 
     function changeTimerColor(time) {
         if (time < 15 && !isPrimary) {
-            timerContainer.removeClass('bg-success');
-            timerContainer.addClass('bg-primary');
+            timerContainer.removeClass('bg-success').addClass('bg-primary');
             isPrimary = true;
         }
 
         if (time < 5 && !isWarning) {
-            timerContainer.removeClass('bg-primary');
-            timerContainer.addClass('bg-warning');
+            timerContainer.removeClass('bg-primary').addClass('bg-warning');
             isWarning = true;
         }
     }
@@ -111,8 +104,8 @@
         question.text('');
         isPrimary = false;
         isWarning = false;
-        timer.removeClass('bg-primary, bg-warning');
-        timer.addClass('bg-success');
+        timerContainer.removeClass('bg-primary bg-warning').addClass('bg-success');
+        timer.text('');
         answer.val('');
         answer.prop('disabled', true);
     }

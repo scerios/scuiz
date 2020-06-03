@@ -48,6 +48,10 @@
         $(document).find('#' + data.playerSocketId).remove();
     });
 
+    socket.on('getAnswer', (data) => {
+        console.log('PlayerId: ' + data.playerSocketId + '. Answer: ' + data.answer);
+    });
+
     categoryBtn.on('click', function () {
         socket.emit('pickQuestion', { categoryId: $(this).attr('data-category-id'), index: getCategoryIndexAndUpdateElement($(this)), timer: timer.val() });
 

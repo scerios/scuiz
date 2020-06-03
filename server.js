@@ -101,7 +101,6 @@ IO.on('connection', socket => {
 
     socket.on('postAdminSocketId', () => {
         adminSocketId = socket.id;
-        socket.broadcast.emit('adminSocketId', { adminSocketId: socket.id });
     });
 
     socket.on('signUpForGame', (data) => {
@@ -144,6 +143,10 @@ IO.on('connection', socket => {
         }).catch((error) => {
             console.log('putCategoryLimitResult: ' + error);
         });
+    });
+
+    socket.on('postAnswer', (data) => {
+        IO.to(adminSocketId).emit('getAnswer', { playerSocketId: socket.id, answer: data.answer });
     });
 });
 
