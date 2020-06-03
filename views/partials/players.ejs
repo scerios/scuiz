@@ -4,6 +4,14 @@
         <td><%= player.point %></td>
         <td id="<%= player.socket_id %>-answer"></td>
         <td>
+            <div class="form-group">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input is-correct" id="<%= player.socket_id %>-is-correct">
+                    <label class="custom-control-label" for="<%= player.socket_id %>-is-correct"></label>
+                </div>
+            </div>
+        </td>
+        <td>
             <button type="button" class="btn btn-info btn-sm btn-authorize"
                     data-socket-id="<%= player.socket_id %>">
                 <%= controlPanel.authorizeBtn %>

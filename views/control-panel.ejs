@@ -11,6 +11,7 @@
                     <th scope="col"><%- controlPanel.tableHead.name %></th>
                     <th scope="col"><%- controlPanel.tableHead.points %></th>
                     <th scope="col"><%- controlPanel.tableHead.currentAnswer %></th>
+                    <th scope="col"><%- controlPanel.tableHead.isCorrect %></th>
                     <th scope="col"><%- controlPanel.tableHead.authorizeBtn %></th>
                 </tr>
             </thead>
@@ -73,6 +74,7 @@
         playerListHtml += '<tr id="' + player.socket_id + '">' +
             '                   <td>' + player.name + '</td>' +
             '                   <td>' + player.point + '</td>' +
+            '                   <td></td>' +
             '                   <td>' +
             '                       <button type="button" class="btn btn-info btn-sm btn-authorize" data-socket-id="' + player.socket_id + '">' +
             '                           <%= controlPanel.authorizeBtn %>' +

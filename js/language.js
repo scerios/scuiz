@@ -58,6 +58,7 @@ const LANG_EN = {
             name: "Name",
             points: "Points",
             currentAnswer: "Current answer",
+            isCorrect: "Good/Wrong",
             authorizeBtn: "Authorize"
         },
         authorizeBtn: "Authorize",
@@ -126,6 +127,7 @@ const LANG_HU = {
             name: "Név",
             points: "Pontok",
             currentAnswer: "Aktuális válasz",
+            isCorrect: "Jó/Rossz",
             authorizeBtn: "Felhatalmazás"
         },
         authorizeBtn: "Felhatalmaz",
