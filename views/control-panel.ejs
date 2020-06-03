@@ -27,6 +27,9 @@
                 <input type="numbers" class="form-control" id="timer">
                 <small class="form-text text-muted"><%- controlPanel.timerLegend %></small>
             </div>
+            <div class="form-group max-width default-padding">
+                <button id="finish-question-btn" type="button" class="btn btn-info btn-lg btn-block">Finish Question</button>
+            </div>
         </div>
     </div>
 </div>
@@ -36,6 +39,8 @@
     let playerTableBody = $('#playerTableBody');
     let categoryBtn = $('.btn-category');
     let timer = $('#timer');
+    let finishQuestionBtn = $('#finish-question-btn');
+    let isCorrectCheckbox $('#.is-correct');
 
     $(document).ready(() => {
         socket.emit('postAdminSocketId');
@@ -74,7 +79,15 @@
         playerListHtml += '<tr id="' + player.socket_id + '">' +
             '                   <td>' + player.name + '</td>' +
             '                   <td>' + player.point + '</td>' +
-            '                   <td></td>' +
+            '                   <td id="' + player.socket_id + '-answer"></td>' +
+            '                   <td>' +
+            '                       <div class="form-group">' +
+            '                           <div class="custom-control custom-switch">' +
+            '                               <input type="checkbox" class="custom-control-input is-correct" id="' + player.socket_id + '-is-correct">' +
+            '                               <label class="custom-control-label" for="' + player.socket_id + '-is-correct"></label>' +
+            '                           </div>' +
+            '                       </div>' +
+            '                   </td>' +
             '                   <td>' +
             '                       <button type="button" class="btn btn-info btn-sm btn-authorize" data-socket-id="' + player.socket_id + '">' +
             '                           <%= controlPanel.authorizeBtn %>' +
