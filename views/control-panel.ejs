@@ -4,12 +4,13 @@
             <%- include('partials/category-buttons'); %>
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-8">
         <table class="table table-hover text-center">
             <thead>
                 <tr>
                     <th scope="col"><%- controlPanel.tableHead.name %></th>
                     <th scope="col"><%- controlPanel.tableHead.points %></th>
+                    <th scope="col"><%- controlPanel.tableHead.currentAnswer %></th>
                     <th scope="col"><%- controlPanel.tableHead.authorizeBtn %></th>
                 </tr>
             </thead>
@@ -49,7 +50,7 @@
     });
 
     socket.on('getAnswer', (data) => {
-        console.log('PlayerId: ' + data.playerSocketId + '. Answer: ' + data.answer);
+        $(document).find('#' + data.playerSocketId + '-answer').text(data.answer);
     });
 
     categoryBtn.on('click', function () {

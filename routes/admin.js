@@ -20,6 +20,7 @@ function getControlPanelPage(language, categories, players) {
         tableHead: {
             name: language.controlPanel.tableHead.name,
             points: language.controlPanel.tableHead.points,
+            currentAnswer: language.controlPanel.tableHead.currentAnswer,
             authorizeBtn: language.controlPanel.tableHead.authorizeBtn
         },
         authorizeBtn: language.controlPanel.authorizeBtn,
