@@ -76,6 +76,8 @@
 
                 if (time === 0) {
                     clearInterval(counter);
+                    sendAnswerToAdmin();
+                    resetGameBoard();
                 } else {
                     timer.text((time - 0.1).toFixed(1));
                 }
@@ -98,6 +100,21 @@
             timerContainer.addClass('bg-warning');
             isWarning = true;
         }
+    }
+
+    function sendAnswerToAdmin() {
+        socket.emit('postAnswer', { answer: answer.val() });
+    }
+
+    function resetGameBoard() {
+        questionCategory.text('');
+        question.text('');
+        isPrimary = false;
+        isWarning = false;
+        timer.removeClass('bg-primary, bg-warning');
+        timer.addClass('bg-success');
+        answer.val('');
+        answer.prop('disabled', true);
     }
 
 </script>
