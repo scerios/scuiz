@@ -7,7 +7,7 @@ async function postPlayer(name, password) {
 }
 
 async function putPlayerStatusById(id, status) {
-    return await query(`UPDATE player SET is_logged_in = ${status} WHERE id = ${id}`);
+    return await query(`UPDATE player SET status = ${status} WHERE id = ${id}`);
 }
 
 async function putPlayerSocketIdById(id, socketId) {
@@ -15,19 +15,19 @@ async function putPlayerSocketIdById(id, socketId) {
 }
 
 async function putPlayerStatusAndSocketIdBySocketId(socketId, status) {
-    return await query(`UPDATE player SET is_logged_in = ${status}, socket_id = '' WHERE socket_id = '${socketId}'`);
+    return await query(`UPDATE player SET status = ${status}, socket_id = '' WHERE socket_id = '${socketId}'`);
 }
 
 async function getAllLoggedInPlayers() {
-    return await query('SELECT id, socket_id, name, point FROM player WHERE is_logged_in = 1');
+    return await query('SELECT id, socket_id, name, point FROM player WHERE status = 1');
 }
 
 async function getPlayerById(id) {
-    return await query(`SELECT id, socket_id, name, point FROM player WHERE id = '${id}'`);
+    return await query(`SELECT id, socket_id, name, point, status FROM player WHERE id = '${id}'`);
 }
 
 async function getPlayerByName(name) {
-    return await query(`SELECT id, password, is_logged_in FROM player WHERE name = '${name}'`);
+    return await query(`SELECT id, password, status FROM player WHERE name = '${name}'`);
 }
 
 async function putCategoryQuestionIndexById(id, index) {
