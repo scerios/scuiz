@@ -148,6 +148,12 @@ IO.on('connection', socket => {
     socket.on('postAnswer', (data) => {
         IO.to(adminSocketId).emit('getAnswer', { playerSocketId: socket.id, answer: data.answer });
     });
+
+    socket.on('finishQuestion', (data) => {
+        data.correct.forEach((userId) => {
+            SQL_QUERIES.putPlayerPointAddTwoById(userId);
+        });
+    });
 });
 
 //#endregion

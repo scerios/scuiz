@@ -18,6 +18,10 @@ async function putPlayerStatusAndSocketIdBySocketId(socketId, status) {
     return await query(`UPDATE player SET status = ${status}, socket_id = '' WHERE socket_id = '${socketId}'`);
 }
 
+function putPlayerPointAddTwoById(id) {
+    mySql.query(`UPDATE player SET point = point + 2 WHERE id = ${id}`);
+}
+
 async function getAllLoggedInPlayers() {
     return await query('SELECT id, socket_id, name, point FROM player WHERE status = 1');
 }
@@ -72,6 +76,7 @@ exports.postPlayer = postPlayer;
 exports.putPlayerStatusById = putPlayerStatusById;
 exports.putPlayerSocketIdById = putPlayerSocketIdById;
 exports.putPlayerStatusAndSocketIdBySocketId = putPlayerStatusAndSocketIdBySocketId;
+exports.putPlayerPointAddTwoById = putPlayerPointAddTwoById;
 exports.getAllLoggedInPlayers = getAllLoggedInPlayers;
 exports.getPlayerById = getPlayerById;
 exports.getPlayerByName = getPlayerByName;
