@@ -59,16 +59,7 @@ ROUTER.get('/', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
 
     if (req.session.userId !== undefined) {
-        let putPlayerStatus = SQL_QUERIES.putPlayerStatusById(req.session.userId, 1);
-
-        putPlayerStatus.then(() => {
-            let gameBoard = getGameBoardPage(language, req.session.userId);
-            res.render('game-board', {
-                gameBoard
-            });
-        }).catch((error) => {
-            console.log('putPlayerStatus : ' + error);
-        });
+        signInPlayer(req.session.userId, res, language);
     } else {
         let index = getIndexPage(language);
         res.render('index', {
@@ -102,9 +93,9 @@ ROUTER.post('/register', (req, res) => {
     let errors = HELPER.tryGetInputErrors(req.body, language.error);
 
     if (errors.length === 0) {
-        let isNameAlreadyRegistered = SQL_QUERIES.getPlayerByName(name);
+        let isNameAlreadyRegisteredResult = SQL_QUERIES.getPlayerByName(name);
 
-        isNameAlreadyRegistered.then((playerId) => {
+        isNameAlreadyRegisteredResult.then((playerId) => {
             if (playerId.length > 0) {
                 errors.push(language.error.registered);
                 renderRegister(res, errors, name, password, confirmPassword, language);
@@ -125,7 +116,7 @@ ROUTER.post('/register', (req, res) => {
             }
 
         }).catch((error) => {
-            console.log('isNameAlreadyRegistered: ' + error);
+            console.log('isNameAlreadyRegisteredResult: ' + error);
             errors.push(language.error.connection);
             renderRegister(res, errors, name, password, confirmPassword, language);
         });
@@ -152,22 +143,10 @@ ROUTER.post('/login', (req, res) => {
     playerLoginResult.then((player) => {
         if (player.length === 1) {
             if (BCRYPT.compareSync(password, player[0].password)) {
-                if (player[0].is_logged_in === 0) {
-                    let putPlayerStatusResult = SQL_QUERIES.putPlayerStatusById(player[0].id, 1);
-
-                    putPlayerStatusResult.then(() => {
-                        req.session.userId = player[0].id;
-                        req.session.username = name;
-                        res.redirect('/gameBoard');
-                    }).catch((error) => {
-                        console.log('playerLoginResult: ' + error);
-                        let login = getLoginPage(language);
-                        login.connectionError = language.error.connection;
-                        res.render('login', {
-                            login
-                        });
-                    });
-
+                if (player[0].status === 0) {
+                    req.session.userId = player[0].id;
+                    req.session.username = name;
+                    res.redirect('/gameBoard');
                 } else {
                     let login = getLoginPage(language);
                     login.alreadyLoggedIn = language.login.alreadyLoggedIn;
@@ -208,16 +187,7 @@ ROUTER.get('/gameBoard', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
 
     if (req.session.userId) {
-        let putPlayerStatus = SQL_QUERIES.putPlayerStatusById(req.session.userId, 1);
-
-        putPlayerStatus.then(() => {
-            let gameBoard = getGameBoardPage(language, req.session.userId);
-            res.render('game-board', {
-                gameBoard
-            });
-        }).catch((error) => {
-            console.log('putPlayerStatus : ' + error);
-        });
+        signInPlayer(req.session.userId, res, language);
     } else {
         res.redirect('/');
     }
@@ -251,6 +221,35 @@ function renderRegister(res, errors, name, password, confirmPassword, language) 
         password,
         confirmPassword,
         register
+    });
+}
+
+function signInPlayer(userId, res, language) {
+    let getPlayerStatusResult = SQL_QUERIES.getPlayerById(userId);
+
+    getPlayerStatusResult.then((player) => {
+        console.log(player);
+        if (player[0].status === 0) {
+            let putPlayerStatusResult = SQL_QUERIES.putPlayerStatusById(userId, 1);
+
+            putPlayerStatusResult.then(() => {
+                let gameBoard = getGameBoardPage(language, userId);
+                res.render('game-board', {
+                    gameBoard
+                });
+            }).catch((error) => {
+                console.log('putPlayerStatusResult : ' + error);
+            });
+        } else {
+            let login = getLoginPage(language);
+            login.alreadyLoggedIn = language.login.alreadyLoggedIn;
+
+            res.render('login', {
+                login
+            });
+        }
+    }).catch((error) => {
+        console.log('getPlayerStatusResult: ' + error);
     });
 }
 
