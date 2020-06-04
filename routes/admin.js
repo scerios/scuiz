@@ -27,6 +27,7 @@ function getControlPanelPage(language, categories, players) {
         authorizeBtn: language.controlPanel.authorizeBtn,
         timer: language.controlPanel.timer,
         timerLegend: language.controlPanel.timerLegend,
+        evaluateBtn: language.controlPanel.evaluateBtn,
         categories: categories,
         players: players
     };
