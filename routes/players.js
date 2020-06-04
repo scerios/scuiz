@@ -228,7 +228,6 @@ function signInPlayer(userId, res, language) {
     let getPlayerStatusResult = SQL_QUERIES.getPlayerById(userId);
 
     getPlayerStatusResult.then((player) => {
-        console.log(player);
         if (player[0].status === 0) {
             let putPlayerStatusResult = SQL_QUERIES.putPlayerStatusById(userId, 1);
 

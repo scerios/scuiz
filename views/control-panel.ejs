@@ -28,7 +28,7 @@
                 <small class="form-text text-muted"><%- controlPanel.timerLegend %></small>
             </div>
             <div class="form-group max-width default-padding">
-                <button id="finish-question-btn" type="button" class="btn btn-info btn-lg btn-block">Finish Question</button>
+                <button id="evaluate-btn" type="button" class="btn btn-info btn-lg btn-block">Finish Question</button>
             </div>
         </div>
     </div>
@@ -39,8 +39,8 @@
     let playerTableBody = $('#playerTableBody');
     let categoryBtn = $('.btn-category');
     let timer = $('#timer');
-    let finishQuestionBtn = $('#finish-question-btn');
-    let isCorrectCheckbox $('#.is-correct');
+    let evaluateBtn = $('#evaluaten-btn');
+    let isCorrectCheckbox = $('.is-correct');
 
     $(document).ready(() => {
         socket.emit('postAdminSocketId');
@@ -56,6 +56,7 @@
     });
 
     socket.on('getAnswer', (data) => {
+        console.log(data.answer);
         $(document).find('#' + data.playerSocketId + '-answer').text(data.answer);
     });
 
@@ -72,6 +73,21 @@
         if (timer.val() === '') {
             timer.val(0);
         }
+    });
+
+    evaluateBtn.on('click', function() {
+        let correct = [];
+        let incorrect = [];
+
+        for (let i = 0; i < isCorrectCheckbox.length; i++) {
+            console.log($(isCorrectCheckbox[i]));
+            if ($(isCorrectCheckbox[i]).prop('checked')) {
+                correct.push($(isCorrectCheckbox[i]).attr('data-id'));
+            } else {
+                incorrect.push($(isCorrectCheckbox[i]).attr('data-id'));
+            }
+        }
+        socket.emit('finishQuestion', { correct: correct, incorrect: incorrect });
     });
 
     function addPlayerToList(player) {
