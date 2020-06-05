@@ -163,6 +163,18 @@ IO.on('connection', socket => {
             IO.to(user.socketId).emit('updatePoint', { point: user.point + 2 });
         });
     });
+
+    socket.on('logoutEveryone', () => {
+        let getAllLoggedInPlayerResult = SQL_QUERIES.getAllLoggedInPlayersAsync();
+
+        getAllLoggedInPlayerResult.then((players) => {
+            players.forEach((player) => {
+                SQL_QUERIES.putPlayerStatusById(player.id, 0);
+            });
+        }).catch((error) => {
+            console.log('getAllLoggedInPlayerResult: ' + error);
+        });
+    });
 });
 
 //#endregion
