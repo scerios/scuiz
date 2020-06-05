@@ -42,6 +42,7 @@
 <script>
     let socket = io();
     let myId = <%- gameBoard.myId %>;
+    let myName = '<%- gameBoard.myName %>';
 
     let questionCategory = $('#question-category');
     let question = $('#question');
@@ -71,7 +72,7 @@
 
                 if (time === 0) {
                     clearInterval(counter);
-                    sendAnswerToAdmin();
+                    sendAnswerForEvaluation();
                     resetGameBoard();
                 } else {
                     timer.text((time - 0.1).toFixed(1));
@@ -95,8 +96,14 @@
         }
     }
 
-    function sendAnswerToAdmin() {
-        socket.emit('postAnswer', { answer: answer.val() });
+    function sendAnswerForEvaluation() {
+        socket.emit('postAnswer', {
+            player: {
+                name: myName,
+                timeLeft: timer.text(),
+                answer: answer.val()
+            }
+        });
     }
 
     function resetGameBoard() {
