@@ -53,6 +53,7 @@ evaluateBtn.on('click', function() {
     socket.emit('finishQuestion', { correct: correct, incorrect: incorrect });
     evaluationTableBody.html('');
     evaluationTableContainer.fadeOut();
+    isEvaluationTableShown = false;
 });
 
 function addPlayerToList(player) {
