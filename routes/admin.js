@@ -17,12 +17,16 @@ function getAdminLoginPage(language) {
 
 function getControlPanelPage(language, categories, players) {
     return {
-        tableHead: {
-            name: language.controlPanel.tableHead.name,
-            points: language.controlPanel.tableHead.points,
-            currentAnswer: language.controlPanel.tableHead.currentAnswer,
-            isCorrect: language.controlPanel.tableHead.isCorrect,
-            authorizeBtn: language.controlPanel.tableHead.authorizeBtn
+        playersTableHead: {
+            name: language.controlPanel.playersTableHead.name,
+            points: language.controlPanel.playersTableHead.points,
+            authorizeBtn: language.controlPanel.playersTableHead.authorizeBtn
+        },
+        evaluationTableHead: {
+            name: language.controlPanel.evaluationTableHead.name,
+            timeLeft: language.controlPanel.evaluationTableHead.timeLeft,
+            answer: language.controlPanel.evaluationTableHead.answer,
+            evaluate: language.controlPanel.evaluationTableHead.evaluate
         },
         authorizeBtn: language.controlPanel.authorizeBtn,
         timer: language.controlPanel.timer,
