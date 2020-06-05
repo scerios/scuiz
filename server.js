@@ -14,11 +14,12 @@ const HTTP = require('http').createServer(APP);
 const IO = require('socket.io')(HTTP);
 
 // Implementing custom modules.
-const SQL_QUERIES = require('./js/sqlQueries');
+const SQL_QUERIES = require('./js/SqlQueries');
 const SESSION_STORE = require('./js/sessionStore');
 
 // Saving the socked ID of the admin. This will be emitted to all the users so eventually they will be able to send everything back to only the admin.
 let adminSocketId = '';
+let queries = new SQL_QUERIES();
 
 //#endregion
 
@@ -90,7 +91,7 @@ IO.on('connection', socket => {
 
     socket.on('disconnect', () => {
         console.log(`A user with ID: ${socket.id} disconnected.`);
-        let playerLeft = SQL_QUERIES.putPlayerStatusAndSocketIdBySocketIdAsync(socket.id, 0);
+        let playerLeft = queries.putPlayerStatusAndSocketIdBySocketIdAsync(socket.id, 0);
 
         playerLeft.then(() => {
             IO.to(adminSocketId).emit('playerLeft', { playerSocketId: socket.id });
@@ -104,10 +105,10 @@ IO.on('connection', socket => {
     });
 
     socket.on('signUpForGame', (data) => {
-        let setSocketIdResult = SQL_QUERIES.putPlayerSocketIdByIdAsync(data.playerId, socket.id);
+        let setSocketIdResult = queries.putPlayerSocketIdByIdAsync(data.playerId, socket.id);
 
         setSocketIdResult.then(() => {
-            let playerResult = SQL_QUERIES.getPlayerByIdAsync(data.playerId);
+            let playerResult = queries.getPlayerByIdAsync(data.playerId);
 
             playerResult.then((player) => {
                 IO.to(adminSocketId).emit('showPlayer', { player: player[0] });
@@ -120,9 +121,9 @@ IO.on('connection', socket => {
     });
 
     socket.on('pickQuestion', (data) => {
-        let putCategoryResult = SQL_QUERIES.putCategoryQuestionIndexByIdAsync(data.categoryId, data.index);
+        let putCategoryResult = queries.putCategoryQuestionIndexByIdAsync(data.categoryId, data.index);
         putCategoryResult.then(() => {
-            let getQuestionResult = SQL_QUERIES.getQuestionByCategoryIdAndQuestionIndexAsync(data.categoryId, data.index);
+            let getQuestionResult = queries.getQuestionByCategoryIdAndQuestionIndexAsync(data.categoryId, data.index);
 
             getQuestionResult.then((question) => {
                 socket.broadcast.emit('getNextQuestion', { question: question[0].question, category: question[0].name, timer: data.timer });
@@ -136,7 +137,7 @@ IO.on('connection', socket => {
     });
 
     socket.on('raiseCategoryLimit', (data) => {
-        let putCategoryLimitResult = SQL_QUERIES.putCategoryLimitAsync(data.index);
+        let putCategoryLimitResult = queries.putCategoryLimitAsync(data.index);
 
         putCategoryLimitResult.then(() => {
 
@@ -159,17 +160,17 @@ IO.on('connection', socket => {
 
     socket.on('finishQuestion', (data) => {
         data.correct.forEach((user) => {
-            SQL_QUERIES.putPlayerPointAddTwoById(user.id);
+            queries.putPlayerPointAddTwoById(user.id);
             IO.to(user.socketId).emit('updatePoint', { point: user.point + 2 });
         });
     });
 
     socket.on('logoutEveryone', () => {
-        let getAllLoggedInPlayerResult = SQL_QUERIES.getAllLoggedInPlayersAsync();
+        let getAllLoggedInPlayerResult = queries.getAllLoggedInPlayersAsync();
 
         getAllLoggedInPlayerResult.then((players) => {
             players.forEach((player) => {
-                SQL_QUERIES.putPlayerStatusById(player.id, 0);
+                queries.putPlayerStatusById(player.id, 0);
             });
         }).catch((error) => {
             console.log('getAllLoggedInPlayerResult: ' + error);

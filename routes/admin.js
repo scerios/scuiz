@@ -1,8 +1,10 @@
 const EXPRESS = require('express');
 const ROUTER = EXPRESS.Router();
 const LANGUAGE = require('./../js/language');
-const SQL_QUERIES = require('./../js/sqlQueries');
+const SQL_QUERIES = require('../js/SqlQueries');
 const HELPER = require('./../js/helper');
+
+let queries = new SQL_QUERIES();
 
 function getAdminLoginPage(language) {
     return {
@@ -53,7 +55,7 @@ ROUTER.get('/admin', (req, res) => {
 
 ROUTER.post('/adminLogin', (req, res) => {
     let { name, password } = req.body;
-    let adminLoginResult = SQL_QUERIES.getAdminPasswordByNameAsync(name);
+    let adminLoginResult = queries.getAdminPasswordByNameAsync(name);
 
     adminLoginResult.then((admin) => {
         if (admin.length === 1) {
@@ -89,14 +91,14 @@ ROUTER.get('/controlPanel', (req, res) => {
 });
 
 function renderControlPanel(res, language) {
-    let categoryResult = SQL_QUERIES.getAllCategoriesAsync();
+    let categoryResult = queries.getAllCategoriesAsync();
 
     categoryResult.then((categories) => {
-        let categoryRoundLimitResult = SQL_QUERIES.getCategoryRoundLimitAsync();
+        let categoryRoundLimitResult = queries.getCategoryRoundLimitAsync();
 
         categoryRoundLimitResult.then((categoryLimit) => {
             let sortedCategories = HELPER.getCategoryAvailabilities(categories, categoryLimit[0].round_limit);
-            let playersResult = SQL_QUERIES.getAllLoggedInPlayersAsync();
+            let playersResult = queries.getAllLoggedInPlayersAsync();
 
             playersResult.then((players) => {
                 let controlPanel = getControlPanelPage(language, sortedCategories, players);

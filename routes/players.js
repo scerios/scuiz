@@ -2,8 +2,10 @@ const EXPRESS = require('express');
 const ROUTER = EXPRESS.Router();
 const BCRYPT = require('bcryptjs');
 const LANGUAGE = require('./../js/language');
-const SQL_QUERIES = require('./../js/sqlQueries');
+const SQL_QUERIES = require('../js/SqlQueries');
 const HELPER = require('./../js/helper');
+
+let queries = new SQL_QUERIES();
 
 function getIndexPage(language) {
     return {
@@ -96,14 +98,14 @@ ROUTER.post('/register', (req, res) => {
     let errors = HELPER.tryGetInputErrors(req.body, language.error);
 
     if (errors.length === 0) {
-        let isNameAlreadyRegisteredResult = SQL_QUERIES.getPlayerByNameAsync(name);
+        let isNameAlreadyRegisteredResult = queries.getPlayerByNameAsync(name);
 
         isNameAlreadyRegisteredResult.then((playerId) => {
             if (playerId.length > 0) {
                 errors.push(language.error.registered);
                 renderRegister(res, errors, name, password, confirmPassword, language);
             } else {
-                let newPlayer = SQL_QUERIES.postPlayerAsync(name, BCRYPT.hashSync(password, BCRYPT.genSaltSync(10)));
+                let newPlayer = queries.postPlayerAsync(name, BCRYPT.hashSync(password, BCRYPT.genSaltSync(10)));
 
                 newPlayer.then(() => {
                     let login = getLoginPage(language);
@@ -141,7 +143,7 @@ ROUTER.get('/login', (req, res) => {
 ROUTER.post('/login', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
     let { name, password } = req.body;
-    let playerLoginResult = SQL_QUERIES.getPlayerByNameAsync(name);
+    let playerLoginResult = queries.getPlayerByNameAsync(name);
 
     playerLoginResult.then((player) => {
         if (player.length === 1) {
@@ -198,7 +200,7 @@ ROUTER.get('/gameBoard', (req, res) => {
 
 ROUTER.get('/logout', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
-    let putPlayerStatusResult = SQL_QUERIES.putPlayerStatusByIdAsync(req.session.userId, 0);
+    let putPlayerStatusResult = queries.putPlayerStatusByIdAsync(req.session.userId, 0);
 
     putPlayerStatusResult.then(() => {
         delete req.session.userId;
@@ -228,11 +230,11 @@ function renderRegister(res, errors, name, password, confirmPassword, language) 
 }
 
 function signInPlayer(userId, res, language) {
-    let getPlayerStatusResult = SQL_QUERIES.getPlayerByIdAsync(userId);
+    let getPlayerStatusResult = queries.getPlayerByIdAsync(userId);
 
     getPlayerStatusResult.then((player) => {
         if (player[0].status === 0) {
-            let putPlayerStatusResult = SQL_QUERIES.putPlayerStatusByIdAsync(userId, 1);
+            let putPlayerStatusResult = queries.putPlayerStatusByIdAsync(userId, 1);
 
             putPlayerStatusResult.then(() => {
                 let gameBoard = getGameBoardPage(language, player[0]);
