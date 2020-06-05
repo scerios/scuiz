@@ -146,7 +146,14 @@ IO.on('connection', socket => {
     });
 
     socket.on('postAnswer', (data) => {
-        IO.to(adminSocketId).emit('getAnswer', { playerSocketId: socket.id, answer: data.answer });
+        IO.to(adminSocketId).emit('getAnswer', {
+            player: {
+                socketId: socket.id,
+                name: data.player.name,
+                timeLeft: data.player.timeLeft,
+                answer: data.player.answer
+            }
+        });
     });
 
     socket.on('finishQuestion', (data) => {
