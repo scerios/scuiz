@@ -69,7 +69,8 @@ const LANG_EN = {
         authorizeBtn: "Authorize",
         timer: "How much time for players to answer?",
         timerLegend: "numbers only, in seconds, if 0: infinite",
-        evaluateBtn: "Evaluate"
+        evaluateBtn: "Evaluate",
+        logoutEveryoneBtn: "Logout everyone"
     }
 }
 
@@ -144,7 +145,8 @@ const LANG_HU = {
         authorizeBtn: "Felhatalmaz",
         timer: "Mennyi idő alatt kell válaszolni?",
         timerLegend: "csak számok, másodpercben, ha 0: végtelen",
-        evaluateBtn: "Értékelés"
+        evaluateBtn: "Értékelés",
+        logoutEveryoneBtn: "Mindenki kiléptetése"
     }
 }
 
