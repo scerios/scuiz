@@ -114,3 +114,10 @@ function addAnswerToEvaluationTable(player) {
 
     evaluationTableBody.html(evaluationTableBodyHtml);
 }
+
+function removeEmptyRows() {
+    let emptyRows = $(document).find('.dataTables_empty').parents('tr');
+    for (let i = 0; i < emptyRows.length; i++) {
+        $(emptyRows[i]).remove();
+    }
+}
