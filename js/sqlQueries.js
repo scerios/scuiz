@@ -10,6 +10,10 @@ async function putPlayerStatusByIdAsync(id, status) {
     return await query(`UPDATE player SET status = ${status} WHERE id = ${id}`);
 }
 
+function putPlayerStatusById(id, status) {
+    mySql.query(`UPDATE player SET status = ${status} WHERE id = ${id}`);
+}
+
 async function putPlayerSocketIdByIdAsync(id, socketId) {
     return await query(`UPDATE player SET socket_id = '${socketId}' WHERE id = ${id}`);
 }
@@ -74,6 +78,7 @@ async function putCategoryLimitAsync(limit) {
 
 exports.postPlayerAsync = postPlayerAsync;
 exports.putPlayerStatusByIdAsync = putPlayerStatusByIdAsync;
+exports.putPlayerStatusById = putPlayerStatusById;
 exports.putPlayerSocketIdByIdAsync = putPlayerSocketIdByIdAsync;
 exports.putPlayerStatusAndSocketIdBySocketIdAsync = putPlayerStatusAndSocketIdBySocketIdAsync;
 exports.putPlayerPointAddTwoById = putPlayerPointAddTwoById;
