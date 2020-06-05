@@ -90,7 +90,7 @@ IO.on('connection', socket => {
 
     socket.on('disconnect', () => {
         console.log(`A user with ID: ${socket.id} disconnected.`);
-        let playerLeft = SQL_QUERIES.putPlayerStatusAndSocketIdBySocketId(socket.id, 0);
+        let playerLeft = SQL_QUERIES.putPlayerStatusAndSocketIdBySocketIdAsync(socket.id, 0);
 
         playerLeft.then(() => {
             IO.to(adminSocketId).emit('playerLeft', { playerSocketId: socket.id });
@@ -104,10 +104,10 @@ IO.on('connection', socket => {
     });
 
     socket.on('signUpForGame', (data) => {
-        let setSocketIdResult = SQL_QUERIES.putPlayerSocketIdById(data.playerId, socket.id);
+        let setSocketIdResult = SQL_QUERIES.putPlayerSocketIdByIdAsync(data.playerId, socket.id);
 
         setSocketIdResult.then(() => {
-            let playerResult = SQL_QUERIES.getPlayerById(data.playerId);
+            let playerResult = SQL_QUERIES.getPlayerByIdAsync(data.playerId);
 
             playerResult.then((player) => {
                 IO.to(adminSocketId).emit('showPlayer', { player: player[0] });
@@ -120,9 +120,9 @@ IO.on('connection', socket => {
     });
 
     socket.on('pickQuestion', (data) => {
-        let putCategoryResult = SQL_QUERIES.putCategoryQuestionIndexById(data.categoryId, data.index);
+        let putCategoryResult = SQL_QUERIES.putCategoryQuestionIndexByIdAsync(data.categoryId, data.index);
         putCategoryResult.then(() => {
-            let getQuestionResult = SQL_QUERIES.getQuestionByCategoryIdAndQuestionIndex(data.categoryId, data.index);
+            let getQuestionResult = SQL_QUERIES.getQuestionByCategoryIdAndQuestionIndexAsync(data.categoryId, data.index);
 
             getQuestionResult.then((question) => {
                 socket.broadcast.emit('getNextQuestion', { question: question[0].question, category: question[0].name, timer: data.timer });
@@ -136,7 +136,7 @@ IO.on('connection', socket => {
     });
 
     socket.on('raiseCategoryLimit', (data) => {
-        let putCategoryLimitResult = SQL_QUERIES.putCategoryLimit(data.index);
+        let putCategoryLimitResult = SQL_QUERIES.putCategoryLimitAsync(data.index);
 
         putCategoryLimitResult.then(() => {
 

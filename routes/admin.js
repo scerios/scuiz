@@ -53,7 +53,7 @@ ROUTER.get('/admin', (req, res) => {
 
 ROUTER.post('/adminLogin', (req, res) => {
     let { name, password } = req.body;
-    let adminLoginResult = SQL_QUERIES.getAdminPasswordByName(name);
+    let adminLoginResult = SQL_QUERIES.getAdminPasswordByNameAsync(name);
 
     adminLoginResult.then((admin) => {
         if (admin.length === 1) {
@@ -89,14 +89,14 @@ ROUTER.get('/controlPanel', (req, res) => {
 });
 
 function renderControlPanel(res, language) {
-    let categoryResult = SQL_QUERIES.getAllCategories();
+    let categoryResult = SQL_QUERIES.getAllCategoriesAsync();
 
     categoryResult.then((categories) => {
-        let categoryRoundLimitResult = SQL_QUERIES.getCategoryRoundLimit();
+        let categoryRoundLimitResult = SQL_QUERIES.getCategoryRoundLimitAsync();
 
         categoryRoundLimitResult.then((categoryLimit) => {
             let sortedCategories = HELPER.getCategoryAvailabilities(categories, categoryLimit[0].round_limit);
-            let playersResult = SQL_QUERIES.getAllLoggedInPlayers();
+            let playersResult = SQL_QUERIES.getAllLoggedInPlayersAsync();
 
             playersResult.then((players) => {
                 let controlPanel = getControlPanelPage(language, sortedCategories, players);
