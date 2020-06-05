@@ -44,14 +44,15 @@ function getLoginPage(language) {
     };
 }
 
-function getGameBoardPage(language, id) {
+function getGameBoardPage(language, id, name) {
     return {
         logoutBtn: language.gameBoard.logoutBtn,
         question: language.gameBoard.question,
         timer: language.gameBoard.timer,
         answer: language.gameBoard.answer,
         category: language.gameBoard.category,
-        myId: id
+        myId: id,
+        myName: name
     };
 }
 
@@ -232,7 +233,7 @@ function signInPlayer(userId, res, language) {
             let putPlayerStatusResult = SQL_QUERIES.putPlayerStatusById(userId, 1);
 
             putPlayerStatusResult.then(() => {
-                let gameBoard = getGameBoardPage(language, userId);
+                let gameBoard = getGameBoardPage(language, userId, player[0].name);
                 res.render('game-board', {
                     gameBoard
                 });
