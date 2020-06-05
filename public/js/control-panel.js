@@ -59,6 +59,7 @@ evaluateBtn.on('click', function() {
 });
 
 logoutEveryoneBtn.on('click', function () {
+    playerTableBody.html('');
     socket.emit('logoutEveryone');
 });
 
@@ -121,9 +122,13 @@ function addAnswerToEvaluationTable(player) {
     evaluationTableBody.html(evaluationTableBodyHtml);
 }
 
-function removeEmptyRows() {
+function removeRedundantElements() {
     let emptyRows = $(document).find('.dataTables_empty').parents('tr');
     for (let i = 0; i < emptyRows.length; i++) {
         $(emptyRows[i]).remove();
+    }
+    let tableInfos = $(document).find('.dataTables_info');
+    for (let i = 0; i < tableInfos.length; i++) {
+        $(tableInfos[i]).remove();
     }
 }

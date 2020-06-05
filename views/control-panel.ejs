@@ -64,7 +64,7 @@
             searching: false,
             "order": [[ 1, 'desc' ]]
         });
-        removeEmptyRows();
+        removeRedundantElements();
         socket.emit('postAdminSocketId');
         timer.val(0);
     });
