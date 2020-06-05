@@ -4,18 +4,16 @@
             <%- include('partials/category-buttons'); %>
         </div>
     </div>
-    <div class="col-8">
+    <div class="col-4">
         <table class="table table-hover text-center">
             <thead>
                 <tr>
-                    <th scope="col"><%- controlPanel.tableHead.name %></th>
-                    <th scope="col"><%- controlPanel.tableHead.points %></th>
-                    <th scope="col"><%- controlPanel.tableHead.currentAnswer %></th>
-                    <th scope="col"><%- controlPanel.tableHead.isCorrect %></th>
-                    <th scope="col"><%- controlPanel.tableHead.authorizeBtn %></th>
+                    <th scope="col"><%- controlPanel.playersTableHead.name %></th>
+                    <th scope="col"><%- controlPanel.playersTableHead.points %></th>
+                    <th scope="col"><%- controlPanel.playersTableHead.authorizeBtn %></th>
                 </tr>
             </thead>
-            <tbody id="playerTableBody">
+            <tbody id="player-table-body">
                 <%- include('partials/players'); %>
             </tbody>
         </table>
@@ -32,15 +30,30 @@
             </div>
         </div>
     </div>
+    <div id="evaluation-table-container" class="col-12">
+        <table class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th scope="col"><%- controlPanel.evaluationTableHead.name %></th>
+                    <th scope="col"><%- controlPanel.evaluationTableHead.timeLeft %></th>
+                    <th scope="col"><%- controlPanel.evaluationTableHead.answer %></th>
+                    <th scope="col"><%- controlPanel.evaluationTableHead.evaluate %></th>
+                </tr>
+            </thead>
+            <tbody id="evaluation-table-body">
+            </tbody>
+        </table>
+    </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     let socket = io();
-    let playerTableBody = $('#playerTableBody');
+    let playerTableBody = $('#player-table-body');
+    let evaluationTableContainer = $('#evaluation-table-container');
+    let evaluationTableBody = $('#evaluation-table-body');
     let categoryBtn = $('.btn-category');
     let timer = $('#timer');
     let evaluateBtn = $('#evaluate-btn');
-    let isCorrectCheckbox = $('.is-correct');
 
     $(document).ready(() => {
         socket.emit('postAdminSocketId');
@@ -56,8 +69,7 @@
     });
 
     socket.on('getAnswer', (data) => {
-        console.log(data.answer);
-        $(document).find('#' + data.playerSocketId + '-answer').text(data.answer);
+        addAnswerToEvaluationTable(data.player);
     });
 
     categoryBtn.on('click', function () {
@@ -76,6 +88,7 @@
     });
 
     evaluateBtn.on('click', function() {
+        let isCorrectCheckbox = $(document).find('.evaluate');
         let correct = [];
         let incorrect = [];
 
@@ -94,16 +107,7 @@
         let playerListHtml = playerTableBody.html();
         playerListHtml += '<tr id="' + player.socket_id + '">' +
             '                   <td>' + player.name + '</td>' +
-            '                   <td>' + player.point + '</td>' +
-            '                   <td id="' + player.socket_id + '-answer"></td>' +
-            '                   <td>' +
-            '                       <div class="form-group">' +
-            '                           <div class="custom-control custom-switch">' +
-            '                               <input type="checkbox" class="custom-control-input is-correct" id="' + player.socket_id + '-is-correct">' +
-            '                               <label class="custom-control-label" for="' + player.socket_id + '-is-correct"></label>' +
-            '                           </div>' +
-            '                       </div>' +
-            '                   </td>' +
+            '                   <td id="' + player.socket_id + '-point">' + player.point + '</td>' +
             '                   <td>' +
             '                       <button type="button" class="btn btn-info btn-sm btn-authorize" data-socket-id="' + player.socket_id + '">' +
             '                           <%= controlPanel.authorizeBtn %>' +
@@ -146,6 +150,25 @@
             }
         }
         return index;
+    }
+
+    function addAnswerToEvaluationTable(player) {
+        let evaluationTableBodyHtml = evaluationTableBody.html();
+        evaluationTableBodyHtml += '<tr>' +
+                   '                    <td>' + player.name + '</td>' +
+                   '                    <td>' + player.timeLeft + '</td>' +
+                   '                    <td>' + player.answer + '</td>' +
+                   '                    <td>' +
+                   '                        <div class="form-group">' +
+                   '                            <div class="custom-control custom-switch">' +
+                   '                                <input type="checkbox" class="custom-control-input evaluate" id="' + player.socketId + '-evaluate">' +
+                   '                                <label class="custom-control-label" for="' + player.socketId + '-evaluate"></label>' +
+                   '                            </div>' +
+                   '                        </div>' +
+                   '                    </td>' +
+                   '                </tr>';
+
+        evaluationTableBody.html(evaluationTableBodyHtml);
     }
 
 </script>
