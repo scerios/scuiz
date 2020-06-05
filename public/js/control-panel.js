@@ -56,21 +56,6 @@ evaluateBtn.on('click', function() {
     isEvaluationTableShown = false;
 });
 
-function addPlayerToList(player) {
-    let playerListHtml = playerTableBody.html();
-    let socketId = player.socket_id;
-    playerListHtml += '<tr id="' + socketId + '">' +
-        '                   <td>' + player.name + '</td>' +
-        '                   <td id="' + socketId + '-point">' + player.point + '</td>' +
-        '                   <td>' +
-        '                       <button type="button" class="btn btn-info btn-sm btn-authorize" data-socket-id="' + socketId + '">' +
-        '                           <%= controlPanel.authorizeBtn %>' +
-        '                       </button>' +
-        '                   </td>' +
-        '               </tr>';
-    playerTableBody.html(playerListHtml);
-}
-
 function getCategoryIndexAndUpdateElement(element) {
     let index = element.attr('data-category-index');
     index++;

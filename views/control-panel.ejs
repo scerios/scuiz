@@ -64,6 +64,21 @@
         socket.emit('postAdminSocketId');
         timer.val(0);
     });
+
+    function addPlayerToList(player) {
+        let playerListHtml = playerTableBody.html();
+        let socketId = player.socket_id;
+        playerListHtml += '<tr id="' + socketId + '">' +
+            '                   <td>' + player.name + '</td>' +
+            '                   <td id="' + socketId + '-point">' + player.point + '</td>' +
+            '                   <td>' +
+            '                       <button type="button" class="btn btn-info btn-sm btn-authorize" data-socket-id="' + socketId + '">' +
+            '                           <%= controlPanel.authorizeBtn %>' +
+            '                       </button>' +
+            '                   </td>' +
+            '               </tr>';
+        playerTableBody.html(playerListHtml);
+    }
 </script>
 <script src="js/control-panel.js"></script>
 <style>
