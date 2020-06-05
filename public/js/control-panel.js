@@ -1,9 +1,11 @@
 let isEvaluationTableShown = false;
+
 let playerTableBody = $('#player-table-body');
 let evaluationTableContainer = $('#evaluation-table-container');
 let evaluationTableBody = $('#evaluation-table-body');
 let categoryBtn = $('.btn-category');
 let evaluateBtn = $('#evaluate-btn');
+let logoutEveryoneBtn = $('#logout-everyone-btn');
 
 socket.on('showPlayer', (data) => {
     addPlayerToList(data.player);
@@ -54,6 +56,10 @@ evaluateBtn.on('click', function() {
     evaluationTableBody.html('');
     evaluationTableContainer.fadeOut();
     isEvaluationTableShown = false;
+});
+
+logoutEveryoneBtn.on('click', function () {
+    socket.emit('logoutEveryone');
 });
 
 function getCategoryIndexAndUpdateElement(element) {
