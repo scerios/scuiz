@@ -45,7 +45,8 @@ const LANG_EN = {
         question: "Question",
         timer: "Time",
         answer: "Your answer",
-        category: "Category"
+        category: "Category",
+        pointText: "Current points"
     },
     adminLogin: {
         welcomeMsg: "Smart only",
@@ -119,7 +120,8 @@ const LANG_HU = {
         question: "Kérdés",
         timer: "Idő",
         answer: "A válaszod",
-        category: "Kategória"
+        category: "Kategória",
+        pointText: "Jelenlegi pontok"
     },
     adminLogin: {
         welcomeMsg: "Csak okosoknak",
