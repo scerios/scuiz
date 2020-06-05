@@ -89,18 +89,26 @@
     });
 
     evaluateBtn.on('click', function() {
-        let isCorrectCheckbox = $(document).find('.evaluate');
+        let evaluationBox = $(document).find('.evaluate');
         let correct = [];
         let incorrect = [];
 
-        for (let i = 0; i < isCorrectCheckbox.length; i++) {
-            if ($(isCorrectCheckbox[i]).prop('checked')) {
-                correct.push($(isCorrectCheckbox[i]).attr('data-id'));
+        for (let i = 0; i < evaluationBox.length; i++) {
+            if ($(evaluationBox[i]).prop('checked')) {
+                correct.push({
+                    id: $(evaluationBox[i]).attr('data-id'),
+                    socketId: $(evaluationBox[i]).attr('data-socket-id'),
+                    point: parseInt($('#' + $(evaluationBox[i]).attr('data-socket-id') + '-point').text())
+                });
+                let point = $(document).find('#' + $(evaluationBox[i]).attr('data-socket-id') + '-point');
+                point.text(parseInt(point.text()) + 2);
             } else {
-                incorrect.push($(isCorrectCheckbox[i]).attr('data-id'));
+                incorrect.push($(evaluationBox[i]).attr('data-id'));
             }
         }
         socket.emit('finishQuestion', { correct: correct, incorrect: incorrect });
+        evaluationTableBody.html('');
+        evaluationTableContainer.fadeOut();
     });
 
     function addPlayerToList(player) {

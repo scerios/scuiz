@@ -154,13 +154,13 @@ IO.on('connection', socket => {
                 timeLeft: data.player.timeLeft,
                 answer: data.player.answer
             }
-
         });
     });
 
     socket.on('finishQuestion', (data) => {
-        data.correct.forEach((userId) => {
-            SQL_QUERIES.putPlayerPointAddTwoById(userId);
+        data.correct.forEach((user) => {
+            SQL_QUERIES.putPlayerPointAddTwoById(user.id);
+            IO.to(user.socketId).emit('updatePoint', { point: user.point + 2 });
         });
     });
 });

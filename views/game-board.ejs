@@ -4,6 +4,9 @@
             <button type="submit" class="btn btn-dark max-width"><%- gameBoard.logoutBtn %></button>
         </form>
     </div>
+    <div class="col-12 text-center">
+        <h1 class="text-info"><%- gameBoard.pointText %>: <span class="text-warning" id="point"><%- gameBoard.pointValue %></span></h1>
+    </div>
     <div class="col-4 text-center">
         <div class="card text-white bg-secondary mb-3">
             <div class="card-header">
@@ -44,6 +47,7 @@
     let myId = <%- gameBoard.myId %>;
     let myName = '<%- gameBoard.myName %>';
 
+    let point = $('#point');
     let questionCategory = $('#question-category');
     let question = $('#question');
     let timerContainer = $('#timer-container');
@@ -82,6 +86,10 @@
         answer.prop('disabled', false);
         questionCategory.text(data.category);
         question.text(data.question);
+    });
+
+    socket.on('updatePoint', (data) => {
+        point.text(data.point);
     });
 
     function changeTimerColor(time) {
