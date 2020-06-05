@@ -54,12 +54,16 @@ const LANG_EN = {
         loginBtn: "Login",
     },
     controlPanel: {
-        tableHead: {
+        playersTableHead: {
             name: "Name",
             points: "Points",
-            currentAnswer: "Current answer",
-            isCorrect: "Good/Wrong",
             authorizeBtn: "Authorize"
+        },
+        evaluationTableHead: {
+            name: "Name",
+            timeLeft: "Time left",
+            answer: "Answer",
+            evaluate: "Evaluate"
         },
         authorizeBtn: "Authorize",
         timer: "How much time for players to answer?",
@@ -124,12 +128,16 @@ const LANG_HU = {
         loginBtn: "Belépés",
     },
     controlPanel: {
-        tableHead: {
+        playersTableHead: {
             name: "Név",
             points: "Pontok",
-            currentAnswer: "Aktuális válasz",
-            isCorrect: "Jó/Rossz",
             authorizeBtn: "Felhatalmazás"
+        },
+        evaluationTableHead: {
+            name: "Név",
+            timeLeft: "Maradék idő",
+            answer: "Válasz",
+            evaluate: "Értékelés"
         },
         authorizeBtn: "Felhatalmaz",
         timer: "Mennyi idő alatt kell válaszolni?",
