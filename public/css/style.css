@@ -21,6 +21,10 @@
     margin-bottom: 40px;
 }
 
+#evaluation-table-container {
+    display: none;
+}
+
 .max-width {
     width: 100%;
 }
