@@ -148,11 +148,13 @@ IO.on('connection', socket => {
     socket.on('postAnswer', (data) => {
         IO.to(adminSocketId).emit('getAnswer', {
             player: {
+                id: data.player.id,
                 socketId: socket.id,
                 name: data.player.name,
                 timeLeft: data.player.timeLeft,
                 answer: data.player.answer
             }
+
         });
     });
 

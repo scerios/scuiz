@@ -99,6 +99,7 @@
     function sendAnswerForEvaluation() {
         socket.emit('postAnswer', {
             player: {
+                id: myId,
                 name: myName,
                 timeLeft: timer.text(),
                 answer: answer.val()

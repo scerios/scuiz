@@ -48,6 +48,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     let socket = io();
+    let isEvaluationTableShown = false;
     let playerTableBody = $('#player-table-body');
     let evaluationTableContainer = $('#evaluation-table-container');
     let evaluationTableBody = $('#evaluation-table-body');
@@ -93,7 +94,6 @@
         let incorrect = [];
 
         for (let i = 0; i < isCorrectCheckbox.length; i++) {
-            console.log($(isCorrectCheckbox[i]));
             if ($(isCorrectCheckbox[i]).prop('checked')) {
                 correct.push($(isCorrectCheckbox[i]).attr('data-id'));
             } else {
@@ -153,6 +153,10 @@
     }
 
     function addAnswerToEvaluationTable(player) {
+        if (!isEvaluationTableShown) {
+            evaluationTableContainer.fadeIn();
+            isEvaluationTableShown = true;
+        }
         let evaluationTableBodyHtml = evaluationTableBody.html();
         evaluationTableBodyHtml += '<tr>' +
                    '                    <td>' + player.name + '</td>' +
@@ -161,8 +165,9 @@
                    '                    <td>' +
                    '                        <div class="form-group">' +
                    '                            <div class="custom-control custom-switch">' +
-                   '                                <input type="checkbox" class="custom-control-input evaluate" id="' + player.socketId + '-evaluate">' +
-                   '                                <label class="custom-control-label" for="' + player.socketId + '-evaluate"></label>' +
+                   '                                <input type="checkbox" class="custom-control-input evaluate" id="' + player.id + '-evaluate"' +
+                   '                                       data-id="' + player.id + '" data-socket-id="' + player.socketId + '">' +
+                   '                                <label class="custom-control-label" for="' + player.id + '-evaluate"></label>' +
                    '                            </div>' +
                    '                        </div>' +
                    '                    </td>' +
