@@ -33,6 +33,8 @@ function getControlPanelPage(language, categories, players) {
         authorizeBtn: language.controlPanel.authorizeBtn,
         timer: language.controlPanel.timer,
         timerLegend: language.controlPanel.timerLegend,
+        pointValue: language.controlPanel.timer,
+        pointValueLegend: language.controlPanel.timerLegend,
         evaluateBtn: language.controlPanel.evaluateBtn,
         logoutEveryoneBtn: language.controlPanel.logoutEveryoneBtn,
         categories: categories,

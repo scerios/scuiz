@@ -69,6 +69,8 @@ const LANG_EN = {
         authorizeBtn: "Authorize",
         timer: "How much time for players to answer?",
         timerLegend: "numbers only, in seconds, if 0: infinite",
+        pointValue: "How much point for the next question?",
+        pointValueLegend: "numbers only, default: 2",
         evaluateBtn: "Evaluate",
         logoutEveryoneBtn: "Logout everyone"
     }
@@ -145,6 +147,8 @@ const LANG_HU = {
         authorizeBtn: "Felhatalmaz",
         timer: "Mennyi idő alatt kell válaszolni?",
         timerLegend: "csak számok, másodpercben, ha 0: végtelen",
+        pointValue: "Mennyi pont a következő kérdésért?",
+        pointValueLegend: "csak számok, alap: 2",
         evaluateBtn: "Értékelés",
         logoutEveryoneBtn: "Mindenki kiléptetése"
     }
