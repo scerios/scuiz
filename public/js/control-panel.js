@@ -34,6 +34,12 @@ timer.on('blur', function() {
     }
 });
 
+pointValue.on('blur', function() {
+    if (pointValue.val() === '' || pointValue.val() < 2) {
+        pointValue.val(2);
+    }
+});
+
 evaluateBtn.on('click', function() {
     let evaluationBox = $(document).find('.evaluate');
     let correct = [];
@@ -44,10 +50,11 @@ evaluateBtn.on('click', function() {
             correct.push({
                 id: $(evaluationBox[i]).attr('data-id'),
                 socketId: $(evaluationBox[i]).attr('data-socket-id'),
-                point: parseInt($('#' + $(evaluationBox[i]).attr('data-socket-id') + '-point').text())
+                point: parseInt($('#' + $(evaluationBox[i]).attr('data-socket-id') + '-point').text()),
+                changeValue: pointValue.val()
             });
             let point = $(document).find('#' + $(evaluationBox[i]).attr('data-socket-id') + '-point');
-            point.text(parseInt(point.text()) + 2);
+            point.text(parseInt(point.text()) + pointValue.val());
         } else {
             incorrect.push($(evaluationBox[i]).attr('data-id'));
         }
