@@ -45,6 +45,8 @@ const LANG_EN = {
         question: "Question",
         timer: "Time",
         answer: "Your answer",
+        doublerBtn: "Doubler",
+        answerBtn: "Send",
         category: "Category",
         pointText: "Current points"
     },
@@ -124,6 +126,8 @@ const LANG_HU = {
         question: "Kérdés",
         timer: "Idő",
         answer: "A válaszod",
+        doublerBtn: "Duplázok",
+        answerBtn: "Elküldöm",
         category: "Kategória",
         pointText: "Jelenlegi pontok"
     },

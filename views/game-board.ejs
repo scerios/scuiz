@@ -34,8 +34,16 @@
                 <%- gameBoard.answer %>
             </div>
             <div class="card-body">
-                <div class="form-group">
-                      <textarea disabled class="form-control" id="answer" rows="3"></textarea>
+                <div class="row">
+                    <div class="form-group col-12">
+                          <textarea disabled class="form-control" id="answer" rows="3"></textarea>
+                    </div>
+                    <div class="form-group max-width col-6">
+                        <button disabled id="doubler-btn" type="button" class="btn btn-info btn btn-block"><%- gameBoard.doublerBtn %></button>
+                    </div>
+                    <div class="form-group max-width col-6">
+                        <button disabled id="answer-btn" type="button" class="btn btn-success btn btn-block"><%- gameBoard.answerBtn %></button>
+                    </div>
                 </div>
             </div>
         </div>
