@@ -65,7 +65,7 @@ evaluateBtn.on('click', function() {
         }
     }
     socket.emit('finishQuestion', { correct: correct, incorrect: incorrect });
-    evaluationTableBody.html('');
+    evaluationTable.clear();
     evaluationTableContainer.fadeOut();
     isEvaluationTableShown = false;
 });
@@ -115,23 +115,18 @@ function addAnswerToEvaluationTable(player) {
         evaluationTableContainer.fadeIn();
         isEvaluationTableShown = true;
     }
-    let evaluationTableBodyHtml = evaluationTableBody.html();
-    evaluationTableBodyHtml += '<tr>' +
-        '                    <td>' + player.name + '</td>' +
-        '                    <td>' + player.timeLeft + '</td>' +
-        '                    <td>' + player.answer + '</td>' +
-        '                    <td>' +
-        '                        <div class="form-group">' +
-        '                            <div class="custom-control custom-switch">' +
-        '                                <input type="checkbox" class="custom-control-input evaluate" id="' + player.id + '-evaluate"' +
-        '                                       data-id="' + player.id + '" data-socket-id="' + player.socketId + '">' +
-        '                                <label class="custom-control-label" for="' + player.id + '-evaluate"></label>' +
-        '                            </div>' +
-        '                        </div>' +
-        '                    </td>' +
-        '                </tr>';
-
-    evaluationTableBody.html(evaluationTableBodyHtml);
+    evaluationTable.row.add([
+        player.name,
+        player.timeLeft,
+        player.answer,
+        '<div class="form-group">' +
+        '    <div class="custom-control custom-switch">' +
+        '        <input type="checkbox" class="custom-control-input evaluate" id="' + player.id + '-evaluate"' +
+        '               data-id="' + player.id + '" data-socket-id="' + player.socketId + '">' +
+        '        <label class="custom-control-label" for="' + player.id + '-evaluate"></label>' +
+        '    </div>' +
+        '</div>'
+    ]).draw();
 }
 
 function removeRedundantElements() {
