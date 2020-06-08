@@ -29,13 +29,13 @@ categoryBtn.on('click', function () {
 });
 
 timer.on('blur', function() {
-    if (timer.val() === '') {
+    if (timer.val() === '' || !Number.isInteger(parseInt(timer.val()))) {
         timer.val(0);
     }
 });
 
 pointValue.on('blur', function() {
-    if (pointValue.val() === '' || pointValue.val() < 2) {
+    if (pointValue.val() === '' || pointValue.val() < 2 || !Number.isInteger(parseInt(pointValue.val()))) {
         pointValue.val(2);
     }
 });
