@@ -13,7 +13,7 @@ socket.on('showPlayer', (data) => {
 });
 
 socket.on('playerLeft', (data) => {
-    $(document).find('#' + data.playerSocketId).remove();
+    playerTable.row($('#' + data.playerSocketId)).remove().draw();
 });
 
 socket.on('getAnswer', (data) => {

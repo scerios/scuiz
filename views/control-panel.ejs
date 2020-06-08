@@ -59,16 +59,28 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     let socket = io();
+
+    let playerTable;
+    let evaluationTable;
+    let playerSocketId = '';
+
     let timer = $('#timer');
     let pointValue = $('#point-value');
 
     $(document).ready(() => {
-        $('#player-table').DataTable({
+        playerTable = $('#player-table').DataTable({
             paging: false,
             searching: false,
-            "order": [[ 1, 'desc' ]]
+            "order": [[ 1, 'desc' ]],
+            createdRow: function (row, data, dataIndex) {
+                            $(row).attr('id', playerSocketId);
+                            setTimeout(function() {
+                                $('#' + playerSocketId + ' td:nth-child(2)').attr('id', playerSocketId + '-point');
+                            }, 1000);
+
+                        }
         });
-        $('#evaluation-table').DataTable({
+        evaluationTable = $('#evaluation-table').DataTable({
             paging: false,
             searching: false,
             "order": [[ 1, 'desc' ]]
@@ -80,18 +92,15 @@
     });
 
     function addPlayerToList(player) {
-        let playerListHtml = playerTableBody.html();
         let socketId = player.socket_id;
-        playerListHtml += '<tr id="' + socketId + '">' +
-            '                   <td>' + player.name + '</td>' +
-            '                   <td id="' + socketId + '-point">' + player.point + '</td>' +
-            '                   <td>' +
-            '                       <button type="button" class="btn btn-info btn-sm btn-authorize" data-socket-id="' + socketId + '">' +
-            '                           <%= controlPanel.authorizeBtn %>' +
-            '                       </button>' +
-            '                   </td>' +
-            '               </tr>';
-        playerTableBody.html(playerListHtml);
+        playerSocketId = socketId;
+        playerTable.row.add([
+            player.name,
+            player.point,
+            '<button type="button" class="btn btn-info btn-sm btn-authorize" data-socket-id="' + socketId + '">' +
+            '   <%= controlPanel.authorizeBtn %>' +
+            '</button>'
+        ]).draw();
     }
 </script>
 <script src="js/control-panel.js"></script>
