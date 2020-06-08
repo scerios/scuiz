@@ -4,6 +4,8 @@ let question = $('#question');
 let timerContainer = $('#timer-container');
 let timer = $('#timer');
 let answer = $('#answer');
+let doublerBtn = $('#doubler-btn');
+let answerBtn = $('#answer-btn');
 
 let isPrimary = false;
 let isWarning = false;
@@ -36,6 +38,8 @@ socket.on('getNextQuestion', (data) => {
         }, 100);
     }
     answer.prop('disabled', false);
+    doublerBtn.prop('disabled', false);
+    answerBtn.prop('disabled', false);
     questionCategory.text(data.category);
     question.text(data.question);
 });
@@ -45,6 +49,11 @@ socket.on('updatePoint', (data) => {
 });
 
 socket.on('forcePostAnswer', () => {
+    sendAnswerForEvaluation();
+    resetGameBoard();
+});
+
+answerBtn.on('click', function () {
     sendAnswerForEvaluation();
     resetGameBoard();
 });
@@ -66,7 +75,7 @@ function sendAnswerForEvaluation() {
         player: {
             id: myId,
             name: myName,
-            timeLeft: Number.isInteger(parseFloat(timer.text()))? timer.text() : 0,
+            timeLeft: !isNaN(parseFloat(timer.text()))? parseFloat(timer.text()) : 0,
             answer: answer.val()
         }
     });
@@ -82,4 +91,6 @@ function resetGameBoard() {
     timer.text('');
     answer.val('');
     answer.prop('disabled', true);
+    doublerBtn.prop('disabled', true);
+    answerBtn.prop('disabled', true);
 }
