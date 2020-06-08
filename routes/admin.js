@@ -19,6 +19,7 @@ function getAdminLoginPage(language) {
 
 function getControlPanelPage(language, categories, players) {
     return {
+        emptyTable: language.controlPanel.emptyTable,
         playersTableHead: {
             name: language.controlPanel.playersTableHead.name,
             points: language.controlPanel.playersTableHead.points,

@@ -71,18 +71,24 @@
         playerTable = $('#player-table').DataTable({
             paging: false,
             searching: false,
+            language: {
+                "zeroRecords": '<%- controlPanel.emptyTable %>'
+            },
             "order": [[ 1, 'desc' ]],
             createdRow: function (row, data, dataIndex) {
-                            $(row).attr('id', playerSocketId);
-                            setTimeout(function() {
-                                $('#' + playerSocketId + ' td:nth-child(2)').attr('id', playerSocketId + '-point');
-                            }, 1000);
-
-                        }
+                let socketId = playerSocketId;
+                $(row).attr('id', socketId);
+                setTimeout(function() {
+                    $('#' + socketId + ' td:nth-child(2)').attr('id', socketId + '-point');
+                }, 1000);
+            }
         });
         evaluationTable = $('#evaluation-table').DataTable({
             paging: false,
             searching: false,
+            language: {
+                "zeroRecords": '<%- controlPanel.emptyTable %>'
+            },
             "order": [[ 1, 'desc' ]]
         });
         removeRedundantElements();
@@ -101,6 +107,7 @@
             '   <%= controlPanel.authorizeBtn %>' +
             '</button>'
         ]).draw();
+        playerSocketId = '';
     }
 </script>
 <script src="js/control-panel.js"></script>

@@ -135,10 +135,6 @@ function addAnswerToEvaluationTable(player) {
 }
 
 function removeRedundantElements() {
-    let emptyRows = $(document).find('.dataTables_empty').parents('tr');
-    for (let i = 0; i < emptyRows.length; i++) {
-        $(emptyRows[i]).remove();
-    }
     let tableInfos = $(document).find('.dataTables_info');
     for (let i = 0; i < tableInfos.length; i++) {
         $(tableInfos[i]).remove();
