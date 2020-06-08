@@ -146,6 +146,10 @@ IO.on('connection', socket => {
         });
     });
 
+    socket.on('collectAnswers', () => {
+        socket.broadcast.emit('forcePostAnswer');
+    });
+
     socket.on('postAnswer', (data) => {
         IO.to(adminSocketId).emit('getAnswer', {
             player: {

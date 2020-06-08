@@ -41,6 +41,10 @@ pointValue.on('blur', function() {
     }
 });
 
+collectAnswersBtn.on('click', function () {
+    socket.emit('collectAnswers');
+});
+
 evaluateBtn.on('click', function() {
     let evaluationBox = $(document).find('.evaluate');
     let correct = [];
@@ -52,10 +56,10 @@ evaluateBtn.on('click', function() {
                 id: $(evaluationBox[i]).attr('data-id'),
                 socketId: $(evaluationBox[i]).attr('data-socket-id'),
                 point: parseInt($('#' + $(evaluationBox[i]).attr('data-socket-id') + '-point').text()),
-                changeValue: pointValue.val()
+                changeValue: parseInt(pointValue.val())
             });
             let point = $(document).find('#' + $(evaluationBox[i]).attr('data-socket-id') + '-point');
-            point.text(parseInt(point.text()) + pointValue.val());
+            point.text(parseInt(point.text()) + parseInt(pointValue.val()));
         } else {
             incorrect.push($(evaluationBox[i]).attr('data-id'));
         }

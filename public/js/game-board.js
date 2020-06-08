@@ -8,6 +8,8 @@ let answer = $('#answer');
 let isPrimary = false;
 let isWarning = false;
 
+let counter;
+
 $(document).ready(() => {
     socket.emit('signUpForGame', {
         playerId: myId
@@ -20,13 +22,12 @@ socket.on('getNextQuestion', (data) => {
     } else {
         timer.text(data.timer);
 
-        let counter = setInterval(() => {
+        counter = setInterval(() => {
             time = parseFloat(timer.text());
 
             changeTimerColor(time);
 
             if (time === 0) {
-                clearInterval(counter);
                 sendAnswerForEvaluation();
                 resetGameBoard();
             } else {
@@ -41,6 +42,11 @@ socket.on('getNextQuestion', (data) => {
 
 socket.on('updatePoint', (data) => {
     point.text(data.point);
+});
+
+socket.on('forcePostAnswer', () => {
+    sendAnswerForEvaluation();
+    resetGameBoard();
 });
 
 function changeTimerColor(time) {
@@ -60,13 +66,14 @@ function sendAnswerForEvaluation() {
         player: {
             id: myId,
             name: myName,
-            timeLeft: timer.text(),
+            timeLeft: Number.isInteger(parseFloat(timer.text()))? timer.text() : 0,
             answer: answer.val()
         }
     });
 }
 
 function resetGameBoard() {
+    clearInterval(counter);
     questionCategory.text('');
     question.text('');
     isPrimary = false;
