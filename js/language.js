@@ -63,6 +63,7 @@ const LANG_EN = {
             points: "Points",
             authorizeBtn: "Authorize"
         },
+        evaluationTableTitle: "Evaluation of answers",
         evaluationTableHead: {
             name: "Name",
             timeLeft: "Time left",
@@ -74,6 +75,7 @@ const LANG_EN = {
         timerLegend: "numbers only, in seconds, if 0: infinite",
         pointValue: "How much point for the next question?",
         pointValueLegend: "numbers only, default: 2",
+        showEvaluationModalBtn: "Show evaluation",
         collectAnswersBtn: "Collect answers",
         evaluateBtn: "Evaluate",
         logoutEveryoneBtn: "Logout everyone"
@@ -145,6 +147,7 @@ const LANG_HU = {
             points: "Pontok",
             authorizeBtn: "Felhatalmazás"
         },
+        evaluationTableTitle: "Válaszok értékelése",
         evaluationTableHead: {
             name: "Név",
             timeLeft: "Maradék idő",
@@ -156,6 +159,7 @@ const LANG_HU = {
         timerLegend: "csak számok, másodpercben, ha 0: végtelen",
         pointValue: "Mennyi pont a következő kérdésért?",
         pointValueLegend: "csak számok, alap: 2",
+        showEvaluationModalBtn: "Értékelés mutatása",
         collectAnswersBtn: "Válaszok begyűjtése",
         evaluateBtn: "Értékelés",
         logoutEveryoneBtn: "Mindenki kiléptetése"

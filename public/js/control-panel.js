@@ -2,7 +2,6 @@ let isEvaluationTableShown = false;
 
 let playerTableBody = $('#player-table-body');
 let evaluationTableContainer = $('#evaluation-table-container');
-let evaluationTableBody = $('#evaluation-table-body');
 let categoryBtn = $('.btn-category');
 let collectAnswersBtn = $('#collect-answers-btn');
 let evaluateBtn = $('#evaluate-btn');
@@ -18,6 +17,10 @@ socket.on('playerLeft', (data) => {
 
 socket.on('getAnswer', (data) => {
     addAnswerToEvaluationTable(data.player);
+});
+
+socket.on('getQuestion', (data) => {
+    $('#evaluation-modal').modal('toggle');
 });
 
 categoryBtn.on('click', function () {

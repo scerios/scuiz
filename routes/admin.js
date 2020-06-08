@@ -25,6 +25,7 @@ function getControlPanelPage(language, categories, players) {
             points: language.controlPanel.playersTableHead.points,
             authorizeBtn: language.controlPanel.playersTableHead.authorizeBtn
         },
+        evaluationTableTitle: language.controlPanel.evaluationTableTitle,
         evaluationTableHead: {
             name: language.controlPanel.evaluationTableHead.name,
             timeLeft: language.controlPanel.evaluationTableHead.timeLeft,
@@ -36,6 +37,7 @@ function getControlPanelPage(language, categories, players) {
         timerLegend: language.controlPanel.timerLegend,
         pointValue: language.controlPanel.pointValue,
         pointValueLegend: language.controlPanel.pointValueLegend,
+        showEvaluationModalBtn: language.controlPanel.showEvaluationModalBtn,
         collectAnswersBtn: language.controlPanel.collectAnswersBtn,
         evaluateBtn: language.controlPanel.evaluateBtn,
         logoutEveryoneBtn: language.controlPanel.logoutEveryoneBtn,

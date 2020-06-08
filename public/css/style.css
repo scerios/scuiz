@@ -21,8 +21,17 @@
     margin-bottom: 40px;
 }
 
-#evaluation-table-container {
-    display: none;
+#evaluation-modal {
+    width: 80%;
+    left: 10%;
+}
+
+.modal-lg {
+    max-width: 100%;
+}
+
+.modal-dialog {
+    max-width: 100%;
 }
 
 .max-width {
