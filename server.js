@@ -159,9 +159,10 @@ IO.on('connection', socket => {
     });
 
     socket.on('finishQuestion', (data) => {
+        let value = 2;
         data.correct.forEach((user) => {
-            queries.putPlayerPointAddTwoById(user.id);
-            IO.to(user.socketId).emit('updatePoint', { point: user.point + 2 });
+            queries.putPlayerPointAddValueById(user.id, value);
+            IO.to(user.socketId).emit('updatePoint', { point: user.point + value });
         });
     });
 

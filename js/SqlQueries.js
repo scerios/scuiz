@@ -24,8 +24,8 @@ class SqlQueries {
         return await query(`UPDATE player SET status = ${status}, socket_id = '' WHERE socket_id = '${socketId}'`);
     }
 
-    putPlayerPointAddTwoById(id) {
-        mySql.query(`UPDATE player SET point = point + 2 WHERE id = ${id}`);
+    putPlayerPointAddValueById(id, value) {
+        mySql.query(`UPDATE player SET point = point + ${value} WHERE id = ${id}`);
     }
 
     async getAllLoggedInPlayersAsync() {
