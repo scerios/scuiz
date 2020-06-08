@@ -4,6 +4,7 @@ let playerTableBody = $('#player-table-body');
 let evaluationTableContainer = $('#evaluation-table-container');
 let evaluationTableBody = $('#evaluation-table-body');
 let categoryBtn = $('.btn-category');
+let collectAnswersBtn = $('#collect-answers-btn');
 let evaluateBtn = $('#evaluate-btn');
 let logoutEveryoneBtn = $('#logout-everyone-btn');
 

@@ -71,6 +71,7 @@ const LANG_EN = {
         timerLegend: "numbers only, in seconds, if 0: infinite",
         pointValue: "How much point for the next question?",
         pointValueLegend: "numbers only, default: 2",
+        collectAnswersBtn: "Collect answers",
         evaluateBtn: "Evaluate",
         logoutEveryoneBtn: "Logout everyone"
     }
@@ -149,6 +150,7 @@ const LANG_HU = {
         timerLegend: "csak számok, másodpercben, ha 0: végtelen",
         pointValue: "Mennyi pont a következő kérdésért?",
         pointValueLegend: "csak számok, alap: 2",
+        collectAnswersBtn: "Válaszok begyűjtése",
         evaluateBtn: "Értékelés",
         logoutEveryoneBtn: "Mindenki kiléptetése"
     }
