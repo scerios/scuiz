@@ -28,6 +28,10 @@ class SqlQueries {
         mySql.query(`UPDATE player SET point = point + ${value} WHERE id = ${id}`);
     }
 
+    putPlayerPointSubtractValueById(id, value) {
+        mySql.query(`UPDATE player SET point = point - ${value} WHERE id = ${id}`);
+    }
+
     async getAllLoggedInPlayersAsync() {
         return await query('SELECT id, socket_id, name, point FROM player WHERE status = 1');
     }
