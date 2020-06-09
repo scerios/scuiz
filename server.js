@@ -167,8 +167,16 @@ IO.on('connection', socket => {
 
     socket.on('finishQuestion', (data) => {
         data.correct.forEach((user) => {
+            console.log("Point: " + user.point);
+            console.log("ChangeVal: " + user.changeValue);
             queries.putPlayerPointAddValueById(user.id, user.changeValue);
             IO.to(user.socketId).emit('updatePoint', { point: user.point + user.changeValue });
+        });
+        data.incorrect.forEach((user) => {
+            console.log("Point: " + user.point);
+            console.log("ChangeVal: " + user.changeValue);
+            queries.putPlayerPointSubtractValueById(user.id, user.changeValue);
+            IO.to(user.socketId).emit('updatePoint', { point: user.point - user.changeValue });
         });
     });
 

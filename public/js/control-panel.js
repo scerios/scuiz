@@ -54,17 +54,26 @@ evaluateBtn.on('click', function() {
     let incorrect = [];
 
     for (let i = 0; i < evaluationBox.length; i++) {
-        if ($(evaluationBox[i]).prop('checked')) {
+        let element = $(evaluationBox[i]);
+        let changeValue = parseInt($('#' + element.attr('data-id') + '-answer-value').val());
+        let pointElement = $(document).find('#' + element.attr('data-socket-id') + '-point');
+        let pointElementValue = parseInt(pointElement.text());
+        if (element.prop('checked')) {
             correct.push({
-                id: $(evaluationBox[i]).attr('data-id'),
-                socketId: $(evaluationBox[i]).attr('data-socket-id'),
-                point: parseInt($('#' + $(evaluationBox[i]).attr('data-socket-id') + '-point').text()),
-                changeValue: parseInt(pointValue.val())
+                id: element.attr('data-id'),
+                socketId: element.attr('data-socket-id'),
+                point: pointElementValue,
+                changeValue: changeValue
             });
-            let point = $(document).find('#' + $(evaluationBox[i]).attr('data-socket-id') + '-point');
-            point.text(parseInt(point.text()) + parseInt(pointValue.val()));
+            answerCorrect(pointElement, changeValue);
         } else {
-            incorrect.push($(evaluationBox[i]).attr('data-id'));
+            incorrect.push({
+                id: element.attr('data-id'),
+                socketId: element.attr('data-socket-id'),
+                point: pointElementValue,
+                changeValue: changeValue
+            });
+            answerIncorrect(pointElement, changeValue);
         }
     }
     socket.emit('finishQuestion', { correct: correct, incorrect: incorrect });
@@ -115,7 +124,7 @@ function getCategoryIndexAndEnableAllCategories(categories) {
 }
 
 function addAnswerToEvaluationTable(player) {
-    let value = player.isDoubled? 4 : 2;
+    let value = player.isDoubled? 4 : player.answer.length === 0? 0 : 2;
     evaluationTable.row.add([
         player.name,
         player.timeLeft,
@@ -128,7 +137,7 @@ function addAnswerToEvaluationTable(player) {
         '    </div>' +
         '</div>',
         '<div class="form-group">' +
-        '    <input type="text" class="form-control form-control-sm short-input text-center" id="' + player.id + '-value"' +
+        '    <input type="text" class="form-control form-control-sm short-input text-center" id="' + player.id + '-answer-value"' +
         '           data-id="' + player.id + '" data-socket-id="' + player.socketId + '"' +
         '           value="' + value + '">' +
         '</div>'
@@ -144,4 +153,12 @@ function removeRedundantElements() {
 
 function toggleEvaluationModal() {
     $('#evaluation-modal').modal('toggle');
+}
+
+function answerCorrect(pointElement, value) {
+    pointElement.text(parseInt(pointElement.text()) + parseInt(value));
+}
+
+function answerIncorrect(pointElement, value) {
+    pointElement.text(parseInt(pointElement.text()) - parseInt(value));
 }
