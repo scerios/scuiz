@@ -8,7 +8,6 @@ let answerBtn = $('#answer-btn');
 
 let isPrimary = false;
 let isWarning = false;
-let isDoubled = false;
 
 let counter;
 

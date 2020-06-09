@@ -46,6 +46,12 @@
     text-align: center;
 }
 
+.short-input {
+    left: 45%;
+    width: 10%;
+    position: relative;
+}
+
 /*
  * Table styles
  */

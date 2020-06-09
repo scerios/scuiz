@@ -69,7 +69,8 @@ const LANG_EN = {
             name: "Name",
             timeLeft: "Time left",
             answer: "Answer",
-            evaluate: "Evaluate"
+            evaluate: "Evaluate",
+            point: "Points"
         },
         authorizeBtn: "Authorize",
         timer: "How much time for players to answer?",
@@ -154,7 +155,8 @@ const LANG_HU = {
             name: "Név",
             timeLeft: "Maradék idő",
             answer: "Válasz",
-            evaluate: "Értékelés"
+            evaluate: "Értékelés",
+            point: "Pontok"
         },
         authorizeBtn: "Felhatalmaz",
         timer: "Mennyi idő alatt kell válaszolni?",

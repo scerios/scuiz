@@ -30,7 +30,8 @@ function getControlPanelPage(language, categories, players) {
             name: language.controlPanel.evaluationTableHead.name,
             timeLeft: language.controlPanel.evaluationTableHead.timeLeft,
             answer: language.controlPanel.evaluationTableHead.answer,
-            evaluate: language.controlPanel.evaluationTableHead.evaluate
+            evaluate: language.controlPanel.evaluationTableHead.evaluate,
+            point: language.controlPanel.evaluationTableHead.point
         },
         authorizeBtn: language.controlPanel.authorizeBtn,
         timer: language.controlPanel.timer,

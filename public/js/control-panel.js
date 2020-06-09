@@ -115,6 +115,7 @@ function getCategoryIndexAndEnableAllCategories(categories) {
 }
 
 function addAnswerToEvaluationTable(player) {
+    let value = player.isDoubled? 4 : 2;
     evaluationTable.row.add([
         player.name,
         player.timeLeft,
@@ -125,6 +126,11 @@ function addAnswerToEvaluationTable(player) {
         '               data-id="' + player.id + '" data-socket-id="' + player.socketId + '">' +
         '        <label class="custom-control-label" for="' + player.id + '-evaluate"></label>' +
         '    </div>' +
+        '</div>',
+        '<div class="form-group">' +
+        '    <input type="text" class="form-control form-control-sm short-input text-center" id="' + player.id + '-value"' +
+        '           data-id="' + player.id + '" data-socket-id="' + player.socketId + '"' +
+        '           value="' + value + '">' +
         '</div>'
     ]).draw();
 }
