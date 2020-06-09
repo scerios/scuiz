@@ -20,6 +20,7 @@ const SESSION_STORE = require('./js/sessionStore');
 // Saving the socked ID of the admin. This will be emitted to all the users so eventually they will be able to send everything back to only the admin.
 let adminSocketId = '';
 let queries = new SQL_QUERIES();
+let isDoublerClicked = false;
 
 //#endregion
 
@@ -121,6 +122,7 @@ IO.on('connection', socket => {
     });
 
     socket.on('pickQuestion', (data) => {
+        isDoublerClicked = false;
         let putCategoryResult = queries.putCategoryQuestionIndexByIdAsync(data.categoryId, data.index);
         putCategoryResult.then(() => {
             let getQuestionResult = queries.getQuestionByCategoryIdAndQuestionIndexAsync(data.categoryId, data.index);
@@ -179,6 +181,15 @@ IO.on('connection', socket => {
         }).catch((error) => {
             console.log('getAllLoggedInPlayerResult: ' + error);
         });
+    });
+
+    socket.on('takeChances', () => {
+        if (!isDoublerClicked) {
+            OI.to(socket.id).emit('doublerClicked', { isClicked: true });
+            isDoublerClicked = true;
+        } else {
+            OI.to(socket.id).emit('doublerClicked', { isClicked: false });
+        }
     });
 });
 

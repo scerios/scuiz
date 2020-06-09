@@ -53,6 +53,18 @@ socket.on('forcePostAnswer', () => {
     resetGameBoard();
 });
 
+socket.on('doublerClicked', (data) => {
+    if (data.isClicked) {
+        console.log('Success');
+    } else {
+        console.log('Fail');
+    }
+});
+
+doublerBtn.on('click', function () {
+    socket.emit('takeChances');
+});
+
 answerBtn.on('click', function () {
     sendAnswerForEvaluation();
     resetGameBoard();
