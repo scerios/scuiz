@@ -159,7 +159,8 @@ IO.on('connection', socket => {
                 socketId: socket.id,
                 name: data.player.name,
                 timeLeft: data.player.timeLeft,
-                answer: data.player.answer
+                answer: data.player.answer,
+                isDoubled: data.player.isDoubled
             }
         });
     });

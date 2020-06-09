@@ -56,12 +56,14 @@
     let myName = '<%- gameBoard.myName %>';
 
     let doublerBtn = $('#doubler-btn');
+    let isDoubled = false;
 
     socket.on('doublerClicked', (data) => {
         if (data.isClicked) {
             doublerBtn.prop('disabled', true);
             doublerBtn.text('<%- gameBoard.doublerBtnClicked %>');
             doublerBtn.removeClass('btn-info').addClass('btn-success');
+            isDoubled = true;
         }
     });
 </script>

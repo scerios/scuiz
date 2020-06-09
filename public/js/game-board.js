@@ -8,6 +8,7 @@ let answerBtn = $('#answer-btn');
 
 let isPrimary = false;
 let isWarning = false;
+let isDoubled = false;
 
 let counter;
 
@@ -92,7 +93,8 @@ function sendAnswerForEvaluation() {
             id: myId,
             name: myName,
             timeLeft: !isNaN(parseFloat(timer.text()))? parseFloat(timer.text()) : 0,
-            answer: answer.val()
+            answer: answer.val(),
+            isDoubled: isDoubled
         }
     });
 }
