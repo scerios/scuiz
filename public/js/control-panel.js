@@ -1,4 +1,3 @@
-let playerTableBody = $('#player-table-body');
 let categoryBtn = $('.btn-category');
 let collectAnswersBtn = $('#collect-answers-btn');
 let evaluateBtn = $('#evaluate-btn');
@@ -76,7 +75,7 @@ evaluateBtn.on('click', function() {
 });
 
 logoutEveryoneBtn.on('click', function () {
-    playerTableBody.html('');
+    playerTable.clear().draw();
     socket.emit('logoutEveryone');
 });
 

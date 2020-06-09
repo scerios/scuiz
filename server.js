@@ -185,10 +185,10 @@ IO.on('connection', socket => {
 
     socket.on('takeChances', () => {
         if (!isDoublerClicked) {
-            OI.to(socket.id).emit('doublerClicked', { isClicked: true });
+            IO.to(socket.id).emit('doublerClicked', { isClicked: true });
             isDoublerClicked = true;
         } else {
-            OI.to(socket.id).emit('doublerClicked', { isClicked: false });
+            IO.to(socket.id).emit('doublerClicked', { isClicked: false });
         }
     });
 });
