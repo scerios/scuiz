@@ -33,9 +33,9 @@ socket.on('getNextQuestion', (data) => {
                 sendAnswerForEvaluation();
                 resetGameBoard();
             } else {
-                timer.text((time - 0.1).toFixed(1));
+                timer.text((time - 1));
             }
-        }, 100);
+        }, 1000);
     }
     answer.prop('disabled', false);
     doublerBtn.prop('disabled', false);
@@ -71,12 +71,12 @@ answerBtn.on('click', function () {
 });
 
 function changeTimerColor(time) {
-    if (time < 15 && !isPrimary) {
+    if (time <= 31 && !isPrimary) {
         timerContainer.removeClass('bg-success').addClass('bg-primary');
         isPrimary = true;
     }
 
-    if (time < 5 && !isWarning) {
+    if (time <= 16 && !isWarning) {
         timerContainer.removeClass('bg-primary').addClass('bg-warning');
         isWarning = true;
     }
