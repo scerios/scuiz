@@ -22,18 +22,27 @@ socket.on('getNextQuestion', (data) => {
     if (data.timer === '0') {
         timer.html('<i class="fas fa-infinity"></i>');
     } else {
-        timer.text(data.timer);
+        let untilDate = new Date();
+        untilDate.setSeconds(untilDate.getSeconds() + parseInt(data.timer));
+        let until = untilDate.getTime();
 
         counter = setInterval(() => {
-            time = parseFloat(timer.text());
+            let now = new Date().getTime();
+            let remaining = until - now;
+            let minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((remaining % (1000 * 60)) / 1000);
 
-            changeTimerColor(time);
+            if (seconds.toString().length === 1) {
+                seconds = "0" + seconds;
+            }
 
-            if (time === 0) {
+            changeTimerColor(parseInt((remaining / 1000).toFixed(0)));
+
+            if (remaining <= 0) {
                 sendAnswerForEvaluation();
                 resetGameBoard();
             } else {
-                timer.text((time - 1));
+                timer.text(minutes + " : " + seconds);
             }
         }, 1000);
     }
@@ -71,12 +80,12 @@ answerBtn.on('click', function () {
 });
 
 function changeTimerColor(time) {
-    if (time <= 31 && !isPrimary) {
+    if (time <= 30 && !isPrimary) {
         timerContainer.removeClass('bg-success').addClass('bg-primary');
         isPrimary = true;
     }
 
-    if (time <= 16 && !isWarning) {
+    if (time <= 15 && !isWarning) {
         timerContainer.removeClass('bg-primary').addClass('bg-warning');
         isWarning = true;
     }
