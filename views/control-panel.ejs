@@ -8,18 +8,28 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table id="evaluation-table" class="table table-hover text-center compact hover order-column stripe">
-                    <thead>
-                        <tr>
-                            <th scope="col"><%- controlPanel.evaluationTableHead.name %></th>
-                            <th scope="col"><%- controlPanel.evaluationTableHead.timeLeft %></th>
-                            <th scope="col"><%- controlPanel.evaluationTableHead.answer %></th>
-                            <th scope="col"><%- controlPanel.evaluationTableHead.evaluate %></th>
-                        </tr>
-                    </thead>
-                    <tbody id="evaluation-table-body">
-                    </tbody>
-                </table>
+                <div class="row">
+                    <div class="col-6">
+                        <p id="question" class="text-info"></p>
+                    </div>
+                    <div class="col-6">
+                        <p id="answer" class="text-success"></p>
+                    </div>
+                    <div class="col-12">
+                        <table id="evaluation-table" class="table table-hover text-center compact hover order-column stripe">
+                            <thead>
+                                <tr>
+                                    <th scope="col"><%- controlPanel.evaluationTableHead.name %></th>
+                                    <th scope="col"><%- controlPanel.evaluationTableHead.timeLeft %></th>
+                                    <th scope="col"><%- controlPanel.evaluationTableHead.answer %></th>
+                                    <th scope="col"><%- controlPanel.evaluationTableHead.evaluate %></th>
+                                </tr>
+                            </thead>
+                            <tbody id="evaluation-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button id="evaluate-btn" type="button" class="btn btn-info btn btn-block"><%- controlPanel.evaluateBtn %></button>

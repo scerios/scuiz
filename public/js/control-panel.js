@@ -1,11 +1,10 @@
-let isEvaluationTableShown = false;
-
 let playerTableBody = $('#player-table-body');
-let evaluationTableContainer = $('#evaluation-table-container');
 let categoryBtn = $('.btn-category');
 let collectAnswersBtn = $('#collect-answers-btn');
 let evaluateBtn = $('#evaluate-btn');
 let logoutEveryoneBtn = $('#logout-everyone-btn');
+let question = $('#question');
+let answer = $('#answer');
 
 socket.on('showPlayer', (data) => {
     addPlayerToList(data.player);
@@ -20,7 +19,9 @@ socket.on('getAnswer', (data) => {
 });
 
 socket.on('getQuestion', (data) => {
-    $('#evaluation-modal').modal('toggle');
+    toggleEvaluationModal();
+    question.text(data.question.question);
+    answer.text(data.question.answer);
 });
 
 categoryBtn.on('click', function () {
@@ -68,9 +69,10 @@ evaluateBtn.on('click', function() {
         }
     }
     socket.emit('finishQuestion', { correct: correct, incorrect: incorrect });
-    evaluationTable.clear();
-    evaluationTableContainer.fadeOut();
-    isEvaluationTableShown = false;
+    evaluationTable.clear().draw();
+    toggleEvaluationModal();
+    question.text('');
+    answer.text('');
 });
 
 logoutEveryoneBtn.on('click', function () {
@@ -114,10 +116,6 @@ function getCategoryIndexAndEnableAllCategories(categories) {
 }
 
 function addAnswerToEvaluationTable(player) {
-    if (!isEvaluationTableShown) {
-        evaluationTableContainer.fadeIn();
-        isEvaluationTableShown = true;
-    }
     evaluationTable.row.add([
         player.name,
         player.timeLeft,
@@ -137,4 +135,8 @@ function removeRedundantElements() {
     for (let i = 0; i < tableInfos.length; i++) {
         $(tableInfos[i]).remove();
     }
+}
+
+function toggleEvaluationModal() {
+    $('#evaluation-modal').modal('toggle');
 }
