@@ -91,7 +91,7 @@ function sendAnswerForEvaluation() {
         player: {
             id: myId,
             name: myName,
-            timeLeft: !isNaN(parseFloat(timer.text()))? parseFloat(timer.text()) : 0,
+            timeLeft: timer.text(),
             answer: answer.val(),
             isDoubled: isDoubled
         }
