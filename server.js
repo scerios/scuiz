@@ -2,7 +2,7 @@
 
 // Define needed variables.
 const PORT = process.env.PORT || 3000;
-const COOKIE_MAX_AGE = process.env.COOKIE_MAX_AGE || 1000 * 60 * 60;
+const COOKIE_MAX_AGE = process.env.COOKIE_MAX_AGE || 1000 * 60 * 60 * 10;
 const IS_COOKIE_SECURE = process.env.COOKIE_SECURE !== undefined || false;
 
 // Implementing needed nodes + creating the server.
@@ -167,14 +167,10 @@ IO.on('connection', socket => {
 
     socket.on('finishQuestion', (data) => {
         data.correct.forEach((user) => {
-            console.log("Point: " + user.point);
-            console.log("ChangeVal: " + user.changeValue);
             queries.putPlayerPointAddValueById(user.id, user.changeValue);
             IO.to(user.socketId).emit('updatePoint', { point: user.point + user.changeValue });
         });
         data.incorrect.forEach((user) => {
-            console.log("Point: " + user.point);
-            console.log("ChangeVal: " + user.changeValue);
             queries.putPlayerPointSubtractValueById(user.id, user.changeValue);
             IO.to(user.socketId).emit('updatePoint', { point: user.point - user.changeValue });
         });
