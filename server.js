@@ -186,6 +186,7 @@ IO.on('connection', socket => {
     socket.on('takeChances', () => {
         if (!isDoublerClicked) {
             IO.to(socket.id).emit('doublerClicked', { isClicked: true });
+            socket.broadcast.emit('doublerDisabled');
             isDoublerClicked = true;
         } else {
             IO.to(socket.id).emit('doublerClicked', { isClicked: false });

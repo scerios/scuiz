@@ -53,6 +53,7 @@ function getGameBoardPage(language, player) {
         timer: language.gameBoard.timer,
         answer: language.gameBoard.answer,
         doublerBtn: language.gameBoard.doublerBtn,
+        doublerBtnClicked: language.gameBoard.doublerBtnClicked,
         answerBtn: language.gameBoard.answerBtn,
         category: language.gameBoard.category,
         pointText: language.gameBoard.pointText,

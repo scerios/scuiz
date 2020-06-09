@@ -4,7 +4,6 @@ let question = $('#question');
 let timerContainer = $('#timer-container');
 let timer = $('#timer');
 let answer = $('#answer');
-let doublerBtn = $('#doubler-btn');
 let answerBtn = $('#answer-btn');
 
 let isPrimary = false;
@@ -62,12 +61,8 @@ socket.on('forcePostAnswer', () => {
     resetGameBoard();
 });
 
-socket.on('doublerClicked', (data) => {
-    if (data.isClicked) {
-        console.log('Success');
-    } else {
-        console.log('Fail');
-    }
+socket.on('doublerDisabled', () => {
+    doublerBtn.prop('disabled', true);
 });
 
 doublerBtn.on('click', function () {
