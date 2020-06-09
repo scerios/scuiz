@@ -22,7 +22,7 @@ socket.on('getNextQuestion', (data) => {
         timer.html('<i class="fas fa-infinity"></i>');
     } else {
         let untilDate = new Date();
-        untilDate.setSeconds(untilDate.getSeconds() + parseInt(data.timer));
+        untilDate.setSeconds(untilDate.getSeconds() + parseInt(data.timer) + 2);
         let until = untilDate.getTime();
 
         counter = setInterval(() => {
@@ -35,9 +35,9 @@ socket.on('getNextQuestion', (data) => {
                 seconds = "0" + seconds;
             }
 
-            changeTimerColor(parseInt((remaining / 1000).toFixed(0)));
+            changeTimerColor(minutes, seconds);
 
-            if (remaining <= 0) {
+            if (minutes === 0 && seconds === '00') {
                 sendAnswerForEvaluation();
                 resetGameBoard();
             } else {
@@ -74,15 +74,17 @@ answerBtn.on('click', function () {
     resetGameBoard();
 });
 
-function changeTimerColor(time) {
-    if (time <= 30 && !isPrimary) {
-        timerContainer.removeClass('bg-success').addClass('bg-primary');
-        isPrimary = true;
-    }
+function changeTimerColor(minutes, seconds) {
+    if (minutes === 0) {
+        if (seconds <= 30 && !isPrimary) {
+            timerContainer.removeClass('bg-success').addClass('bg-primary');
+            isPrimary = true;
+        }
 
-    if (time <= 15 && !isWarning) {
-        timerContainer.removeClass('bg-primary').addClass('bg-warning');
-        isWarning = true;
+        if (seconds <= 15 && !isWarning) {
+            timerContainer.removeClass('bg-primary').addClass('bg-warning');
+            isWarning = true;
+        }
     }
 }
 
