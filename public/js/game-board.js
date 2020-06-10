@@ -6,6 +6,7 @@ let timer = $('#timer');
 let answer = $('#answer');
 let answerBtn = $('#answer-btn');
 
+let isThinking = false;
 let isPrimary = false;
 let isWarning = false;
 
@@ -18,6 +19,7 @@ $(document).ready(() => {
 });
 
 socket.on('getNextQuestion', (data) => {
+    isThinking = true;
     if (data.timer === '0') {
         timer.html('<i class="fas fa-infinity"></i>');
     } else {
@@ -57,8 +59,10 @@ socket.on('updatePoint', (data) => {
 });
 
 socket.on('forcePostAnswer', () => {
-    sendAnswerForEvaluation();
-    resetGameBoard();
+    if (isThinking) {
+        sendAnswerForEvaluation();
+        resetGameBoard();
+    }
 });
 
 socket.on('doublerDisabled', () => {
@@ -70,6 +74,7 @@ doublerBtn.on('click', function () {
 });
 
 answerBtn.on('click', function () {
+    isThinking = false;
     sendAnswerForEvaluation();
     resetGameBoard();
 });
