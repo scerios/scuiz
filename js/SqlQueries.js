@@ -77,9 +77,9 @@ class SqlQueries {
             `WHERE category_id = ${categoryId} LIMIT ${index}, 1`);
     }
 
-    async putCategoryLimitAsync(limit) {
+    putCategoryLimit(limit) {
         limit += 3;
-        return await query(`UPDATE category_limit SET round_limit = ${limit} WHERE id = 1`);
+        mySql.query(`UPDATE category_limit SET round_limit = ${limit} WHERE id = 1`);
     }
 }
 

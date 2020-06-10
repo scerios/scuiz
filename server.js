@@ -139,13 +139,7 @@ IO.on('connection', socket => {
     });
 
     socket.on('raiseCategoryLimit', (data) => {
-        let putCategoryLimitResult = queries.putCategoryLimitAsync(data.index);
-
-        putCategoryLimitResult.then(() => {
-
-        }).catch((error) => {
-            console.log('putCategoryLimitResult: ' + error);
-        });
+        queries.putCategoryLimit(data.index);
     });
 
     socket.on('collectAnswers', () => {
