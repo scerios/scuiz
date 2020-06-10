@@ -78,8 +78,7 @@ class SqlQueries {
     }
 
     putCategoryLimit(limit) {
-        limit += 3;
-        mySql.query(`UPDATE category_limit SET round_limit = ${limit} WHERE id = 1`);
+        mySql.query(`UPDATE category_limit SET round_limit = round_limit + ${limit} WHERE id = 1`);
     }
 }
 
