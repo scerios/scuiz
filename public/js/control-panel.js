@@ -30,6 +30,8 @@ categoryBtn.on('click', function () {
         let index = getCategoryIndexAndEnableAllCategories(categoryBtn);
         socket.emit('raiseCategoryLimit', { index: index });
     }
+
+    disableCategoryButtons();
 });
 
 timer.on('blur', function() {
@@ -81,6 +83,7 @@ evaluateBtn.on('click', function() {
     toggleEvaluationModal();
     question.text('');
     answer.text('');
+    enableCategoryButtons();
 });
 
 logoutEveryoneBtn.on('click', function () {
@@ -161,4 +164,24 @@ function answerCorrect(pointElement, value) {
 
 function answerIncorrect(pointElement, value) {
     pointElement.text(parseInt(pointElement.text()) - parseInt(value));
+}
+
+function enableCategoryButtons() {
+    for (let test in categoryBtn) {
+        if (categoryBtn.hasOwnProperty(test)) {
+            if ($(categoryBtn[test]).hasClass('btn-success')) {
+                $(categoryBtn[test]).prop('disabled', false);
+            }
+        }
+    }
+}
+
+function disableCategoryButtons() {
+    for (let test in categoryBtn) {
+        if (categoryBtn.hasOwnProperty(test)) {
+            if ($(categoryBtn[test]).hasClass('btn-success')) {
+                $(categoryBtn[test]).prop('disabled', true);
+            }
+        }
+    }
 }
