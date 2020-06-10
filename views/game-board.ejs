@@ -58,17 +58,8 @@
     let myId = <%- gameBoard.myId %>;
     let myName = '<%- gameBoard.myName %>';
 
-    let doublerBtn = $('#doubler-btn');
-    let isDoubled = false;
-
-    socket.on('doublerClicked', (data) => {
-        if (data.isClicked) {
-            doublerBtn.prop('disabled', true);
-            doublerBtn.text('<%- gameBoard.doublerBtnClicked %>');
-            doublerBtn.removeClass('btn-info').addClass('btn-success');
-            isDoubled = true;
-        }
-    });
+    let doublerBtnText = '<%- gameBoard.doublerBtn %>';
+    let doublerBtnClickedText = '<%- gameBoard.doublerBtnClicked %>';
 </script>
 <script src="js/game-board.js"></script>
 <style>

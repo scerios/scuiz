@@ -3,10 +3,12 @@ let questionCategory = $('#question-category');
 let question = $('#question');
 let timerContainer = $('#timer-container');
 let timer = $('#timer');
+let doublerBtn = $('#doubler-btn');
 let answer = $('#answer');
 let answerBtn = $('#answer-btn');
 
 let isThinking = false;
+let isDoubled = false;
 let isPrimary = false;
 let isWarning = false;
 
@@ -40,7 +42,7 @@ socket.on('getNextQuestion', (data) => {
             changeTimerColor(minutes, seconds);
 
             if (minutes === 0 && seconds === '00') {
-                sendAnswerForEvaluation();
+                sendAnswerForEvaluation(true);
                 resetGameBoard();
             } else {
                 timer.text(minutes + " : " + seconds);
@@ -60,7 +62,7 @@ socket.on('updatePoint', (data) => {
 
 socket.on('forcePostAnswer', () => {
     if (isThinking) {
-        sendAnswerForEvaluation();
+        sendAnswerForEvaluation(true);
         resetGameBoard();
     }
 });
@@ -69,13 +71,21 @@ socket.on('doublerDisabled', () => {
     doublerBtn.prop('disabled', true);
 });
 
+socket.on('doublerClicked', (data) => {
+    if (data.isClicked) {
+        doublerBtn.prop('disabled', true);
+        doublerBtn.text(doublerBtnClickedText);
+        doublerBtn.removeClass('btn-info').addClass('btn-success');
+        isDoubled = true;
+    }
+});
+
 doublerBtn.on('click', function () {
     socket.emit('takeChances');
 });
 
 answerBtn.on('click', function () {
-    isThinking = false;
-    sendAnswerForEvaluation();
+    sendAnswerForEvaluation(false);
     resetGameBoard();
 });
 
@@ -93,26 +103,33 @@ function changeTimerColor(minutes, seconds) {
     }
 }
 
-function sendAnswerForEvaluation() {
+function sendAnswerForEvaluation(isTimeExpired) {
     socket.emit('postAnswer', {
         player: {
             id: myId,
             name: myName,
-            timeLeft: timer.text(),
+            timeLeft: isTimeExpired? '0 : 00' : timer.text(),
             answer: answer.val(),
             isDoubled: isDoubled
         }
     });
+    isDoubled = false;
+
 }
 
 function resetGameBoard() {
     clearInterval(counter);
     questionCategory.text('');
     question.text('');
+    isThinking = false;
+    isDoubled = false;
     isPrimary = false;
     isWarning = false;
     timerContainer.removeClass('bg-primary bg-warning').addClass('bg-success');
     timer.text('');
+    doublerBtn.prop('disabled', false);
+    doublerBtn.text(doublerBtnText);
+    doublerBtn.removeClass('btn-success').addClass('btn-info');
     answer.val('');
     answer.prop('disabled', true);
     doublerBtn.prop('disabled', true);
