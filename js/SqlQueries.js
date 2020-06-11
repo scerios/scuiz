@@ -74,7 +74,7 @@ class SqlQueries {
             `SELECT q.question, q.answer, c.name FROM question q ` +
             `INNER JOIN category c ` +
             `ON q.category_id = c.id ` +
-            `WHERE category_id = ${categoryId} LIMIT ${index}, 1`);
+            `WHERE category_id = ${categoryId} LIMIT ${index}, 2`);
     }
 
     putCategoryLimit(limit) {
