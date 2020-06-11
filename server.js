@@ -129,7 +129,7 @@ IO.on('connection', socket => {
 
             getQuestionResult.then((question) => {
                 socket.broadcast.emit('getNextQuestion', { question: question[0].question, category: question[0].name, timer: data.timer });
-                IO.to(adminSocketId).emit('getQuestion', { question: question[0] });
+                IO.to(adminSocketId).emit('getQuestion', { question: question[0], nextQuestion: question[1] });
             }).catch((error) => {
                 console.log('getQuestionResult: ' + error);
             })

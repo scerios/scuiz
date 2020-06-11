@@ -21,6 +21,7 @@ socket.on('getQuestion', (data) => {
     toggleEvaluationModal();
     question.text(data.question.question);
     answer.text(data.question.answer);
+    $('#category-' + data.nextQuestion.id).attr('title', data.nextQuestion.question);
 });
 
 categoryBtn.on('click', function () {

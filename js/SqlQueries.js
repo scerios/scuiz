@@ -71,7 +71,7 @@ class SqlQueries {
     async getQuestionByCategoryIdAndQuestionIndexAsync(categoryId, index) {
         index--;
         return await query(
-            `SELECT q.question, q.answer, c.name FROM question q ` +
+            `SELECT c.id, c.name, q.question, q.answer FROM question q ` +
             `INNER JOIN category c ` +
             `ON q.category_id = c.id ` +
             `WHERE category_id = ${categoryId} LIMIT ${index}, 2`);
