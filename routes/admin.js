@@ -103,8 +103,9 @@ function renderControlPanel(res, language) {
     categoryResult.then((categories) => {
         let categoryRoundLimitResult = queries.getCategoryRoundLimitAsync();
 
-        categoryRoundLimitResult.then((categoryLimit) => {
+        categoryRoundLimitResult.then(async (categoryLimit) => {
             let sortedCategories = HELPER.getCategoryAvailabilities(categories, categoryLimit[0].round_limit);
+            sortedCategories = await matchNextQuestionToCategories(sortedCategories);
             let playersResult = queries.getAllLoggedInPlayersAsync();
 
             playersResult.then((players) => {
@@ -124,6 +125,14 @@ function renderControlPanel(res, language) {
     }).catch((error) => {
         console.log('categoryResult: ' + error);
     });
+}
+
+async function matchNextQuestionToCategories(categories) {
+    for (let i = 0; i < categories.length; i++) {
+        let question = await queries.getNextQuestionByCategoryIdAndQuestionIndexAsync(categories[i].id, categories[i].question_index);
+        categories[i].question = question[0].question;
+    }
+    return categories;
 }
 
 module.exports = ROUTER;
