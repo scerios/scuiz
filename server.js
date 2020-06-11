@@ -125,7 +125,7 @@ IO.on('connection', socket => {
         isDoublerClicked = false;
         let putCategoryResult = queries.putCategoryQuestionIndexByIdAsync(data.categoryId, data.index);
         putCategoryResult.then(() => {
-            let getQuestionResult = queries.getQuestionByCategoryIdAndQuestionIndexAsync(data.categoryId, data.index);
+            let getQuestionResult = queries.getNextTwoQuestionsByCategoryIdAndQuestionIndexAsync(data.categoryId, data.index);
 
             getQuestionResult.then((question) => {
                 socket.broadcast.emit('getNextQuestion', { question: question[0].question, category: question[0].name, timer: data.timer });
