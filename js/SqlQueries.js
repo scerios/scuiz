@@ -68,7 +68,15 @@ class SqlQueries {
         );
     }
 
-    async getQuestionByCategoryIdAndQuestionIndexAsync(categoryId, index) {
+    async getNextQuestionByCategoryIdAndQuestionIndexAsync(categoryId, index) {
+        return await query(
+            `SELECT c.id, c.name, q.question, q.answer FROM question q ` +
+            `INNER JOIN category c ` +
+            `ON q.category_id = c.id ` +
+            `WHERE category_id = ${categoryId} LIMIT ${index}, 1`);
+    }
+
+    async getNextTwoQuestionsByCategoryIdAndQuestionIndexAsync(categoryId, index) {
         index--;
         return await query(
             `SELECT c.id, c.name, q.question, q.answer FROM question q ` +
