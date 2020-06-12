@@ -1,3 +1,5 @@
+let loadingScreen = $('#loading-screen');
+
 let point = $('#point');
 let questionCategory = $('#question-category');
 let question = $('#question');
@@ -57,6 +59,7 @@ socket.on('getNextQuestion', (data) => {
 });
 
 socket.on('updatePoint', (data) => {
+    isLoadingScreenOn(false);
     point.text(data.point);
 });
 
@@ -114,7 +117,7 @@ function sendAnswerForEvaluation(isTimeExpired) {
         }
     });
     isDoubled = false;
-
+    isLoadingScreenOn(true);
 }
 
 function resetGameBoard() {
@@ -134,4 +137,12 @@ function resetGameBoard() {
     answer.prop('disabled', true);
     doublerBtn.prop('disabled', true);
     answerBtn.prop('disabled', true);
+}
+
+function isLoadingScreenOn(isOn) {
+    if (isOn) {
+        loadingScreen.fadeIn();
+    } else {
+        loadingScreen.fadeOut();
+    }
 }
