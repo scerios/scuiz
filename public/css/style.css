@@ -193,7 +193,8 @@
 
 /*--shadow--*/
 .o-circle__sign--success .o-circle__sign::after {
-    background: rgb(40, 128, 96);
+    /*background: rgb(40, 128, 96);*/
+    background: rgb(56, 176, 131);
 }
 
 /* Fail */
@@ -218,7 +219,8 @@
 
 /*--shadow--*/
 .o-circle__sign--failure .o-circle__sign::after {
-    background: rgba(175, 57, 55, .8);
+    /*background: rgba(175, 57, 55, .8);*/
+    background: rgb(236, 78, 75);
 }
 
 /*-----------------------
