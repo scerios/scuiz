@@ -97,6 +97,7 @@
     let pointValue = $('#point-value');
 
     $(document).ready(() => {
+        $('[data-toggle="tooltip"]').tooltip();
         playerTable = $('#player-table').DataTable({
             paging: false,
             searching: false,

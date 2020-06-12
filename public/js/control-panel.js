@@ -1,4 +1,4 @@
-let categoryBtn = $('.btn-category');
+let categoryBtns = $('.btn-category');
 let collectAnswersBtn = $('#collect-answers-btn');
 let evaluateBtn = $('#evaluate-btn');
 let logoutEveryoneBtn = $('#logout-everyone-btn');
@@ -18,17 +18,19 @@ socket.on('getAnswer', (data) => {
 });
 
 socket.on('getQuestion', (data) => {
+    let categoryBtn = $('#category-' + data.question.id);
     toggleEvaluationModal();
     question.text(data.question.question);
     answer.text(data.question.answer);
-    $('#category-' + data.nextQuestion.id).attr('title', data.nextQuestion.question);
+    categoryBtn.tooltip('hide');
+    categoryBtn.attr('data-original-title', data.nextQuestion.question);
 });
 
-categoryBtn.on('click', function () {
+categoryBtns.on('click', function () {
     socket.emit('pickQuestion', { categoryId: $(this).attr('data-category-id'), index: getCategoryIndexAndUpdateElement($(this)), timer: timer.val() });
 
-    if (getHowManyCategoryLeft(categoryBtn) === 0) {
-        let index = getCategoryIndexAndEnableAllCategories(categoryBtn);
+    if (getHowManyCategoryLeft(categoryBtns) === 0) {
+        let index = getCategoryIndexAndEnableAllCategories(categoryBtns);
         socket.emit('raiseCategoryLimit', { index: index });
     }
 
@@ -168,20 +170,20 @@ function answerIncorrect(pointElement, value) {
 }
 
 function enableCategoryButtons() {
-    for (let test in categoryBtn) {
-        if (categoryBtn.hasOwnProperty(test)) {
-            if ($(categoryBtn[test]).hasClass('btn-success')) {
-                $(categoryBtn[test]).prop('disabled', false);
+    for (let i in categoryBtns) {
+        if (categoryBtns.hasOwnProperty(i)) {
+            if ($(categoryBtns[i]).hasClass('btn-success')) {
+                $(categoryBtns[i]).prop('disabled', false);
             }
         }
     }
 }
 
 function disableCategoryButtons() {
-    for (let test in categoryBtn) {
-        if (categoryBtn.hasOwnProperty(test)) {
-            if ($(categoryBtn[test]).hasClass('btn-success')) {
-                $(categoryBtn[test]).prop('disabled', true);
+    for (let i in categoryBtns) {
+        if (categoryBtns.hasOwnProperty(i)) {
+            if ($(categoryBtns[i]).hasClass('btn-success')) {
+                $(categoryBtns[i]).prop('disabled', true);
             }
         }
     }
