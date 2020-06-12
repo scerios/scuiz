@@ -1,3 +1,17 @@
+<div id="category-pick-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="category-pick-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><%- gameBoard.selectCategory %></h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <%- include('partials/player-category-buttons'); %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div id="logout-btn-container" class="col-12">
         <form action="/logout" method="GET">

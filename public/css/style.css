@@ -26,6 +26,11 @@
     left: 10%;
 }
 
+#category-pick-modal {
+    width: 40%;
+    left: 30%;
+}
+
 .modal-lg {
     max-width: 100%;
 }

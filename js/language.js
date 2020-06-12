@@ -49,7 +49,8 @@ const LANG_EN = {
         doublerBtnClicked: "Doubled",
         answerBtn: "Send",
         category: "Category",
-        pointText: "Current points"
+        pointText: "Current points",
+        selectCategory: "Select category"
     },
     adminLogin: {
         welcomeMsg: "Smart only",
@@ -135,7 +136,8 @@ const LANG_HU = {
         doublerBtnClicked: "Dupláztam",
         answerBtn: "Elküldöm",
         category: "Kategória",
-        pointText: "Jelenlegi pontok"
+        pointText: "Jelenlegi pontok",
+        selectCategory: "Válassz témakört"
     },
     adminLogin: {
         welcomeMsg: "Csak okosoknak",

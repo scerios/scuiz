@@ -46,8 +46,9 @@ function getLoginPage(language) {
     };
 }
 
-function getGameBoardPage(language, player) {
+function getGameBoardPage(language, player, categories) {
     return {
+        categories: categories,
         logoutBtn: language.gameBoard.logoutBtn,
         question: language.gameBoard.question,
         timer: language.gameBoard.timer,
@@ -57,6 +58,7 @@ function getGameBoardPage(language, player) {
         answerBtn: language.gameBoard.answerBtn,
         category: language.gameBoard.category,
         pointText: language.gameBoard.pointText,
+        selectCategory: language.gameBoard.selectCategory,
         myId: player.id,
         myName: player.name,
         pointValue: player.point
@@ -240,10 +242,26 @@ function signInPlayer(userId, res, language) {
             let putPlayerStatusResult = queries.putPlayerStatusByIdAsync(userId, 1);
 
             putPlayerStatusResult.then(() => {
-                let gameBoard = getGameBoardPage(language, player[0]);
-                res.render('game-board', {
-                    gameBoard
+                let categoryResult = queries.getAllCategoriesAsync();
+
+                categoryResult.then((categories) => {
+                    let categoryRoundLimitResult = queries.getCategoryRoundLimitAsync();
+
+                    categoryRoundLimitResult.then((categoryLimit) => {
+                        let sortedCategories = HELPER.getCategoryAvailabilities(categories, categoryLimit[0].round_limit);
+                        let gameBoard = getGameBoardPage(language, player[0], sortedCategories);
+                        res.render('game-board', {
+                            gameBoard
+                        });
+
+                    }).catch((error) => {
+                        console.log('categoryRoundLimitResult: ' + error);
+                    });
+
+                }).catch((error) => {
+                    console.log('categoryResult: ' + error);
                 });
+
             }).catch((error) => {
                 console.log('putPlayerStatusResult : ' + error);
             });

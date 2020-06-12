@@ -1,3 +1,5 @@
+let categoryPickModal = $('#category-pick-modal');
+
 let loadingScreen = $('#loading-screen');
 let successSign = $('#success-sign');
 let failSign = $('#fail-sign');
@@ -92,6 +94,10 @@ socket.on('doublerClicked', (data) => {
     }
 });
 
+socket.on('authorize', () => {
+    toggleModal(categoryPickModal);
+});
+
 doublerBtn.on('click', function () {
     socket.emit('takeChances');
 });
@@ -161,4 +167,8 @@ function toggleElement(element) {
     setTimeout(() => {
         element.fadeOut();
     }, 2500);
+}
+
+function toggleModal(modal) {
+    modal.modal('toggle');
 }
