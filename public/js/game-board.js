@@ -1,4 +1,6 @@
 let loadingScreen = $('#loading-screen');
+let successSign = $('#success-sign');
+let failSign = $('#fail-sign');
 
 let point = $('#point');
 let questionCategory = $('#question-category');
@@ -60,6 +62,13 @@ socket.on('getNextQuestion', (data) => {
 
 socket.on('updatePoint', (data) => {
     isLoadingScreenOn(false);
+    console.log(point.text());
+    console.log(data.point);
+    if (parseInt(point.text()) >= data.point) {
+        toggleElement(failSign);
+    } else {
+        toggleElement(successSign);
+    }
     point.text(data.point);
 });
 
@@ -145,4 +154,11 @@ function isLoadingScreenOn(isOn) {
     } else {
         loadingScreen.fadeOut();
     }
+}
+
+function toggleElement(element) {
+    element.show();
+    setTimeout(() => {
+        element.fadeOut();
+    }, 2500);
 }
