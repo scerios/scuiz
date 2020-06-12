@@ -191,6 +191,11 @@ IO.on('connection', socket => {
             IO.to(socket.id).emit('doublerClicked', { isClicked: false });
         }
     });
+
+    socket.on('authorizePlayer', (data) => {
+        console.log(data);
+        IO.to(data.playerSocketId).emit('authorizeCategoryPick');
+    });
 });
 
 //#endregion

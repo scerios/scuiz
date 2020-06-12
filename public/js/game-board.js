@@ -94,7 +94,7 @@ socket.on('doublerClicked', (data) => {
     }
 });
 
-socket.on('authorize', () => {
+socket.on('authorizeCategoryPick', () => {
     toggleModal(categoryPickModal);
 });
 

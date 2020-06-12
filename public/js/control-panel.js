@@ -1,4 +1,5 @@
 let categoryBtns = $('.btn-category');
+let authorizeBtns = $('.btn-authorize');
 let collectAnswersBtn = $('#collect-answers-btn');
 let evaluateBtn = $('#evaluate-btn');
 let logoutEveryoneBtn = $('#logout-everyone-btn');
@@ -24,6 +25,11 @@ socket.on('getQuestion', (data) => {
     answer.text(data.question.answer);
     categoryBtn.tooltip('hide');
     categoryBtn.attr('data-original-title', data.nextQuestion.question);
+});
+
+authorizeBtns.on('click', function () {
+    console.log($(this).attr('data-socket-id'));
+    socket.emit('authorizePlayer', { playerSocketId: $(this).attr('data-socket-id') });
 });
 
 categoryBtns.on('click', function () {
