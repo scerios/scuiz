@@ -1,4 +1,5 @@
 let categoryPickModal = $('#category-pick-modal');
+let categoryBtns = $('.btn-category');
 
 let loadingScreen = $('#loading-screen');
 let successSign = $('#success-sign');
@@ -58,14 +59,17 @@ socket.on('getNextQuestion', (data) => {
     answer.prop('disabled', false);
     doublerBtn.prop('disabled', false);
     answerBtn.prop('disabled', false);
-    questionCategory.text(data.category);
+    questionCategory.text(data.category.name);
     question.text(data.question);
+
+    updateElement($(`#category-${data.category.id}`));
+    if (getHowManyCategoryLeft() === 0) {
+        enableAllCategories();
+    }
 });
 
 socket.on('updatePoint', (data) => {
     isLoadingScreenOn(false);
-    console.log(point.text());
-    console.log(data.point);
     if (parseInt(point.text()) >= data.point) {
         toggleElement(failSign);
     } else {
@@ -105,6 +109,11 @@ doublerBtn.on('click', function () {
 answerBtn.on('click', function () {
     sendAnswerForEvaluation(false);
     resetGameBoard();
+});
+
+categoryBtns.on('click', function () {
+    socket.emit('chooseCategory', { categoryId: $(this).attr('data-category-id') });
+    toggleModal(categoryPickModal);
 });
 
 function changeTimerColor(minutes, seconds) {
@@ -171,4 +180,33 @@ function toggleElement(element) {
 
 function toggleModal(modal) {
     modal.modal('toggle');
+}
+
+function updateElement(element) {
+    let index = element.attr('data-category-index');
+    index++;
+    if (index % 3 === 0) {
+        element.prop('disabled', true);
+        element.removeClass('btn-success');
+        element.addClass('btn-warning');
+    }
+    element.attr('data-category-index', index);
+}
+
+function getHowManyCategoryLeft() {
+    let counter = 0;
+    for (let i = 0; i < categoryBtns.length; i++) {
+        if (!$(categoryBtns[i]).prop('disabled')) {
+            counter++;
+        }
+    }
+    return counter;
+}
+
+function enableAllCategories() {
+    for (let i = 0; i < categoryBtns.length; i++) {
+        $(categoryBtns[i]).prop('disabled', false);
+        $(categoryBtns[i]).removeClass('btn-warning');
+        $(categoryBtns[i]).addClass('btn-success');
+    }
 }

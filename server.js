@@ -128,7 +128,7 @@ IO.on('connection', socket => {
             let getQuestionResult = queries.getNextTwoQuestionsByCategoryIdAndQuestionIndexAsync(data.categoryId, data.index);
 
             getQuestionResult.then((question) => {
-                socket.broadcast.emit('getNextQuestion', { question: question[0].question, category: question[0].name, timer: data.timer });
+                socket.broadcast.emit('getNextQuestion', { question: question[0].question , category: { id: question[0].id, name: question[0].name }, timer: data.timer });
                 IO.to(adminSocketId).emit('getQuestion', { question: question[0], nextQuestion: question[1] });
             }).catch((error) => {
                 console.log('getQuestionResult: ' + error);
@@ -193,8 +193,11 @@ IO.on('connection', socket => {
     });
 
     socket.on('authorizePlayer', (data) => {
-        console.log(data);
         IO.to(data.playerSocketId).emit('authorizeCategoryPick');
+    });
+
+    socket.on('chooseCategory', (data) => {
+        IO.to(adminSocketId).emit('chosenCategory', { categoryId: data.categoryId });
     });
 });
 

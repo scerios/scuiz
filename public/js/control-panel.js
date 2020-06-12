@@ -27,8 +27,11 @@ socket.on('getQuestion', (data) => {
     categoryBtn.attr('data-original-title', data.nextQuestion.question);
 });
 
-authorizeBtns.on('click', function () {
-    console.log($(this).attr('data-socket-id'));
+socket.on('chosenCategory', (data) => {
+    $(`#category-${data.categoryId}`).removeClass('btn-success').addClass('btn-primary');
+});
+
+$(document).on('click', '.btn-authorize', function () {
     socket.emit('authorizePlayer', { playerSocketId: $(this).attr('data-socket-id') });
 });
 
@@ -105,8 +108,9 @@ function getCategoryIndexAndUpdateElement(element) {
     index++;
     if (index % 3 === 0) {
         element.prop('disabled', true);
-        element.removeClass('btn-success');
-        element.addClass('btn-warning');
+        element.removeClass('btn-success').addClass('btn-warning');
+    } else {
+        element.removeClass('btn-primary').addClass('btn-success');
     }
     element.attr('data-category-index', index);
     return index;
