@@ -1,7 +1,7 @@
-<div class="row mt-5">
-    <div class="col-md-6 m-auto">
-        <div class="card card-body">
-            <h1 class="text-center mb-3"><i class="fas fa-sign-in-alt"></i> <%- login.welcomeMsg %></h1>
+<div class="mt-5 container">
+    <div class="auth-container m-auto">
+        <div class="card card-body bg-gray shadow-solid">
+            <h1 class="text-center mb-3 text-orange"><i class="fas fa-sign-in-alt"></i> <span class="text-dirty"><%- login.welcomeMsg %></span></h1>
             <% if(typeof login.connectionError != 'undefined') { %>
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <%= login.connectionError %>
@@ -35,32 +35,32 @@
                 </div>
             <% } %>
             <form action="/login" method="POST">
-                <div class="form-group">
+                <div class="form-group text-dirty">
                     <label for="name"><%- login.nameLabel %></label>
                     <input
                     type="text"
                     id="name"
                     name="name"
-                    class="form-control"
+                    class="form-control bg-dirty"
                     placeholder="<%- login.namePlaceholder %>"
                     required
                     />
                 </div>
-                <div class="form-group">
+                <div class="form-group text-dirty">
                     <label for="password"><%- login.passwordLabel %></label>
                     <input
                     type="password"
                     id="password"
                     name="password"
-                    class="form-control"
+                    class="form-control bg-dirty"
                     placeholder="<%- login.passwordPlaceholder %>"
                     required
                     />
                 </div>
-                <button type="submit" class="btn btn-success btn-block"><%- login.loginBtn %></button>
+                <button type="submit" class="btn btn-orange btn-block"><%- login.loginBtn %></button>
             </form>
-            <p class="lead mt-4">
-                <%- login.isNotRegisteredQuestion %> <a class="text-info" href="/register"><%- login.registerLink %></a>
+            <p class="lead mt-4 text-dirty">
+                <%- login.isNotRegisteredQuestion %> <a href="/register"><%- login.registerLink %></a>
             </p>
         </div>
     </div>
