@@ -11,11 +11,26 @@ body {
     font-size: 1rem;
 }
 
+
+a {
+    color: #D5441C;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 0.5rem;
+    transition: text-shadow, color;
+    transition-duration: 1s;
+}
+
+a:hover {
+    text-decoration: none;
+    text-shadow: 0 0 10px rgba(195, 181, 34, 0.5);
+    color: #c3b522;
+}
+
 #menu {
     background-color: #2f3640;
     width: 80%;
     margin: auto;
-    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 1.0);
 }
 
 #menu ul {
@@ -28,18 +43,6 @@ body {
     padding: 1.2rem 0.5rem 0.2rem 0.5rem;
 }
 
-#menu a {
-    text-decoration: none;
-    color: #D5441C;
-    font-weight: bold;
-    letter-spacing: 1px;
-    padding: 0.5rem;
-}
-
-#logo-link {
-    display: inline-block;
-}
-
 #menu-logo-container {
     position: absolute;
 }
@@ -47,16 +50,6 @@ body {
 #menu-logo {
     width: 120px;
     height: 60px;
-}
-
-#menu a {
-    transition: text-shadow, color;
-    transition-duration: 1s;
-}
-
-#menu a:hover {
-    text-shadow: 0 0 10px rgba(195, 181, 34, 0.5);
-    color: #c3b522;
 }
 
 #nav-link-container {
@@ -77,6 +70,10 @@ body {
     padding: 0.7rem;
 }
 
+.auth-container {
+    width: 40%;
+}
+
 .dropdown-menu {
     min-width: 2rem; !important;
     background: #2F3640;
@@ -84,6 +81,38 @@ body {
 
 .dropdown-item:hover {
     background: #2F3640;
+}
+
+.text-dirty {
+    color: #dcdde1;
+}
+
+.text-orange {
+    color: #D5441C;
+}
+
+.btn-orange {
+    background: #D5441C;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 1.0);
+    transition: background-color;
+    transition-duration: 1s;
+}
+
+.btn-orange:hover {
+    background: #c3b522;
+    box-shadow: none;
+}
+
+.bg-gray {
+    background: #2F3640;
+}
+
+.bg-dirty {
+    background: #dcdde1;
+}
+
+.shadow-solid {
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 1.0);
 }
 
 /*endregion */
