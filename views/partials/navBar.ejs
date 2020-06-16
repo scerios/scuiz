@@ -1,0 +1,20 @@
+<nav id="menu">
+    <div id="menu-logo-container">
+        <a href="/"><img id="menu-logo" src="logo/logo-sm.png"></a>
+    </div>
+    <ul id="nav-link">
+        <li><a href="/">Home</a></li>
+        <li><a href="/gameBoard">Game Board</a></li>
+        <li><a href="/rules">Rules</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+    <ul id="auth-link">
+        <% if(navBar.userId !== undefined) { %>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/logout">Logout</a></li>
+        <% } else { %>
+            <li><a href="/register">Register</a></li>
+            <li><a href="/login">Login</a></li>
+        <% } %>
+    </ul>
+</nav>
