@@ -7,14 +7,15 @@ const HELPER = require('./../js/helper');
 
 let queries = new SQL_QUERIES();
 
-function getIndexPage(language) {
+function getIndexPage(language, user) {
     return {
         welcomeMsg: language.index.welcomeMsg,
         loginBtn: language.index.loginBtn,
         registerBtn: language.index.registerBtn,
         languageSelect: language.index.languageSelect,
         english: language.index.english,
-        hungarian: language.index.hungarian
+        hungarian: language.index.hungarian,
+        user: user
     };
 }
 
@@ -66,12 +67,14 @@ function getGameBoardPage(language, player, categories) {
 }
 
 ROUTER.get('/', (req, res) => {
+    setLastPosition(req, "/");
+
     let language = LANGUAGE.getLanguage(req.session.language);
 
     if (req.session.userId !== undefined) {
         signInPlayer(req.session.userId, res, language);
     } else {
-        let index = getIndexPage(language);
+        let index = getIndexPage(language, req.session.userId);
         res.render('index', {
             index
         });
@@ -80,15 +83,17 @@ ROUTER.get('/', (req, res) => {
 
 ROUTER.get('/setLanguageEn', (req, res) => {
     req.session.language = 'en';
-    res.redirect('/');
+    res.redirect(req.session.lastPosition);
 });
 
 ROUTER.get('/setLanguageHu', (req, res) => {
     req.session.language = 'hu';
-    res.redirect('/');
+    res.redirect(req.session.lastPosition);
 });
 
 ROUTER.get('/register', (req, res) => {
+    setLastPosition(req, "/register");
+
     let language = LANGUAGE.getLanguage(req.session.language);
     let register = getRegisterPage(language);
 
@@ -137,6 +142,8 @@ ROUTER.post('/register', (req, res) => {
 });
 
 ROUTER.get('/login', (req, res) => {
+    setLastPosition(req, "/login");
+
     let language = LANGUAGE.getLanguage(req.session.language);
     let login = getLoginPage(language);
 
@@ -156,7 +163,7 @@ ROUTER.post('/login', (req, res) => {
                 if (player[0].status === 0) {
                     req.session.userId = player[0].id;
                     req.session.username = name;
-                    res.redirect('/gameBoard');
+                    res.redirect('/');
                 } else {
                     let login = getLoginPage(language);
                     login.alreadyLoggedIn = language.login.alreadyLoggedIn;
@@ -194,6 +201,8 @@ ROUTER.post('/login', (req, res) => {
 });
 
 ROUTER.get('/gameBoard', (req, res) => {
+    setLastPosition(req, "/gameBoard");
+
     let language = LANGUAGE.getLanguage(req.session.language);
 
     if (req.session.userId) {
@@ -210,7 +219,7 @@ ROUTER.get('/logout', (req, res) => {
     putPlayerStatusResult.then(() => {
         delete req.session.userId;
         delete req.session.username;
-        res.redirect('/');
+        res.redirect(req.session.lastPosition);
     }).catch((error) => {
         console.log('playerLoginResult: ' + error);
         let login = getLoginPage(language);
@@ -276,6 +285,10 @@ function signInPlayer(userId, res, language) {
     }).catch((error) => {
         console.log('getPlayerStatusResult: ' + error);
     });
+}
+
+function setLastPosition(req, position) {
+    req.session.lastPosition = position;
 }
 
 module.exports = ROUTER;
