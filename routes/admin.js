@@ -6,6 +6,12 @@ const HELPER = require('./../js/helper');
 
 let queries = new SQL_QUERIES();
 
+function getNavBar(language, adminId) {
+    return {
+        adminId: adminId
+    }
+}
+
 function getAdminLoginPage(language) {
     return {
         welcomeMsg: language.adminLogin.welcomeMsg,
@@ -54,7 +60,10 @@ ROUTER.get('/admin', (req, res) => {
         renderControlPanel(res, language);
     } else {
         let adminLogin = getAdminLoginPage(language);
+        let navBar = getNavBar(language, req.session.adminId);
+
         res.render('admin-login', {
+            navBar,
             adminLogin
         });
     }
@@ -91,7 +100,10 @@ ROUTER.get('/controlPanel', (req, res) => {
         renderControlPanel(res, language);
     } else {
         let adminLogin = getAdminLoginPage(language);
+        let navBar = getNavBar(language, req.session.adminId);
+
         res.render('admin-login', {
+            navBar,
             adminLogin
         });
     }
@@ -110,7 +122,10 @@ function renderControlPanel(res, language) {
 
             playersResult.then((players) => {
                 let controlPanel = getControlPanelPage(language, sortedCategories, players);
+                let navBar = getNavBar(language, req.session.adminId);
+
                 res.render('control-panel', {
+                    navBar,
                     controlPanel
                 });
 
