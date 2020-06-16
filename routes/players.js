@@ -7,15 +7,20 @@ const HELPER = require('./../js/helper');
 
 let queries = new SQL_QUERIES();
 
-function getIndexPage(language, user) {
+function getNavBar(language, userId) {
+    return {
+        userId: userId
+    }
+}
+
+function getIndexPage(language) {
     return {
         welcomeMsg: language.index.welcomeMsg,
         loginBtn: language.index.loginBtn,
         registerBtn: language.index.registerBtn,
         languageSelect: language.index.languageSelect,
         english: language.index.english,
-        hungarian: language.index.hungarian,
-        user: user
+        hungarian: language.index.hungarian
     };
 }
 
@@ -74,8 +79,11 @@ ROUTER.get('/', (req, res) => {
     if (req.session.userId !== undefined) {
         signInPlayer(req.session.userId, res, language);
     } else {
-        let index = getIndexPage(language, req.session.userId);
+        let navBar = getNavBar(language, req.session.userId);
+        let index = getIndexPage(language);
+
         res.render('index', {
+            navBar,
             index
         });
     }
@@ -95,9 +103,11 @@ ROUTER.get('/register', (req, res) => {
     setLastPosition(req, "/register");
 
     let language = LANGUAGE.getLanguage(req.session.language);
+    let navBar = getNavBar(language, req.session.userId);
     let register = getRegisterPage(language);
 
     res.render('register', {
+        navBar,
         register
     });
 });
@@ -145,9 +155,11 @@ ROUTER.get('/login', (req, res) => {
     setLastPosition(req, "/login");
 
     let language = LANGUAGE.getLanguage(req.session.language);
+    let navBar = getNavBar(language, req.session.userId);
     let login = getLoginPage(language);
 
     res.render('login', {
+        navBar,
         login
     });
 });
@@ -258,8 +270,11 @@ function signInPlayer(userId, res, language) {
 
                     categoryRoundLimitResult.then((categoryLimit) => {
                         let sortedCategories = HELPER.getCategoryAvailabilities(categories, categoryLimit[0].round_limit);
+                        let navBar = getNavBar(language, req.session.userId);
                         let gameBoard = getGameBoardPage(language, player[0], sortedCategories);
+
                         res.render('game-board', {
+                            navBar,
                             gameBoard
                         });
 
