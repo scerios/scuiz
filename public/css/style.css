@@ -18,7 +18,7 @@ a {
     letter-spacing: 1px;
     padding: 0.5rem;
     transition: text-shadow, color;
-    transition-duration: 1s;
+    transition-duration: 0.5s;
 }
 
 a:hover {
@@ -74,6 +74,19 @@ a:hover {
     width: 40%;
 }
 
+.card-container {
+    width: 33%;
+    display: inline-block;
+    margin: auto;
+    padding: 1rem;
+    text-align: center;
+}
+
+.card-container-wide {
+    width: 100%;
+    text-align: center;
+}
+
 .dropdown-menu {
     min-width: 2rem; !important;
     background: #2F3640;
@@ -95,12 +108,17 @@ a:hover {
     background: #D5441C;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 1.0);
     transition: background-color;
-    transition-duration: 1s;
+    transition-duration: 0.5s;
 }
 
 .btn-orange:hover {
     background: #c3b522;
     box-shadow: none;
+}
+
+.btn-orange:disabled:hover {
+    background: #D5441C;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 1.0);
 }
 
 .bg-gray {
@@ -111,8 +129,16 @@ a:hover {
     background: #dcdde1;
 }
 
-.shadow-solid {
-    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 1.0);
+.shadow {
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 1.0);
+}
+
+.text-shadow {
+    text-shadow: 0 0 10px 0 rgba(20, 20, 20, 1);
+}
+
+.bordered {
+    border: 1px solid #2f2f2f;
 }
 
 /*endregion */

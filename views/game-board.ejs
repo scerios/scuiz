@@ -12,54 +12,49 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div id="logout-btn-container" class="col-12">
-        <form action="/logout" method="GET">
-            <button type="submit" class="btn btn-dark max-width"><%- gameBoard.logoutBtn %></button>
-        </form>
+<div class="mt-5 container">
+    <div class="card-container-wide text-shadow">
+        <h1 class="text-dirty"><%- gameBoard.pointText %>: <span class="text-orange" id="point"><%- gameBoard.pointValue %></span></h1>
     </div>
-    <div class="col-12 text-center">
-        <h1 class="text-info"><%- gameBoard.pointText %>: <span class="text-warning" id="point"><%- gameBoard.pointValue %></span></h1>
-    </div>
-    <div class="col-4 text-center">
-        <div class="card text-white bg-secondary mb-3">
+    <div class="card-container">
+        <div class="card text-dirty bg-gray shadow bordered">
             <div class="card-header">
                 <%- gameBoard.question %>
             </div>
             <div class="card-body">
-                <h4 class="card-title">
+                <h4 class="card-title text-dirty">
                     <%- gameBoard.category %>: <br>
-                    <span id="question-category"></span>
+                    <span id="question-category text-orange"></span>
                 </h4>
-                <p id="question" class="card-text"></p>
+                <p id="question" class="card-text text-dirty"></p>
             </div>
         </div>
     </div>
-    <div class="col-4 text-center">
-        <div id="timer-container" class="card text-white bg-success mb-3">
+    <div class="card-container">
+        <div id="timer-container" class="card text-dirty bg-gray shadow bordered">
             <div class="card-header">
                 <%- gameBoard.timer %>
             </div>
             <div class="card-body">
-                <h4 id="timer" class="card-title"></h4>
+                <h4 id="timer" class="card-title text-orange"></h4>
             </div>
         </div>
     </div>
-    <div class="col-4 text-center">
-        <div class="card text-white bg-secondary mb-3">
+    <div class="card-container">
+        <div class="card text-dirty bg-gray shadow bordered">
             <div class="card-header">
                 <%- gameBoard.answer %>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="form-group col-12">
-                          <textarea disabled class="form-control" id="answer" rows="3"></textarea>
+                          <textarea disabled class="form-control bg-dirty" id="answer" rows="3"></textarea>
                     </div>
-                    <div class="form-group max-width col-6">
-                        <button disabled id="doubler-btn" type="button" class="btn btn-info btn btn-block"><%- gameBoard.doublerBtn %></button>
+                    <div class="form-group max-width col-6 text-dirty">
+                        <button disabled id="doubler-btn" type="button" class="btn btn-success btn btn-block shadow"><%- gameBoard.doublerBtn %></button>
                     </div>
-                    <div class="form-group max-width col-6">
-                        <button disabled id="answer-btn" type="button" class="btn btn-success btn btn-block"><%- gameBoard.answerBtn %></button>
+                    <div class="form-group max-width col-6 text-dirty">
+                        <button disabled id="answer-btn" type="button" class="btn btn-orange btn btn-block"><%- gameBoard.answerBtn %></button>
                     </div>
                 </div>
             </div>
