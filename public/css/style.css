@@ -1,60 +1,71 @@
-#logo-container {
-    padding-left: 45%;
+* {
+    margin: 0;
+    padding: 0;
 }
 
-#logo {
-    width: 200px;
-    height: 200px;
+body {
+    background-color: #222f3e;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.6rem;
 }
 
-#language-select {
-    margin-top: 40px;
-    width: 50%;
-    left: 25%
-}
-
-#welcome-msg {
-    margin: 40px 0 40px 0;
-}
-
-#logout-btn-container {
-    margin-bottom: 40px;
-}
-
-#evaluation-modal {
+#menu {
+    background-color: #2f3640;
     width: 80%;
-    left: 10%;
+    margin: auto;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 1.0);
 }
 
-#category-pick-modal {
-    width: 40%;
-    left: 30%;
+#menu ul {
+    display: inline-block;
 }
 
-.modal-lg {
-    max-width: 100%;
+#menu li {
+    list-style: none;
+    display: inline-block;
+    padding: 2rem 0.5rem;
 }
 
-.modal-dialog {
-    max-width: 100%;
+#menu a {
+    text-decoration: none;
+    color: #D5441C;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 0.5rem;
 }
 
-.max-width {
-    width: 100%;
+#logo-link {
+    display: inline-block;
 }
 
-.default-padding {
-    padding: 10px;
+#menu-logo-container {
+    position: absolute;
+    padding: 0.8rem;
 }
 
-.text-center {
-    text-align: center;
+#menu-logo {
+    width: 120px;
+    height: 60px;
 }
 
-.short-input {
-    left: 45%;
-    width: 10%;
-    position: relative;
+#menu a {
+    transition: text-shadow, color;
+    transition-duration: 1s;
+}
+
+#menu a:hover {
+    text-shadow: 0 0 10px rgba(195, 181, 34, 0.5);
+    color: #c3b522;
+}
+
+#nav-link {
+    margin-left: 10rem;
+}
+
+#auth-link {
+    float: right;
+    margin-right: 5rem;
 }
 
 /*region Loading screen */
