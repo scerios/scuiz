@@ -32,6 +32,14 @@ function setLastPosition(req, position) {
     req.session.lastPosition = position;
 }
 
+function getLanguageFromSession(req) {
+    if (!req.session.language) {
+        req.session.language = "hu";
+    }
+    return req.session.language;
+}
+
 exports.getCategoryAvailabilities = getCategoryAvailabilities;
 exports.tryGetInputErrors = tryGetInputErrors;
 exports.setLastPosition = setLastPosition;
+exports.getLanguageFromSession = getLanguageFromSession;
