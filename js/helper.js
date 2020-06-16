@@ -28,5 +28,10 @@ function tryGetInputErrors(inputs, errorMessages) {
     return errors;
 }
 
+function setLastPosition(req, position) {
+    req.session.lastPosition = position;
+}
+
 exports.getCategoryAvailabilities = getCategoryAvailabilities;
 exports.tryGetInputErrors = tryGetInputErrors;
+exports.setLastPosition = setLastPosition;

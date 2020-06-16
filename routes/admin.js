@@ -6,9 +6,18 @@ const HELPER = require('./../js/helper');
 
 let queries = new SQL_QUERIES();
 
-function getNavBar(language, adminId) {
+function getNavBar(language, adminId, currentLanguage) {
     return {
-        adminId: adminId
+        home: language.navBar.home,
+        gameBoard: language.navBar.gameBoard,
+        rules: language.navBar.rules,
+        about: language.navBar.about,
+        register: language.navBar.register,
+        login: language.navBar.login,
+        profile: language.navBar.profile,
+        logout: language.navBar.logout,
+        adminId: adminId,
+        language: currentLanguage
     }
 }
 
@@ -54,13 +63,14 @@ function getControlPanelPage(language, categories, players) {
 }
 
 ROUTER.get('/admin', (req, res) => {
-    let language = LANGUAGE.getLanguage(req.session.language);
+    HELPER.setLastPosition(req, "/admin");
+    let language = LANGUAGE.getLanguage(req.session.language? req.session.language : "hu");
 
-    if (req.session.adminId !== undefined) {
-        renderControlPanel(res, language);
+    if (req.session.adminId) {
+        renderControlPanel(req, res, language);
     } else {
         let adminLogin = getAdminLoginPage(language);
-        let navBar = getNavBar(language, req.session.adminId);
+        let navBar = getNavBar(language, req.session.adminId, req.session.language);
 
         res.render('admin-login', {
             navBar,
@@ -94,10 +104,11 @@ ROUTER.post('/adminLogin', (req, res) => {
 });
 
 ROUTER.get('/controlPanel', (req, res) => {
+    HELPER.setLastPosition(req, "/controlPanel");
     let language = LANGUAGE.getLanguage(req.session.language);
 
-    if (req.session.adminId !== undefined) {
-        renderControlPanel(res, language);
+    if (req.session.adminId) {
+        renderControlPanel(req, res, language);
     } else {
         let adminLogin = getAdminLoginPage(language);
         let navBar = getNavBar(language, req.session.adminId);
@@ -109,7 +120,7 @@ ROUTER.get('/controlPanel', (req, res) => {
     }
 });
 
-function renderControlPanel(res, language) {
+function renderControlPanel(req, res, language) {
     let categoryResult = queries.getAllCategoriesAsync();
 
     categoryResult.then((categories) => {

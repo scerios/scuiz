@@ -78,7 +78,7 @@ function getGameBoardPage(language, player, categories) {
 }
 
 ROUTER.get('/', (req, res) => {
-    setLastPosition(req, "/");
+    HELPER.setLastPosition(req, "/");
 
     let language = LANGUAGE.getLanguage(req.session.language? req.session.language : "hu");
 
@@ -106,7 +106,7 @@ ROUTER.get('/setLanguageHu', (req, res) => {
 });
 
 ROUTER.get('/register', (req, res) => {
-    setLastPosition(req, "/register");
+    HELPER.setLastPosition(req, "/register");
 
     let language = LANGUAGE.getLanguage(req.session.language);
     let navBar = getNavBar(language, req.session.userId);
@@ -158,7 +158,7 @@ ROUTER.post('/register', (req, res) => {
 });
 
 ROUTER.get('/login', (req, res) => {
-    setLastPosition(req, "/login");
+    HELPER.setLastPosition(req, "/login");
 
     let language = LANGUAGE.getLanguage(req.session.language);
     let navBar = getNavBar(language, req.session.userId);
@@ -219,7 +219,7 @@ ROUTER.post('/login', (req, res) => {
 });
 
 ROUTER.get('/gameBoard', (req, res) => {
-    setLastPosition(req, "/gameBoard");
+    HELPER.setLastPosition(req, "/gameBoard");
 
     let language = LANGUAGE.getLanguage(req.session.language);
 
@@ -306,10 +306,6 @@ function signInPlayer(userId, res, language) {
     }).catch((error) => {
         console.log('getPlayerStatusResult: ' + error);
     });
-}
-
-function setLastPosition(req, position) {
-    req.session.lastPosition = position;
 }
 
 module.exports = ROUTER;
