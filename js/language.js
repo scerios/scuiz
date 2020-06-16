@@ -7,13 +7,18 @@ const LANG_EN = {
         tooShortPassword: "Your password must be at least 6 characters.",
         connection: "Due to some connection error your request has failed. Please try again."
     },
+    navBar: {
+        home: "Home",
+        gameBoard: "Game Board",
+        rules: "Rules",
+        about: "About",
+        register: "Register",
+        login: "Login",
+        profile: "Profile",
+        logout: "Logout"
+    },
     index: {
-        welcomeMsg: "Hello and welcome to Scuiz! To play the game you must first register an account and then you'll be able to login.",
-        loginBtn: "Login",
-        registerBtn: "Register",
-        languageSelect: "Select language",
-        english: "English",
-        hungarian: "Hungarian"
+        welcomeMsg: "Hello and welcome to Scuiz! To play the game you must first register an account and then you'll be able to login."
     },
     register: {
         welcomeMsg: "Register",
@@ -94,13 +99,18 @@ const LANG_HU = {
         tooShortPassword: "A jelszónak legalább 6 karakterből kell állnia.",
         connection: "Csatlakozási hiba miatt nem sikerült a művelet. Kérlek próbáld újra."
     },
+    navBar: {
+        home: "Főoldal",
+        gameBoard: "Játék",
+        rules: "Szabályok",
+        about: "Rólunk",
+        register: "Regisztráció",
+        login: "Belépés",
+        profile: "Profil",
+        logout: "Kilépés"
+    },
     index: {
-        welcomeMsg: "Szia, légy üdvözölve a Scuiz-nél! Ahhoz, hogy játszani tudj, először regisztálj, utána tudsz majd belépni.",
-        loginBtn: "Bejelentkezés",
-        registerBtn: "Regisztrálás",
-        languageSelect: "Válassz nyelvet",
-        english: "Angol",
-        hungarian: "Magyar"
+        welcomeMsg: "Szia, légy üdvözölve a Scuiz-nél! Ahhoz, hogy játszani tudj, először regisztálj, utána tudsz majd belépni."
     },
     register: {
         welcomeMsg: "Regisztráció",
@@ -173,7 +183,7 @@ const LANG_HU = {
 }
 
 function getLanguage(lang) {
-    if (lang === 'en') {
+    if (lang === 'us') {
         return LANG_EN;
     } else {
         return LANG_HU;

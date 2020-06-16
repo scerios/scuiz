@@ -2,19 +2,33 @@
     <div id="menu-logo-container">
         <a href="/"><img id="menu-logo" src="logo/logo-sm.png"></a>
     </div>
-    <ul id="nav-link">
-        <li><a href="/">Home</a></li>
-        <li><a href="/gameBoard">Game Board</a></li>
-        <li><a href="/rules">Rules</a></li>
-        <li><a href="/about">About</a></li>
-    </ul>
-    <ul id="auth-link">
-        <% if(navBar.userId !== undefined) { %>
-            <li><a href="/profile">Profile</a></li>
-            <li><a href="/logout">Logout</a></li>
-        <% } else { %>
-            <li><a href="/register">Register</a></li>
-            <li><a href="/login">Login</a></li>
-        <% } %>
-    </ul>
+    <div id="nav-link-container">
+        <ul id="nav-link">
+            <li><a href="/"><%- navBar.home %></a></li>
+            <li><a href="/gameBoard"><%- navBar.gameBoard %></a></li>
+            <li><a href="/rules"><%- navBar.rules %></a></li>
+            <li><a href="/about"><%- navBar.about %></a></li>
+        </ul>
+    </div>
+    <div id="language-select" class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        <button type="button" class="btn"><span class="flag-icon flag-icon-<%- navBar.language %> pointer"></button>
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                <a class="dropdown-item" href="/setLanguageEn"><span class="flag-icon flag-icon-us pointer"></span></a>
+                <a class="dropdown-item" href="/setLanguageHu"><span class="flag-icon flag-icon-hu pointer"></span></a>
+            </div>
+        </div>
+    </div>
+    <div id="auth-link-container">
+        <ul id="auth-link">
+            <% if(navBar.userId !== undefined) { %>
+                <li><a href="/profile"><%- navBar.profile %></a></li>
+                <li><a href="/logout"><%- navBar.logout %></a></li>
+            <% } else { %>
+                <li><a href="/register"><%- navBar.register %></a></li>
+                <li><a href="/login"><%- navBar.login %></a></li>
+            <% } %>
+        </ul>
+    </div>
 </nav>

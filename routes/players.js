@@ -7,9 +7,18 @@ const HELPER = require('./../js/helper');
 
 let queries = new SQL_QUERIES();
 
-function getNavBar(language, userId) {
+function getNavBar(language, userId, currentLanguage) {
     return {
-        userId: userId
+        home: language.navBar.home,
+        gameBoard: language.navBar.gameBoard,
+        rules: language.navBar.rules,
+        about: language.navBar.about,
+        register: language.navBar.register,
+        login: language.navBar.login,
+        profile: language.navBar.profile,
+        logout: language.navBar.logout,
+        userId: userId,
+        language: currentLanguage
     }
 }
 
@@ -17,10 +26,7 @@ function getIndexPage(language) {
     return {
         welcomeMsg: language.index.welcomeMsg,
         loginBtn: language.index.loginBtn,
-        registerBtn: language.index.registerBtn,
-        languageSelect: language.index.languageSelect,
-        english: language.index.english,
-        hungarian: language.index.hungarian
+        registerBtn: language.index.registerBtn
     };
 }
 
@@ -74,12 +80,12 @@ function getGameBoardPage(language, player, categories) {
 ROUTER.get('/', (req, res) => {
     setLastPosition(req, "/");
 
-    let language = LANGUAGE.getLanguage(req.session.language);
+    let language = LANGUAGE.getLanguage(req.session.language? req.session.language : "hu");
 
     if (req.session.userId !== undefined) {
         signInPlayer(req.session.userId, res, language);
     } else {
-        let navBar = getNavBar(language, req.session.userId);
+        let navBar = getNavBar(language, req.session.userId, req.session.language);
         let index = getIndexPage(language);
 
         res.render('index', {
@@ -90,7 +96,7 @@ ROUTER.get('/', (req, res) => {
 });
 
 ROUTER.get('/setLanguageEn', (req, res) => {
-    req.session.language = 'en';
+    req.session.language = 'us';
     res.redirect(req.session.lastPosition);
 });
 
