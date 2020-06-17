@@ -1,7 +1,7 @@
 <% gameBoard.categories.forEach((category) => { %>
     <% if(category.isAvailable) { %>
         <div class="col-6 pad-07">
-            <button id="category-<%= category.id %>" class="btn btn-success btn-category max-width shadow" type="button"
+            <button id="category-<%= category.id %>" class="btn btn-success btn-category max-width" type="button"
                     data-category-id="<%= category.id %>" data-category-index="<%= category.question_index %>">
                 <%= category.name %>
             </button>
