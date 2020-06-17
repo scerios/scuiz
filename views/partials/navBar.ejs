@@ -6,6 +6,9 @@
         <ul id="nav-link">
             <li><a id="link-home" href="/"><%- navBar.home %></a></li>
             <li><a id="link-game-board" href="/gameBoard"><%- navBar.gameBoard %></a></li>
+            <% if (navBar.adminId) { %>
+                <li><a href="/controlPanel"><%- navBar.controlPanel %></a></li>
+            <% } %>
         </ul>
     </div>
     <div id="language-select" class="btn-group" role="group" aria-label="Button group with nested dropdown">
