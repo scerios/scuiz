@@ -16,8 +16,8 @@ let answerBtn = $('#answer-btn');
 
 let isThinking = false;
 let isDoubled = false;
-let isPrimary = false;
 let isWarning = false;
+let isDanger = false;
 
 let counter;
 
@@ -93,7 +93,7 @@ socket.on('doublerClicked', (data) => {
     if (data.isClicked) {
         doublerBtn.prop('disabled', true);
         doublerBtn.text(doublerBtnClickedText);
-        doublerBtn.removeClass('btn-info').addClass('btn-success');
+        doublerBtn.removeClass('btn-success').addClass('btn-orange');
         isDoubled = true;
     }
 });
@@ -118,14 +118,14 @@ categoryBtns.on('click', function () {
 
 function changeTimerColor(minutes, seconds) {
     if (minutes === 0) {
-        if (seconds <= 30 && !isPrimary) {
-            timerContainer.removeClass('bg-success').addClass('bg-primary');
-            isPrimary = true;
+        if (seconds <= 30 && !isWarning) {
+            timer.removeClass('text-dirty').addClass('text-warning');
+            isWarning = true;
         }
 
-        if (seconds <= 15 && !isWarning) {
-            timerContainer.removeClass('bg-primary').addClass('bg-warning');
-            isWarning = true;
+        if (seconds <= 15 && !isDanger) {
+            timer.removeClass('text-warning').addClass('text-danger');
+            isDanger = true;
         }
     }
 }
@@ -150,13 +150,13 @@ function resetGameBoard() {
     question.text('');
     isThinking = false;
     isDoubled = false;
-    isPrimary = false;
     isWarning = false;
-    timerContainer.removeClass('bg-primary bg-warning').addClass('bg-success');
+    isDanger = false;
+    timer.removeClass('text-warning text-danger').addClass('text-dirty');
     timer.text('');
     doublerBtn.prop('disabled', false);
     doublerBtn.text(doublerBtnText);
-    doublerBtn.removeClass('btn-success').addClass('btn-info');
+    doublerBtn.removeClass('btn-orange').addClass('btn-success');
     answer.val('');
     answer.prop('disabled', true);
     doublerBtn.prop('disabled', true);
@@ -188,7 +188,7 @@ function updateElement(element) {
     if (index % 3 === 0) {
         element.prop('disabled', true);
         element.removeClass('btn-success');
-        element.addClass('btn-warning');
+        element.addClass('btn-danger');
     }
     element.attr('data-category-index', index);
 }
@@ -206,7 +206,7 @@ function getHowManyCategoryLeft() {
 function enableAllCategories() {
     for (let i = 0; i < categoryBtns.length; i++) {
         $(categoryBtns[i]).prop('disabled', false);
-        $(categoryBtns[i]).removeClass('btn-warning');
+        $(categoryBtns[i]).removeClass('btn-danger');
         $(categoryBtns[i]).addClass('btn-success');
     }
 }
