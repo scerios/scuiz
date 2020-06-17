@@ -156,8 +156,6 @@ ROUTER.post('/register', (req, res) => {
 });
 
 ROUTER.get('/login', (req, res) => {
-    HELPER.setLastPosition(req, "/login");
-
     let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
     let navBar = getNavBar(language, req.session.userId, req.session.language);
     let login = getLoginPage(language);
