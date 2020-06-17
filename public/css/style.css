@@ -24,7 +24,7 @@ a {
 a:hover {
     text-decoration: none;
     text-shadow: 0 0 10px rgba(181, 68, 28, 0.9);
-    color: #D5441C;
+    color: #d5441c;
 }
 
 #menu {
@@ -99,6 +99,10 @@ a:hover {
     background: #4f4f4f;
 }
 
+.alert-orange {
+    background: #d5441c;
+}
+
 .text-centered {
     text-align: center;
 }
@@ -118,14 +122,17 @@ a:hover {
     transition-duration: 0.5s;
 }
 
-.btn-orange:hover {
-    background: #c3b522;
+.btn-orange:active {
     box-shadow: none;
+}
+
+.btn-orange:hover {
+    background: #d5441c;
 }
 
 .btn-orange:disabled:hover {
     background: #b5441C;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 1.0);
+    box-shadow: none;
 }
 
 .bg-gray {
@@ -138,10 +145,6 @@ a:hover {
 
 .shadow {
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 1.0);
-}
-
-.text-shadow {
-    text-shadow: 0 0 10px 0 rgba(20, 20, 20, 1);
 }
 
 .bordered {
