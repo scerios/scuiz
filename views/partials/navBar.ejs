@@ -6,8 +6,8 @@
         <ul id="nav-link">
             <li><a id="link-home" href="/"><%- navBar.home %></a></li>
             <li><a id="link-game-board" href="/gameBoard"><%- navBar.gameBoard %></a></li>
-            <% if (navBar.adminId) { %>
-                <li><a href="/controlPanel"><%- navBar.controlPanel %></a></li>
+            <% if (navBar.adminId !== undefined) { %>
+                <li><a id="link-control-panel" href="/controlPanel"><%- navBar.controlPanel %></a></li>
             <% } %>
         </ul>
     </div>

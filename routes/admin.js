@@ -10,6 +10,7 @@ function getNavBar(language, adminId, currentLanguage) {
     return {
         home: language.navBar.home,
         gameBoard: language.navBar.gameBoard,
+        controlPanel: language.navBar.controlPanel,
         rules: language.navBar.rules,
         about: language.navBar.about,
         register: language.navBar.register,
@@ -64,7 +65,7 @@ function getControlPanelPage(language, categories, players) {
 
 ROUTER.get('/admin', (req, res) => {
     HELPER.setLastPosition(req, "/admin");
-    let language = LANGUAGE.getLanguage(req.session.language? req.session.language : "hu");
+    let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
 
     if (req.session.adminId) {
         renderControlPanel(req, res, language);
@@ -105,7 +106,7 @@ ROUTER.post('/adminLogin', (req, res) => {
 
 ROUTER.get('/controlPanel', (req, res) => {
     HELPER.setLastPosition(req, "/controlPanel");
-    let language = LANGUAGE.getLanguage(req.session.language);
+    let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
 
     if (req.session.adminId) {
         renderControlPanel(req, res, language);

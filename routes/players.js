@@ -7,17 +7,19 @@ const HELPER = require('./../js/helper');
 
 let queries = new SQL_QUERIES();
 
-function getNavBar(language, userId, currentLanguage) {
+function getNavBar(language, userId, currentLanguage, adminId) {
     return {
         home: language.navBar.home,
         gameBoard: language.navBar.gameBoard,
         rules: language.navBar.rules,
         about: language.navBar.about,
+        controlPanel: language.navBar.controlPanel,
         register: language.navBar.register,
         login: language.navBar.login,
         profile: language.navBar.profile,
         logout: language.navBar.logout,
         userId: userId,
+        adminId: adminId,
         language: currentLanguage
     }
 }
@@ -79,9 +81,10 @@ function getGameBoardPage(language, player, categories) {
 
 ROUTER.get('/', (req, res) => {
     HELPER.setLastPosition(req, "/");
+    console.log(req.session.adminId);
 
     let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
-    let navBar = getNavBar(language, req.session.userId, req.session.language);
+    let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
     let index = getIndexPage(language);
 
     res.render('index', {
@@ -104,7 +107,7 @@ ROUTER.get('/register', (req, res) => {
     HELPER.setLastPosition(req, "/register");
 
     let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
-    let navBar = getNavBar(language, req.session.userId, req.session.language);
+    let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
     let register = getRegisterPage(language);
 
     res.render('register', {
@@ -129,7 +132,7 @@ ROUTER.post('/register', (req, res) => {
                 let newPlayer = queries.postPlayerAsync(name, BCRYPT.hashSync(password, BCRYPT.genSaltSync(10)));
 
                 newPlayer.then(() => {
-                    let navBar = getNavBar(language, req.session.userId, req.session.language);
+                    let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
                     let login = getLoginPage(language);
 
                     login.registerSuccess = language.login.registerSuccess;
@@ -157,7 +160,7 @@ ROUTER.post('/register', (req, res) => {
 
 ROUTER.get('/login', (req, res) => {
     let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
-    let navBar = getNavBar(language, req.session.userId, req.session.language);
+    let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
     let login = getLoginPage(language);
 
     res.render('login', {
@@ -179,7 +182,7 @@ ROUTER.post('/login', (req, res) => {
                     req.session.username = name;
                     res.redirect(req.session.lastPosition);
                 } else {
-                    let navBar = getNavBar(language, req.session.userId, req.session.language);
+                    let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
                     let login = getLoginPage(language);
 
                     login.alreadyLoggedIn = language.login.alreadyLoggedIn;
@@ -190,7 +193,7 @@ ROUTER.post('/login', (req, res) => {
                     });
                 }
             } else {
-                let navBar = getNavBar(language, req.session.userId, req.session.language);
+                let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
                 let login = getLoginPage(language);
                 login.badCredentials = language.login.badCredentials;
 
@@ -200,7 +203,7 @@ ROUTER.post('/login', (req, res) => {
                 });
             }
         } else {
-            let navBar = getNavBar(language, req.session.userId, req.session.language);
+            let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
             let login = getLoginPage(language);
             login.badCredentials = language.login.badCredentials;
 
@@ -212,7 +215,7 @@ ROUTER.post('/login', (req, res) => {
 
     }).catch((error) => {
         console.log('playerLoginResult: ' + error);
-        let navBar = getNavBar(language, req.session.userId, req.session.language);
+        let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
         let login = getLoginPage(language);
         login.connectionError = language.error.connection;
 
@@ -245,7 +248,7 @@ ROUTER.get('/logout', (req, res) => {
         res.redirect(req.session.lastPosition);
     }).catch((error) => {
         console.log('playerLoginResult: ' + error);
-        let navBar = getNavBar(language, req.session.userId, req.session.language);
+        let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
         let login = getLoginPage(language);
         login.connectionError = language.error.connection;
 
@@ -257,7 +260,7 @@ ROUTER.get('/logout', (req, res) => {
 });
 
 function renderRegister(req, res, errors, name, password, confirmPassword, language) {
-    let navBar = getNavBar(language, req.session.userId, req.session.language);
+    let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
     let register = getRegisterPage(language);
 
     res.render('register', {
@@ -286,7 +289,7 @@ function signInPlayer(req, res, language) {
 
                     categoryRoundLimitResult.then((categoryLimit) => {
                         let sortedCategories = HELPER.getCategoryAvailabilities(categories, categoryLimit[0].round_limit);
-                        let navBar = getNavBar(language, req.session.userId, req.session.language);
+                        let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
                         let gameBoard = getGameBoardPage(language, player[0], sortedCategories);
 
                         res.render('game-board', {
@@ -306,7 +309,7 @@ function signInPlayer(req, res, language) {
                 console.log('putPlayerStatusResult : ' + error);
             });
         } else {
-            let navBar = getNavBar(language, req.session.userId, req.session.language);
+            let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
             let login = getLoginPage(language);
             login.alreadyLoggedIn = language.login.alreadyLoggedIn;
 
