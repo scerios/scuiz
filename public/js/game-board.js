@@ -8,7 +8,6 @@ let failSign = $('#fail-sign');
 let point = $('#point');
 let questionCategory = $('#question-category');
 let question = $('#question');
-let timerContainer = $('#timer-container');
 let timer = $('#timer');
 let doublerBtn = $('#doubler-btn');
 let answer = $('#answer');
