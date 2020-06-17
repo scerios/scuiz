@@ -1,6 +1,6 @@
 <div id="evaluation-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="evaluation-modal-label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content bg-gray text-dirty">
             <div class="modal-header">
                 <h5 class="modal-title"><%- controlPanel.evaluationTableTitle %></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -10,13 +10,13 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-6 text-center">
-                        <p id="question" class="text-info"></p>
+                        <p id="question" class="text-orange"></p>
                     </div>
                     <div class="col-6 text-center">
                         <p id="answer" class="text-success"></p>
                     </div>
                     <div class="col-12">
-                        <table id="evaluation-table" class="table table-hover text-center compact hover order-column stripe">
+                        <table id="evaluation-table" class="table table-hover text-dirty text-center compact hover order-column stripe">
                             <thead>
                                 <tr>
                                     <th scope="col"><%- controlPanel.evaluationTableHead.name %></th>
@@ -33,19 +33,19 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="evaluate-btn" type="button" class="btn btn-info btn btn-block"><%- controlPanel.evaluateBtn %></button>
+                <button id="evaluate-btn" type="button" class="btn btn-orange btn btn-block"><%- controlPanel.evaluateBtn %></button>
             </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-4">
+<div class="mt-5 container text-dirty">
+    <div class="card-container">
         <div class="row">
             <%- include('partials/category-buttons'); %>
         </div>
     </div>
-    <div class="col-4">
-        <table id="player-table" class="table table-hover text-center compact hover order-column stripe">
+    <div class="card-container">
+        <table id="player-table" class="table table-hover text-dirty text-center compact hover order-column stripe">
             <thead>
                 <tr>
                     <th scope="col"><%- controlPanel.playersTableHead.name %></th>
@@ -58,29 +58,30 @@
             </tbody>
         </table>
     </div>
-    <div class="col-4">
+    <div class="card-container">
         <div class="row">
-            <div class="form-group max-width default-padding col-6">
+            <div class="form-group max-width col-6">
                 <label for="timer"><%- controlPanel.timer %></label>
                 <input type="numbers" class="form-control" id="timer">
                 <small class="form-text text-muted"><%- controlPanel.timerLegend %></small>
             </div>
-            <div class="form-group max-width default-padding col-6">
+            <div class="form-group max-width col-6">
                 <label for="point-value"><%- controlPanel.pointValue %></label>
                 <input type="numbers" class="form-control" id="point-value">
                 <small class="form-text text-muted"><%- controlPanel.pointValueLegend %></small>
             </div>
-            <div class="form-group max-width default-padding col-4">
-                <button id="evaluation-modal-btn" type="button" class="btn btn-secondary btn btn-block"
+            <div class="form-group max-width col-4">
+                <button id="evaluation-modal-btn" type="button" class="btn btn-orange btn btn-block"
                         data-toggle="modal" data-target="#evaluation-modal">
                     <%- controlPanel.showEvaluationModalBtn %>
                 </button>
             </div>
-            <div class="form-group max-width default-padding col-4">
-                <button id="collect-answers-btn" type="button" class="btn btn-primary btn btn-block"><%- controlPanel.collectAnswersBtn %></button>
+            <div class="form-group max-width col-4">
+                <button id="collect-answers-btn" type="button" class="btn btn-orange btn btn-block"><%- controlPanel.collectAnswersBtn %></button>
             </div>
-            <div class="form-group max-width default-padding col-4">
-                <button id="logout-everyone-btn" type="button" class="btn btn-warning btn btn-block"><%- controlPanel.logoutEveryoneBtn %></button>
+            <div class="form-group max-width col-4">
+                <button id="logout-everyone-btn" type="button" class="btn btn-orange btn btn-block"><%- controlPanel.logoutEveryoneBtn
+                %></button>
             </div>
         </div>
     </div>

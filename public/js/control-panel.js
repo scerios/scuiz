@@ -28,7 +28,7 @@ socket.on('getQuestion', (data) => {
 });
 
 socket.on('chosenCategory', (data) => {
-    $(`#category-${data.categoryId}`).removeClass('btn-success').addClass('btn-primary');
+    $(`#category-${data.categoryId}`).removeClass('btn-success').addClass('btn-orange');
 });
 
 $(document).on('click', '.btn-authorize', function () {
@@ -108,9 +108,9 @@ function getCategoryIndexAndUpdateElement(element) {
     index++;
     if (index % 3 === 0) {
         element.prop('disabled', true);
-        element.removeClass('btn-success').addClass('btn-warning');
+        element.removeClass('btn-success').addClass('btn-danger');
     } else {
-        element.removeClass('btn-primary').addClass('btn-success');
+        element.removeClass('btn-orange').addClass('btn-success');
     }
     element.attr('data-category-index', index);
     return index;
@@ -130,7 +130,7 @@ function getCategoryIndexAndEnableAllCategories(categories) {
     let index = 0;
     for (let i = 0; i < categories.length; i++) {
         $(categories[i]).prop('disabled', false);
-        $(categories[i]).removeClass('btn-warning');
+        $(categories[i]).removeClass('btn-danger');
         $(categories[i]).addClass('btn-success');
         if (i === 0) {
             index = $(categories[i]).attr('data-category-index');

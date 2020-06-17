@@ -111,7 +111,7 @@ ROUTER.get('/controlPanel', (req, res) => {
         renderControlPanel(req, res, language);
     } else {
         let adminLogin = getAdminLoginPage(language);
-        let navBar = getNavBar(language, req.session.adminId);
+        let navBar = getNavBar(language, req.session.adminId, req.session.language);
 
         res.render('admin-login', {
             navBar,
@@ -133,7 +133,7 @@ function renderControlPanel(req, res, language) {
 
             playersResult.then((players) => {
                 let controlPanel = getControlPanelPage(language, sortedCategories, players);
-                let navBar = getNavBar(language, req.session.adminId);
+                let navBar = getNavBar(language, req.session.adminId, req.session.language);
 
                 res.render('control-panel', {
                     navBar,
