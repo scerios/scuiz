@@ -22,6 +22,7 @@ let isDanger = false;
 let counter;
 
 $(document).ready(() => {
+    $('#link-game-board').addClass('active');
     socket.emit('signUpForGame', {
         playerId: myId
     });

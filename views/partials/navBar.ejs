@@ -4,10 +4,8 @@
     </div>
     <div id="nav-link-container">
         <ul id="nav-link">
-            <li><a href="/"><%- navBar.home %></a></li>
-            <li><a href="/gameBoard"><%- navBar.gameBoard %></a></li>
-            <li><a href="/rules"><%- navBar.rules %></a></li>
-            <li><a href="/about"><%- navBar.about %></a></li>
+            <li><a id="link-home" href="/"><%- navBar.home %></a></li>
+            <li><a id="link-game-board" href="/gameBoard"><%- navBar.gameBoard %></a></li>
         </ul>
     </div>
     <div id="language-select" class="btn-group" role="group" aria-label="Button group with nested dropdown">
@@ -23,11 +21,10 @@
     <div id="auth-link-container">
         <ul id="auth-link">
             <% if(navBar.userId !== undefined) { %>
-                <li><a href="/profile"><%- navBar.profile %></a></li>
                 <li><a href="/logout"><%- navBar.logout %></a></li>
             <% } else { %>
-                <li><a href="/register"><%- navBar.register %></a></li>
-                <li><a href="/login"><%- navBar.login %></a></li>
+                <li><a id="link-register" href="/register"><%- navBar.register %></a></li>
+                <li><a id="link-login" href="/login"><%- navBar.login %></a></li>
             <% } %>
         </ul>
     </div>
