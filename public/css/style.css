@@ -177,7 +177,27 @@ a:hover {
 
 /*region Responsive media */
 
+@media (max-width: 1198px) {
+    .auth-container {
+        width: 50%;
+    }
+}
+
+@media (max-width: 990px) {
+    .auth-container {
+        width: 60%;
+    }
+
+    .card a {
+        padding: 0;
+    }
+}
+
 @media(max-width: 880px) {
+    #menu {
+        width: 100%;
+    }
+
     #nav-link {
         margin: 0;
     }
@@ -232,6 +252,43 @@ a:hover {
     @keyframes menu-up {
         0% {transform: translateY(4rem)}
         100% {transform: translateY(-10rem)}
+    }
+
+    #main-logo {
+        width: 180px;
+        height: 90px;
+        margin: auto;
+    }
+}
+
+@media (max-width: 766px) {
+    #welcome-card {
+        width: 55%; !important;
+        margin: auto;
+    }
+
+    .auth-container {
+        width: 80%;
+    }
+}
+
+@media (max-width: 576px) {
+    .auth-container {
+        width: 60%;
+    }
+
+    .card h1 span {
+        display: none;
+    }
+}
+
+@media (max-width: 550px) {
+    .auth-container {
+        min-width: 320px;
+    }
+
+    .card h1 span {
+        display: none;
     }
 }
 
