@@ -81,7 +81,6 @@ function getGameBoardPage(language, player, categories) {
 
 ROUTER.get('/', (req, res) => {
     HELPER.setLastPosition(req, "/");
-    console.log(req.session.adminId);
 
     let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
     let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
