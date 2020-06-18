@@ -11,6 +11,10 @@ body {
     font-size: 1rem;
 }
 
+p {
+    padding: 3rem 0.5rem;
+}
+
 
 a {
     color: #dcdde1;
@@ -50,6 +54,12 @@ a:hover {
 #menu-logo {
     width: 120px;
     height: 60px;
+}
+
+#main-logo {
+    width: 360px;
+    height: 180px;
+    margin: auto;
 }
 
 #nav-link-container {
