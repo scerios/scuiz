@@ -210,6 +210,7 @@ a:hover {
     }
 
     #nav-link-container, #auth-link-container {
+        background: #3f3f3f;
         position: fixed;
         display: inline-block;
         float: none;
@@ -253,11 +254,11 @@ a:hover {
 
     @keyframes menu-down {
         0% {transform: translateY(-10rem)}
-        100% {transform: translateY(4rem)}
+        100% {transform: translateY(3.7rem)}
     }
 
     @keyframes menu-up {
-        0% {transform: translateY(4rem)}
+        0% {transform: translateY(3.7rem)}
         100% {transform: translateY(-10rem)}
     }
 
