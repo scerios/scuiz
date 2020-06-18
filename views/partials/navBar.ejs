@@ -2,7 +2,7 @@
     <div id="menu-logo-container">
         <a href="/"><img id="menu-logo" src="logo/logo-sm.png"></a>
     </div>
-    <div id="nav-link-container">
+    <div id="nav-link-container" class="dropdown-bar">
         <ul id="nav-link">
             <li><a id="link-home" href="/"><%- navBar.home %></a></li>
             <li><a id="link-game-board" href="/gameBoard"><%- navBar.gameBoard %></a></li>
@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    <div id="auth-link-container">
+    <div id="auth-link-container" class="dropdown-bar">
         <ul id="auth-link">
             <% if(navBar.userId !== undefined) { %>
                 <li><a href="/logout"><%- navBar.logout %></a></li>
@@ -31,4 +31,20 @@
             <% } %>
         </ul>
     </div>
+    <a id="menu-bar">
+        <i class="fa fa-bars"></i>
+    </a>
 </nav>
+<script>
+    let menu = $('#menu-bar');
+    let dropdownBar = $('.dropdown-bar');
+    menu.on('click', function() {
+        if (!dropdownBar.hasClass('menu-down')) {
+            dropdownBar.removeClass('menu-up');
+            dropdownBar.addClass('menu-down');
+        } else {
+            dropdownBar.removeClass('menu-down');
+            dropdownBar.addClass('menu-up');
+        }
+    });
+</script>

@@ -79,6 +79,10 @@ a:hover {
     padding: 0.7rem;
 }
 
+#menu-bar {
+    display: none;
+}
+
 .active {
     color: #b5441C;
 }
@@ -166,6 +170,68 @@ a:hover {
 
 .pad-07 {
     padding: 0.7rem;
+}
+
+/*endregion */
+
+/*region Responsive media */
+
+@media(max-width: 880px) {
+    #nav-link {
+        margin: 0;
+    }
+
+    #nav-link-container, #auth-link-container {
+        position: fixed;
+        display: inline-block;
+        float: none;
+        width: 9rem;
+        z-index: -1;
+        transform: translateY(-10rem);
+    }
+
+    #auth-link-container {
+        margin-top: 5.8rem;
+    }
+
+    #nav-link-container li, #auth-link-container li {
+        display: block;
+        float: none;
+    }
+
+    #menu-bar {
+        display: inline-block;
+        padding: 1.7rem 1rem 0.7rem 1rem;
+        transform: translateY(-0.4rem);
+        margin-left: 8rem;
+        color: #d5441c;
+    }
+
+    #menu-bar:hover {
+        text-shadow: none;
+    }
+
+    .menu-down {
+        animation: menu-down;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+    }
+
+    .menu-up {
+        animation: menu-up;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes menu-down {
+        0% {transform: translateY(-10rem)}
+        100% {transform: translateY(4rem)}
+    }
+
+    @keyframes menu-up {
+        0% {transform: translateY(4rem)}
+        100% {transform: translateY(-10rem)}
+    }
 }
 
 /*endregion */
