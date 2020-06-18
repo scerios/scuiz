@@ -184,12 +184,19 @@ a:hover {
 }
 
 @media (max-width: 990px) {
-    .auth-container {
-        width: 60%;
+
+    .card-container {
+        /*position: absolute;*/
+        display: block;
+        width: 80%;
     }
 
     .card a {
         padding: 0;
+    }
+
+    .auth-container {
+        width: 60%;
     }
 }
 
@@ -270,6 +277,10 @@ a:hover {
     .auth-container {
         width: 80%;
     }
+
+    .card-container {
+        width: 80%;
+    }
 }
 
 @media (max-width: 576px) {
@@ -282,6 +293,12 @@ a:hover {
     }
 }
 
+@media (max-width: 574px) {
+    .card-container {
+        width: 70%;
+    }
+}
+
 @media (max-width: 550px) {
     .auth-container {
         min-width: 320px;
@@ -289,6 +306,12 @@ a:hover {
 
     .card h1 span {
         display: none;
+    }
+}
+
+@media (max-width: 444px) {
+    .card-container {
+        min-width: 290px;
     }
 }
 

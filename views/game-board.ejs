@@ -12,11 +12,11 @@
         </div>
     </div>
 </div>
-<div class="mt-5 container text-centered">
+<div id="game-board-container" class="mt-5 container text-centered">
     <div class="card-container-wide">
         <h1 class="text-dirty"><%- gameBoard.pointText %>: <span class="text-orange" id="point"><%- gameBoard.pointValue %></span></h1>
     </div>
-    <div class="card-container">
+    <div id="question-container" class="card-container">
         <div class="card text-dirty bg-gray shadow bordered">
             <div class="card-header">
                 <%- gameBoard.question %>
@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-    <div class="card-container">
+    <div id="timer-container" class="card-container">
         <div class="card text-dirty bg-gray shadow bordered">
             <div class="card-header">
                 <%- gameBoard.timer %>
@@ -40,7 +40,7 @@
             </div>
         </div>
     </div>
-    <div class="card-container">
+    <div id="answer-container" class="card-container">
         <div class="card text-dirty bg-gray shadow bordered">
             <div class="card-header">
                 <%- gameBoard.answer %>
