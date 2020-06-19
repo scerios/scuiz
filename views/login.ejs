@@ -3,7 +3,7 @@
         <div class="card card-body bg-gray shadow">
             <h1 class="text-center mb-3 text-orange"><i class="fas fa-sign-in-alt"></i> <span class="text-dirty"><%- login.welcomeMsg %></span></h1>
             <% if(typeof login.connectionError != 'undefined') { %>
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <div class="alert alert-orange alert-dismissible fade show" role="alert">
                     <%= login.connectionError %>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -11,16 +11,8 @@
                 </div>
             <% } %>
             <% if(typeof login.badCredentials != 'undefined') { %>
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <div class="alert alert-orange alert-dismissible fade show" role="alert">
                     <%= login.badCredentials %>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            <% } %>
-            <% if(typeof login.alreadyLoggedIn != 'undefined') { %>
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <%= login.alreadyLoggedIn %>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

@@ -310,12 +310,12 @@ function signInPlayer(req, res, language) {
             });
         } else {
             let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
-            let login = getLoginPage(language);
-            login.alreadyLoggedIn = language.login.alreadyLoggedIn;
+            let index = getIndexPage(language);
+            index.alreadyLoggedIn = language.index.alreadyLoggedIn;
 
-            res.render('login', {
+            res.render('index', {
                 navBar,
-                login
+                index
             });
         }
     }).catch((error) => {

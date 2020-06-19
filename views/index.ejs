@@ -1,5 +1,13 @@
 <div class="mt-5">
     <div class="col-md-6 m-auto">
+        <% if(typeof index.alreadyLoggedIn != 'undefined') { %>
+            <div class="alert alert-orange alert-dismissible fade show" role="alert">
+                <%= index.alreadyLoggedIn %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <% } %>
         <div id="welcome-card" class="card card-body text-center text-dirty bg-gray shadow bordered">
             <img id="main-logo" src="logo/logo-sm.png">
             <p id="welcome-msg"><%- index.welcomeMsg %></p>

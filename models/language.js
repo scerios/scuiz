@@ -19,7 +19,8 @@ const LANG_EN = {
         logout: "Logout"
     },
     index: {
-        welcomeMsg: "Hello and welcome to Scuiz! To play the game you must first register an account and then you'll be able to login."
+        welcomeMsg: "Hello and welcome to Scuiz! To play the game you must first register an account and then you'll be able to login.",
+        alreadyLoggedIn:  "You may already be logged in. A player can be logged in only at one tab at a time."
     },
     register: {
         welcomeMsg: "Register",
@@ -43,8 +44,7 @@ const LANG_EN = {
         isNotRegisteredQuestion: "Not registered yet?",
         registerLink: "Register",
         registerSuccess: "Registered successfully. Now you can log in to play!",
-        badCredentials: "Bad credentials.",
-        alreadyLoggedIn:  "You may already be logged in. A player can be logged in only at one tab at a time."
+        badCredentials: "Bad credentials."
     },
     gameBoard: {
         logoutBtn: "Logout",
@@ -112,7 +112,8 @@ const LANG_HU = {
         logout: "Kilépés"
     },
     index: {
-        welcomeMsg: "Szia, légy üdvözölve a Scuiz-nél! Ahhoz, hogy játszani tudj, először regisztálj, utána tudsz majd belépni."
+        welcomeMsg: "Szia, légy üdvözölve a Scuiz-nél! Ahhoz, hogy játszani tudj, először regisztálj, utána tudsz majd belépni.",
+        alreadyLoggedIn:  "Lehet, hogy már bejelentkeztél? Egyszerre egy játékos csak egy ablakban lehet bejelentkezve."
     },
     register: {
         welcomeMsg: "Regisztráció",
@@ -136,8 +137,7 @@ const LANG_HU = {
         isNotRegisteredQuestion: "Még nem regisztráltál?",
         registerLink: "Regisztráció",
         registerSuccess: "Sikeresen regisztráltál. Most már be tudsz jelentkezni járszani!",
-        badCredentials: "Rossz felhasználónév vagy jelszó.",
-        alreadyLoggedIn:  "Lehet, hogy már bejelentkeztél? Egyszerre egy játékos csak egy ablakban lehet bejelentkezve."
+        badCredentials: "Rossz felhasználónév vagy jelszó."
     },
     gameBoard: {
         logoutBtn: "Kilépés",
