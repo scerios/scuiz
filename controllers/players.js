@@ -1,9 +1,9 @@
 const EXPRESS = require('express');
 const ROUTER = EXPRESS.Router();
 const BCRYPT = require('bcryptjs');
-const LANGUAGE = require('./../js/language');
-const SQL_QUERIES = require('../js/SqlQueries');
-const HELPER = require('./../js/helper');
+const LANGUAGE = require('../models/language');
+const SQL_QUERIES = require('../models/SqlQueries');
+const HELPER = require('../models/helper');
 
 let queries = new SQL_QUERIES();
 

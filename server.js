@@ -14,8 +14,8 @@ const HTTP = require('http').createServer(APP);
 const IO = require('socket.io')(HTTP);
 
 // Implementing custom modules.
-const SQL_QUERIES = require('./js/SqlQueries');
-const SESSION_STORE = require('./js/sessionStore');
+const SQL_QUERIES = require('./models/SqlQueries');
+const SESSION_STORE = require('./models/sessionStore');
 
 // Saving the socked ID of the admin. This will be emitted to all the users so eventually they will be able to send everything back to only the admin.
 let adminSocketId = '';
@@ -62,24 +62,25 @@ APP.use(EXPRESS.urlencoded({ extended: true }));
 
 //#region Player
 
-APP.get('/', require('./routes/players'));
-APP.get('/setLanguageEn', require('./routes/players'));
-APP.get('/setLanguageHu', require('./routes/players'));
-APP.get('/register', require('./routes/players'));
-APP.get('/login', require('./routes/players'));
-APP.get('/logout', require('./routes/players'));
-APP.get('/gameBoard', require('./routes/players'));
+APP.get('/', require('./controllers/players'));
+APP.get('/setLanguageEn', require('./controllers/players'));
+APP.get('/setLanguageHu', require('./controllers/players'));
+APP.get('/register', require('./controllers/players'));
+APP.get('/login', require('./controllers/players'));
+APP.get('/logout', require('./controllers/players'));
+APP.get('/gameBoard', require('./controllers/players'));
 
-APP.post('/register', require('./routes/players'));
-APP.post('/login', require('./routes/players'));
+APP.post('/register', require('./controllers/players'));
+APP.post('/login', require('./controllers/players'));
 
 //#endregion
 
 //#region Admin
-APP.get('/admin', require('./routes/admin'));
-APP.get('/controlPanel', require('./routes/admin'));
 
-APP.post('/adminLogin', require('./routes/admin'));
+APP.get('/admin', require('./controllers/admin'));
+APP.get('/controlPanel', require('./controllers/admin'));
+
+APP.post('/adminLogin', require('./controllers/admin'));
 
 //#endregion
 
