@@ -45,18 +45,22 @@
         </div>
     </div>
     <div class="card-container">
-        <table id="player-table" class="table table-hover text-dirty text-center compact hover order-column stripe">
-            <thead>
-                <tr>
-                    <th scope="col"><%- controlPanel.playersTableHead.name %></th>
-                    <th scope="col"><%- controlPanel.playersTableHead.points %></th>
-                    <th scope="col"><%- controlPanel.playersTableHead.authorizeBtn %></th>
-                </tr>
-            </thead>
-            <tbody id="player-table-body">
-                <%- include('partials/players'); %>
-            </tbody>
-        </table>
+        <div class="row">
+            <div class="col-12">
+                <table id="player-table" class="table table-hover text-dirty text-center compact hover order-column stripe">
+                    <thead>
+                        <tr>
+                            <th scope="col"><%- controlPanel.playersTableHead.name %></th>
+                            <th scope="col"><%- controlPanel.playersTableHead.points %></th>
+                            <th scope="col"><%- controlPanel.playersTableHead.authorizeBtn %></th>
+                        </tr>
+                    </thead>
+                    <tbody id="player-table-body">
+                        <%- include('partials/players'); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <div class="card-container">
         <div class="row">
@@ -137,7 +141,7 @@
         playerTable.row.add([
             player.name,
             player.point,
-            '<button type="button" class="btn btn-info btn-sm btn-authorize" data-socket-id="' + socketId + '">' +
+            '<button type="button" class="btn btn-orange btn-sm btn-authorize" data-socket-id="' + socketId + '">' +
             '   <%= controlPanel.authorizeBtn %>' +
             '</button>'
         ]).draw();
