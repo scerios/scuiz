@@ -593,11 +593,11 @@ table.dataTable.cell-border tbody tr:first-child th,
 table.dataTable.cell-border tbody tr:first-child td {
     border-top: none; }
 table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
-    background-color: #3f3f3f; } /* ODD BACKGROUND */
+    background-color: #2f2f2f; } /* ODD BACKGROUND */
 table.dataTable.stripe tbody tr.odd.selected, table.dataTable.display tbody tr.odd.selected {
     background-color: #abb9d3; }
 table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
-    background-color: #d5441c; } /* HOVER BACKGROUND */
+    background-color: #2f2f2f; } /* HOVER BACKGROUND */
 table.dataTable.hover tbody tr:hover.selected, table.dataTable.display tbody tr:hover.selected {
     background-color: #a9b7d1; }
 table.dataTable.order-column tbody tr > .sorting_1,
@@ -613,7 +613,7 @@ table.dataTable.display tbody tr.selected > .sorting_2,
 table.dataTable.display tbody tr.selected > .sorting_3 {
     background-color: #acbad4; }
 table.dataTable.display tbody tr.odd > .sorting_1, table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {
-    background-color: #4f4f4f; } /* ODD SORTED BACKGROUND */
+    background-color: #3f3f3f; } /* ODD SORTED BACKGROUND */
 table.dataTable.display tbody tr.odd > .sorting_2, table.dataTable.order-column.stripe tbody tr.odd > .sorting_2 {
     background-color: #f3f3f3; }
 table.dataTable.display tbody tr.odd > .sorting_3, table.dataTable.order-column.stripe tbody tr.odd > .sorting_3 {
@@ -637,7 +637,7 @@ table.dataTable.display tbody tr.even.selected > .sorting_2, table.dataTable.ord
 table.dataTable.display tbody tr.even.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_3 {
     background-color: #afbdd8; }
 table.dataTable.display tbody tr:hover > .sorting_1, table.dataTable.order-column.hover tbody tr:hover > .sorting_1 {
-    background-color: #d5441c; } /* HOVER SORTED BACKGROUND */
+    background-color: #3f3f3f; } /* HOVER SORTED BACKGROUND */
 table.dataTable.display tbody tr:hover > .sorting_2, table.dataTable.order-column.hover tbody tr:hover > .sorting_2 {
     background-color: #ebebeb; }
 table.dataTable.display tbody tr:hover > .sorting_3, table.dataTable.order-column.hover tbody tr:hover > .sorting_3 {
@@ -865,6 +865,10 @@ table.dataTable td {
     content: "";
     clear: both;
     height: 0; }
+
+#player-table-body tr:hover {
+    color: #dcdde1;
+}
 
 @media screen and (max-width: 767px) {
     .dataTables_wrapper .dataTables_info,
