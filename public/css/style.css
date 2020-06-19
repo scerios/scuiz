@@ -84,6 +84,10 @@ a:hover {
     display: none;
 }
 
+#control-container {
+    display: flex;
+}
+
 .active {
     color: #b5441C;
 }
@@ -93,6 +97,7 @@ a:hover {
 }
 
 .card-container {
+    min-height: 25rem;
     width: 33%;
     display: inline-block;
     margin: auto;
