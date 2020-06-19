@@ -66,19 +66,7 @@ function getControlPanelPage(language, categories, players) {
 
 ROUTER.get('/admin', (req, res) => {
     helper.setLastPosition(req, "/admin");
-    let language = LANGUAGE.getLanguage(helper.getLanguageFromSession(req));
-
-    if (req.session.adminId) {
-        renderControlPanel(req, res, language);
-    } else {
-        let adminLogin = getAdminLoginPage(language);
-        let navBar = getNavBar(language, req.session.adminId, req.session.language);
-
-        res.render('admin-login', {
-            navBar,
-            adminLogin
-        });
-    }
+    trySignInAdmin(req, res);
 });
 
 ROUTER.post('/adminLogin', (req, res) => {
@@ -107,19 +95,7 @@ ROUTER.post('/adminLogin', (req, res) => {
 
 ROUTER.get('/controlPanel', (req, res) => {
     helper.setLastPosition(req, "/controlPanel");
-    let language = LANGUAGE.getLanguage(helper.getLanguageFromSession(req));
-
-    if (req.session.adminId) {
-        renderControlPanel(req, res, language);
-    } else {
-        let adminLogin = getAdminLoginPage(language);
-        let navBar = getNavBar(language, req.session.adminId, req.session.language);
-
-        res.render('admin-login', {
-            navBar,
-            adminLogin
-        });
-    }
+    trySignInAdmin(req, res);
 });
 
 function renderControlPanel(req, res, language) {
@@ -161,6 +137,22 @@ async function matchNextQuestionToCategories(categories) {
         categories[i].question = question[0].question;
     }
     return categories;
+}
+
+function trySignInAdmin(req, res) {
+    let language = LANGUAGE.getLanguage(helper.getLanguageFromSession(req));
+
+    if (req.session.adminId) {
+        renderControlPanel(req, res, language);
+    } else {
+        let adminLogin = getAdminLoginPage(language);
+        let navBar = getNavBar(language, req.session.adminId, req.session.language);
+
+        res.render('admin-login', {
+            navBar,
+            adminLogin
+        });
+    }
 }
 
 module.exports = ROUTER;
