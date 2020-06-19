@@ -2,9 +2,10 @@ const EXPRESS = require('express');
 const ROUTER = EXPRESS.Router();
 const LANGUAGE = require('../models/language');
 const SQL_QUERIES = require('../models/SqlQueries');
-const HELPER = require('../models/helper');
+const SERVICES = require('../models/Services');
 
 let queries = new SQL_QUERIES();
+let helper = new SERVICES();
 
 function getNavBar(language, adminId, currentLanguage) {
     return {
@@ -64,8 +65,8 @@ function getControlPanelPage(language, categories, players) {
 }
 
 ROUTER.get('/admin', (req, res) => {
-    HELPER.setLastPosition(req, "/admin");
-    let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
+    helper.setLastPosition(req, "/admin");
+    let language = LANGUAGE.getLanguage(helper.getLanguageFromSession(req));
 
     if (req.session.adminId) {
         renderControlPanel(req, res, language);
@@ -105,8 +106,8 @@ ROUTER.post('/adminLogin', (req, res) => {
 });
 
 ROUTER.get('/controlPanel', (req, res) => {
-    HELPER.setLastPosition(req, "/controlPanel");
-    let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
+    helper.setLastPosition(req, "/controlPanel");
+    let language = LANGUAGE.getLanguage(helper.getLanguageFromSession(req));
 
     if (req.session.adminId) {
         renderControlPanel(req, res, language);
@@ -128,7 +129,7 @@ function renderControlPanel(req, res, language) {
         let categoryRoundLimitResult = queries.getCategoryRoundLimitAsync();
 
         categoryRoundLimitResult.then(async (categoryLimit) => {
-            let sortedCategories = HELPER.getCategoryAvailabilities(categories, categoryLimit[0].round_limit);
+            let sortedCategories = helper.getCategoryAvailabilities(categories, categoryLimit[0].round_limit);
             sortedCategories = await matchNextQuestionToCategories(sortedCategories);
             let playersResult = queries.getAllLoggedInPlayersAsync();
 

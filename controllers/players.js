@@ -3,9 +3,10 @@ const ROUTER = EXPRESS.Router();
 const BCRYPT = require('bcryptjs');
 const LANGUAGE = require('../models/language');
 const SQL_QUERIES = require('../models/SqlQueries');
-const HELPER = require('../models/helper');
+const SERVICES = require('../models/Services');
 
 let queries = new SQL_QUERIES();
+let helper = new SERVICES();
 
 function getNavBar(language, userId, currentLanguage, adminId) {
     return {
@@ -80,9 +81,9 @@ function getGameBoardPage(language, player, categories) {
 }
 
 ROUTER.get('/', (req, res) => {
-    HELPER.setLastPosition(req, "/");
+    helper.setLastPosition(req, "/");
 
-    let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
+    let language = LANGUAGE.getLanguage(helper.getLanguageFromSession(req));
     let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
     let index = getIndexPage(language);
 
@@ -103,9 +104,9 @@ ROUTER.get('/setLanguageHu', (req, res) => {
 });
 
 ROUTER.get('/register', (req, res) => {
-    HELPER.setLastPosition(req, "/register");
+    helper.setLastPosition(req, "/register");
 
-    let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
+    let language = LANGUAGE.getLanguage(helper.getLanguageFromSession(req));
     let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
     let register = getRegisterPage(language);
 
@@ -118,7 +119,7 @@ ROUTER.get('/register', (req, res) => {
 ROUTER.post('/register', (req, res) => {
     let language = LANGUAGE.getLanguage(req.session.language);
     let { name, password, confirmPassword } = req.body;
-    let errors = HELPER.tryGetInputErrors(req.body, language.error);
+    let errors = helper.tryGetInputErrors(req.body, language.error);
 
     if (errors.length === 0) {
         let isNameAlreadyRegisteredResult = queries.getPlayerByNameAsync(name);
@@ -158,7 +159,7 @@ ROUTER.post('/register', (req, res) => {
 });
 
 ROUTER.get('/login', (req, res) => {
-    let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
+    let language = LANGUAGE.getLanguage(helper.getLanguageFromSession(req));
     let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
     let login = getLoginPage(language);
 
@@ -226,9 +227,9 @@ ROUTER.post('/login', (req, res) => {
 });
 
 ROUTER.get('/gameBoard', (req, res) => {
-    HELPER.setLastPosition(req, "/gameBoard");
+    helper.setLastPosition(req, "/gameBoard");
 
-    let language = LANGUAGE.getLanguage(HELPER.getLanguageFromSession(req));
+    let language = LANGUAGE.getLanguage(helper.getLanguageFromSession(req));
 
     if (req.session.userId) {
         signInPlayer(req, res, language);
@@ -287,7 +288,7 @@ function signInPlayer(req, res, language) {
                     let categoryRoundLimitResult = queries.getCategoryRoundLimitAsync();
 
                     categoryRoundLimitResult.then((categoryLimit) => {
-                        let sortedCategories = HELPER.getCategoryAvailabilities(categories, categoryLimit[0].round_limit);
+                        let sortedCategories = helper.getCategoryAvailabilities(categories, categoryLimit[0].round_limit);
                         let navBar = getNavBar(language, req.session.userId, req.session.language, req.session.adminId);
                         let gameBoard = getGameBoardPage(language, player[0], sortedCategories);
 
