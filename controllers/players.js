@@ -15,6 +15,7 @@ function getNavBar(language, userId, currentLanguage, adminId) {
         rules: language.navBar.rules,
         about: language.navBar.about,
         controlPanel: language.navBar.controlPanel,
+        questionPanel: language.navBar.questionPanel,
         register: language.navBar.register,
         login: language.navBar.login,
         profile: language.navBar.profile,

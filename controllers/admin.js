@@ -12,6 +12,7 @@ function getNavBar(language, adminId, currentLanguage) {
         home: language.navBar.home,
         gameBoard: language.navBar.gameBoard,
         controlPanel: language.navBar.controlPanel,
+        questionPanel: language.navBar.questionPanel,
         rules: language.navBar.rules,
         about: language.navBar.about,
         register: language.navBar.register,
