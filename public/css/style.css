@@ -70,11 +70,6 @@ a:hover {
     margin-left: 10rem;
 }
 
-#auth-link-container {
-    display: inline-block;
-    float: right;
-}
-
 #language-select {
     float: right;
     padding: 0.7rem;
@@ -182,7 +177,19 @@ a:hover {
 
 /*region Responsive media */
 
-@media (max-width: 1198px) {
+@media (max-width: 1880px) {
+    #control-container {
+        display: block;
+    }
+
+    #control-container .card-container {
+        min-height: 25rem;
+        width: 60%;
+        display: block;
+    }
+}
+
+@media (max-width: 1220px) {
     .auth-container {
         width: 50%;
     }
@@ -195,21 +202,16 @@ a:hover {
         margin: 0;
     }
 
-    #nav-link-container, #auth-link-container {
+    #nav-link-container {
         background: #3f3f3f;
-        position: fixed;
+        position: absolute;
         display: inline-block;
         float: none;
-        width: 9rem;
-        z-index: -1;
-        transform: translateY(-10rem);
+        width: 10rem;
+        transform: translate(-10rem, 3.8rem);
     }
 
-    #auth-link-container {
-        margin-top: 5.8rem;
-    }
-
-    #nav-link-container li, #auth-link-container li {
+    #nav-link-container li {
         display: block;
         float: none;
     }
@@ -226,32 +228,41 @@ a:hover {
         text-shadow: none;
     }
 
-    .menu-down {
-        animation: menu-down;
+    .menu-show {
+        animation: menu-show;
         animation-duration: 1s;
         animation-fill-mode: forwards;
     }
 
-    .menu-up {
-        animation: menu-up;
+    .menu-hide {
+        animation: menu-hide;
         animation-duration: 1s;
         animation-fill-mode: forwards;
     }
 
-    @keyframes menu-down {
-        0% {transform: translateY(-10rem)}
-        100% {transform: translateY(3.7rem)}
+    @keyframes menu-show {
+        0% {transform: translate(-10rem, 3.8rem)}
+        100% {transform: translate(0, 3.8rem)}
     }
 
-    @keyframes menu-up {
-        0% {transform: translateY(3.7rem)}
-        100% {transform: translateY(-10rem)}
+    @keyframes menu-hide {
+        0% {transform: translate(0, 3.8rem)}
+        100% {transform: translate(-10rem, 3.8rem)}
     }
 
     #main-logo {
         width: 180px;
         height: 90px;
         margin: auto;
+    }
+}
+
+@media (max-width: 1050px) {
+
+    #settings-container .btn {
+        display: block;
+        position: fixed;
+        width: 100%;
     }
 }
 

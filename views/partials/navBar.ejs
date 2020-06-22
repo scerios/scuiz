@@ -10,6 +10,12 @@
                 <li><a id="link-control-panel" href="/controlPanel"><%- navBar.controlPanel %></a></li>
                 <li><a id="link-question-panel" href="/questionPanel"><%- navBar.questionPanel %></a></li>
             <% } %>
+            <% if(navBar.userId !== undefined) { %>
+                <li><a href="/logout"><%- navBar.logout %></a></li>
+            <% } else { %>
+                <li><a id="link-register" href="/register"><%- navBar.register %></a></li>
+                <li><a id="link-login" href="/login"><%- navBar.login %></a></li>
+            <% } %>
         </ul>
     </div>
     <div id="language-select" class="btn-group" role="group" aria-label="Button group with nested dropdown">
@@ -22,16 +28,6 @@
             </div>
         </div>
     </div>
-    <div id="auth-link-container" class="dropdown-bar">
-        <ul id="auth-link">
-            <% if(navBar.userId !== undefined) { %>
-                <li><a href="/logout"><%- navBar.logout %></a></li>
-            <% } else { %>
-                <li><a id="link-register" href="/register"><%- navBar.register %></a></li>
-                <li><a id="link-login" href="/login"><%- navBar.login %></a></li>
-            <% } %>
-        </ul>
-    </div>
     <a id="menu-bar">
         <i class="fa fa-bars"></i>
     </a>
@@ -40,16 +36,12 @@
     let menu = $('#menu-bar');
     let dropdownBar = $('.dropdown-bar');
     menu.on('click', function() {
-        if (!dropdownBar.hasClass('menu-down')) {
-            dropdownBar.removeClass('menu-up');
-            dropdownBar.addClass('menu-down');
-            setTimeout(() => {
-                dropdownBar.css('z-index', 5);
-            }, 1000);
+        if (!dropdownBar.hasClass('menu-show')) {
+            dropdownBar.removeClass('menu-hide');
+            dropdownBar.addClass('menu-show');
         } else {
-            dropdownBar.css('z-index', -1);
-            dropdownBar.removeClass('menu-down');
-            dropdownBar.addClass('menu-up');
+            dropdownBar.removeClass('menu-show');
+            dropdownBar.addClass('menu-hide');
         }
     });
 </script>
