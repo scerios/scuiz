@@ -68,7 +68,7 @@ const LANG_EN = {
     },
     controlPanel: {
         emptyTable: "No player online at the moment",
-        playersTableHead: {
+        usersTableHead: {
             name: "Name",
             points: "Points",
             authorizeBtn: "Authorize"
@@ -163,7 +163,7 @@ const LANG_HU = {
     },
     controlPanel: {
         emptyTable: "Jelenleg nincs aktív játékos",
-        playersTableHead: {
+        usersTableHead: {
             name: "Név",
             points: "Pontok",
             authorizeBtn: "Felhatalmazás"
