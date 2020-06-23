@@ -77,54 +77,39 @@ app.get('/logout', require('./controllers/authentication'));
 //#region Socket event listeners.
 
 io.on('connection', socket => {
-    console.log(`A user with ID: ${socket.id} connected.`);
 
     socket.on('disconnect', () => {
-        console.log(`A user with ID: ${socket.id} disconnected.`);
-        let playerLeft = Queries.putPlayerStatusAndSocketIdBySocketIdAsync(socket.id, 0);
-
-        playerLeft.then(() => {
-            io.to(adminSocketId).emit('playerLeft', { playerSocketId: socket.id });
-        }).catch((error) => {
-            console.log('playerLeft: ' + error);
-        });
+        Queries.putUserStatusAndSocketIdBySocketId(socket.id, 0);
+        io.to(adminSocketId).emit('userLeft', { userSocketId: socket.id });
     });
 
     socket.on('postAdminSocketId', () => {
         adminSocketId = socket.id;
     });
 
-    socket.on('signUpForGame', (data) => {
-        let setSocketIdResult = Queries.putPlayerSocketIdByIdAsync(data.playerId, socket.id);
+    socket.on('signUpForGame', async (data) => {
+        Queries.putUserSocketIdById(data.userId, socket.id);
 
-        setSocketIdResult.then(() => {
-            let playerResult = Queries.getPlayerByIdAsync(data.playerId);
-
-            playerResult.then((player) => {
-                io.to(adminSocketId).emit('showPlayer', { player: player[0] });
-            }).catch((error) => {
-                console.log('playerResult:' + error);
-            });
-        }).catch((error) => {
-            console.log('setSocketIdResult:' + error);
-        });
+        let user = await Queries.getUserByIdAsync(data.userId);
+        io.to(adminSocketId).emit('showPlayer', { user: user });
     });
 
-    socket.on('pickQuestion', (data) => {
+    socket.on('pickQuestion', async (data) => {
         isDoublerClicked = false;
-        let putCategoryResult = Queries.putCategoryQuestionIndexByIdAsync(data.categoryId, data.index);
-        putCategoryResult.then(() => {
-            let getQuestionResult = Queries.getNextTwoQuestionsByCategoryIdAndQuestionIndexAsync(data.categoryId, data.index);
+        await Queries.putCategoryQuestionIndexById(data.categoryId, data.index);
 
-            getQuestionResult.then((question) => {
-                socket.broadcast.emit('getNextQuestion', { question: question[0].question , category: { id: question[0].id, name: question[0].name }, timer: data.timer });
-                io.to(adminSocketId).emit('getQuestion', { question: question[0], nextQuestion: question[1] });
-            }).catch((error) => {
-                console.log('getQuestionResult: ' + error);
-            })
-        }).catch((error) => {
-            console.log('putCategoryResult: ' + error);
+        let nextTwoQuestions = await Queries.getNextTwoQuestionsByCategoryIdAndQuestionIndexAsync(data.categoryId, data.index);
+
+        socket.broadcast.emit('getNextQuestion', {
+            question: nextTwoQuestions[0].question,
+            category: {
+                id: nextTwoQuestions[0].id,
+                name: nextTwoQuestions[0].name
+            },
+            timer: data.timer
         });
+        io.to(adminSocketId).emit('getQuestion', { question: nextTwoQuestions[0], nextQuestion: nextTwoQuestions[1] });
+
     });
 
     socket.on('raiseCategoryLimit', (data) => {
@@ -137,37 +122,33 @@ io.on('connection', socket => {
 
     socket.on('postAnswer', (data) => {
         io.to(adminSocketId).emit('getAnswer', {
-            player: {
-                id: data.player.id,
+            user: {
+                id: data.user.id,
                 socketId: socket.id,
-                name: data.player.name,
-                timeLeft: data.player.timeLeft,
-                answer: data.player.answer,
-                isDoubled: data.player.isDoubled
+                name: data.user.name,
+                timeLeft: data.user.timeLeft,
+                answer: data.user.answer,
+                isDoubled: data.user.isDoubled
             }
         });
     });
 
     socket.on('finishQuestion', (data) => {
         data.correct.forEach((user) => {
-            Queries.putPlayerPointAddValueById(user.id, user.changeValue);
+            Queries.putUserPointAddValueById(user.id, user.changeValue);
             io.to(user.socketId).emit('updatePoint', { point: user.point + user.changeValue });
         });
         data.incorrect.forEach((user) => {
-            Queries.putPlayerPointSubtractValueById(user.id, user.changeValue);
+            Queries.putUserPointSubtractValueById(user.id, user.changeValue);
             io.to(user.socketId).emit('updatePoint', { point: user.point - user.changeValue });
         });
     });
 
-    socket.on('logoutEveryone', () => {
-        let getAllLoggedInPlayerResult = Queries.getAllLoggedInPlayersAsync();
+    socket.on('logoutEveryone', async () => {
+        let allLoggedInUsers = await Queries.getAllLoggedInUsersAsync();
 
-        getAllLoggedInPlayerResult.then((players) => {
-            players.forEach((player) => {
-                Queries.putPlayerStatusById(player.id, 0);
-            });
-        }).catch((error) => {
-            console.log('getAllLoggedInPlayerResult: ' + error);
+        allLoggedInUsers.forEach((user) => {
+            Queries.putUserStatusById(user.id, 0);
         });
     });
 
@@ -181,8 +162,8 @@ io.on('connection', socket => {
         }
     });
 
-    socket.on('authorizePlayer', (data) => {
-        io.to(data.playerSocketId).emit('authorizeCategoryPick');
+    socket.on('authorizeUser', (data) => {
+        io.to(data.userSocketId).emit('authorizeCategoryPick');
     });
 
     socket.on('chooseCategory', (data) => {
