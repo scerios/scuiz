@@ -6,11 +6,11 @@
         <ul id="nav-link">
             <li><a id="link-home" href="/"><%- navBar.home %></a></li>
             <li><a id="link-game-board" href="/gameBoard"><%- navBar.gameBoard %></a></li>
-            <% if (navBar.adminId !== undefined) { %>
+            <% if (navBar.user !== null && navBar.user.id === 1) { %>
                 <li><a id="link-control-panel" href="/controlPanel"><%- navBar.controlPanel %></a></li>
                 <li><a id="link-question-panel" href="/questionPanel"><%- navBar.questionPanel %></a></li>
             <% } %>
-            <% if(navBar.userId !== undefined) { %>
+            <% if(navBar.user !== null) { %>
                 <li><a href="/logout"><%- navBar.logout %></a></li>
             <% } else { %>
                 <li><a id="link-register" href="/register"><%- navBar.register %></a></li>
@@ -18,6 +18,13 @@
             <% } %>
         </ul>
     </div>
+    <% if (navBar.user !== null) { %>
+        <div id="name-container">
+            <ul>
+                <li><%- navBar.greeting %> <span><%- navBar.user.name %></span>!</li>
+            </ul>
+        </div>
+    <% } %>
     <div id="language-select" class="btn-group" role="group" aria-label="Button group with nested dropdown">
         <button type="button" class="btn"><span class="flag-icon flag-icon-<%- navBar.language %> pointer"></button>
         <div class="btn-group" role="group">

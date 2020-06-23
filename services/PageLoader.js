@@ -27,6 +27,7 @@ class PageLoader {
             controlPanel: language.navBar.controlPanel,
             questionPanel: language.navBar.questionPanel,
             register: language.navBar.register,
+            greeting: language.navBar.greeting,
             login: language.navBar.login,
             profile: language.navBar.profile,
             logout: language.navBar.logout,
