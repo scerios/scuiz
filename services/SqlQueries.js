@@ -8,10 +8,6 @@ class SqlQueries {
         return await query(`INSERT INTO player (name, password) VALUES ('${name}', '${password}')`);
     }
 
-    async putPlayerStatusByIdAsync(id, status) {
-        return await query(`UPDATE player SET status = ${status} WHERE id = ${id}`);
-    }
-
     putPlayerStatusById(id, status) {
         mySql.query(`UPDATE player SET status = ${status} WHERE id = ${id}`);
     }
@@ -40,8 +36,14 @@ class SqlQueries {
         return await query(`SELECT id, socket_id, name, point, status FROM player WHERE id = '${id}'`);
     }
 
+    async getPlayerStatusByIdAsync(id) {
+        let result = await query(`SELECT status FROM player WHERE id = '${id}'`);
+        return result[0].status;
+    }
+
     async getPlayerByNameAsync(name) {
-        return await query(`SELECT id, password, status FROM player WHERE name = '${name}'`);
+        let result = await query(`SELECT id, password, status FROM player WHERE name = '${name}'`);
+        return result[0];
     }
 
     async putCategoryQuestionIndexByIdAsync(id, index) {

@@ -1,10 +1,4 @@
 class Services {
-    getCategoryAvailabilities(categories, limit) {
-        for (let i = 0; i < categories.length; i++) {
-            categories[i].isAvailable = categories[i].question_index < limit;
-        }
-        return categories;
-    }
 
     tryGetInputErrors(inputs, errorMessages) {
         let { name, password, confirmPassword} = inputs;
@@ -27,17 +21,6 @@ class Services {
         }
 
         return errors;
-    }
-
-    setLastPosition(req, position) {
-        req.session.lastPosition = position;
-    }
-
-    getLanguageFromSession(req) {
-        if (!req.session.language) {
-            req.session.language = "hu";
-        }
-        return req.session.language;
     }
 }
 
