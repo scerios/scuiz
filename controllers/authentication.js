@@ -16,13 +16,13 @@ router.post('/login', async (req, res) => {
     let languageCode = SessionService.getLanguageCode(session);
     let language = LanguageVersions.getLanguageVersionByCode(languageCode);
     let { name, password } = req.body;
-    let player = await Queries.getPlayerByNameAsync(name);
-    let navBar = PageLoader.getNavBar(language, languageCode, SessionService.getUserId(session));
-    let login = PageLoader.getLoginPage(language);
+    let user = await Queries.getUserByNameAsync(name);
+    let navBar = PageLoader.getNavBar(language.navBar, languageCode, SessionService.getUserId(session));
+    let login = PageLoader.getLoginPage(language.login);
 
-    if (bCrypt.compareSync(password, player.password)) {
-        if (player.status === 0) {
-            session.userId = player.id;
+    if (bCrypt.compareSync(password, user.password)) {
+        if (user.status === 0) {
+            session.userId = user.id;
             res.redirect(SessionService.getLastPosition(session));
         } else {
             login.alreadyLoggedIn = language.login.alreadyLoggedIn;
@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
 
 router.get('/logout', (req, res) => {
     let session = req.session;
-    Queries.putPlayerStatusById(SessionService.getUserId(session), 0);
+    Queries.putUserStatusById(SessionService.getUserId(session), 0);
     SessionService.setUserId(session, null);
     res.redirect(SessionService.getLastPosition(session));
 });

@@ -17,24 +17,24 @@ router.post('/register', async (req, res) => {
     let errors = RegisterService.tryGetInputErrors(req.body, pageBasics.language.error);
 
     if (errors.length === 0) {
-        let user = await Queries.getPlayerByNameAsync(name);
+        let user = await Queries.getUserByNameAsync(name);
 
         if (user === undefined) {
-            Queries.postPlayer(name, bCrypt.hashSync(password, bCrypt.genSaltSync(10)));
+            Queries.postUser(name, bCrypt.hashSync(password, bCrypt.genSaltSync(10)));
 
-            let login = PageLoader.getLoginPage(pageBasics.language);
+            let login = PageLoader.getLoginPage(pageBasics.language.login);
             login.registerSuccess = pageBasics.language.login.registerSuccess;
 
             res.render('login', {
-                navBar: PageLoader.getNavBar(pageBasics.language, pageBasics.languageCode, pageBasics.user),
+                navBar: PageLoader.getNavBar(pageBasics.language.navBar, pageBasics.languageCode, pageBasics.user),
                 login
             });
         } else {
-            let register = PageLoader.getRegisterPage(pageBasics.language);
+            let register = PageLoader.getRegisterPage(pageBasics.language.login);
 
             errors.push(pageBasics.language.error.registered);
             res.render('register', {
-                navBar: PageLoader.getNavBar(pageBasics.language, pageBasics.languageCode, pageBasics.user),
+                navBar: PageLoader.getNavBar(pageBasics.language.navBar, pageBasics.languageCode, pageBasics.user),
                 errors,
                 password,
                 confirmPassword,
@@ -42,10 +42,10 @@ router.post('/register', async (req, res) => {
             });
         }
     } else {
-        let register = PageLoader.getRegisterPage(pageBasics.language);
+        let register = PageLoader.getRegisterPage(pageBasics.language.register);
 
         res.render('register', {
-            navBar: PageLoader.getNavBar(pageBasics.language, pageBasics.languageCode, pageBasics.user),
+            navBar: PageLoader.getNavBar(pageBasics.language.navBar, pageBasics.languageCode, pageBasics.user),
             errors,
             name,
             register

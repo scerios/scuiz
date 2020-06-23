@@ -29,10 +29,10 @@ router.get('/', async (req, res) => {
     SessionService.setLastPosition(session, "/");
 
     let pageBasics = await PageLoader.getPageBasics(session);
-    let index = PageLoader.getIndexPage(pageBasics.language);
+    let index = PageLoader.getIndexPage(pageBasics.language.index);
 
     res.render('index', {
-        navBar: PageLoader.getNavBar(pageBasics.language, pageBasics.languageCode, pageBasics.user),
+        navBar: PageLoader.getNavBar(pageBasics.language.navBar, pageBasics.languageCode, pageBasics.user),
         index
     });
 });
@@ -42,10 +42,10 @@ router.get('/register', async (req, res) => {
     SessionService.setLastPosition(session, '/register');
 
     let pageBasics = await PageLoader.getPageBasics(session);
-    let register = PageLoader.getRegisterPage(pageBasics.language);
+    let register = PageLoader.getRegisterPage(pageBasics.language.register);
 
     res.render('register', {
-        navBar: PageLoader.getNavBar(pageBasics.language, pageBasics.languageCode, pageBasics.user),
+        navBar: PageLoader.getNavBar(pageBasics.language.navBar, pageBasics.languageCode, pageBasics.user),
         register
     });
 });
@@ -54,10 +54,10 @@ router.get('/login', async (req, res) => {
     let session = req.session;
 
     let pageBasics = await PageLoader.getPageBasics(session);
-    let login = PageLoader.getLoginPage(pageBasics.language);
+    let login = PageLoader.getLoginPage(pageBasics.language.login);
 
     res.render('login', {
-        navBar: PageLoader.getNavBar(pageBasics.language, pageBasics.languageCode, pageBasics.user),
+        navBar: PageLoader.getNavBar(pageBasics.language.navBar, pageBasics.languageCode, pageBasics.user),
         login
     });
 });
@@ -72,25 +72,25 @@ router.get('/gameBoard', async (req, res) => {
         res.redirect('/login');
     } else {
         if (pageBasics.user.status === 0) {
-            Queries.putPlayerStatusById(pageBasics.user.id, 1);
+            Queries.putUserStatusById(pageBasics.user.id, 1);
 
             let categories = await Queries.getAllCategoriesAsync();
             let categoryRoundLimit = await Queries.getCategoryRoundLimitAsync();
             let sortedCategories = CategoryService.getCategoryAvailabilities(categories, categoryRoundLimit.round_limit);
 
-            let gameBoard = PageLoader.getGameBoardPage(pageBasics.language, pageBasics.user, sortedCategories);
+            let gameBoard = PageLoader.getGameBoardPage(pageBasics.language.gameBoard, pageBasics.user, sortedCategories);
 
             res.render('game-board', {
-                navBar: PageLoader.getNavBar(pageBasics.language, pageBasics.languageCode, pageBasics.user),
+                navBar: PageLoader.getNavBar(pageBasics.language.navBar, pageBasics.languageCode, pageBasics.user),
                 gameBoard
             });
 
         } else {
-            let index = PageLoader.getIndexPage(pageBasics.language);
+            let index = PageLoader.getIndexPage(pageBasics.language.index);
             index.alreadyLoggedIn = pageBasics.language.index.alreadyLoggedIn;
 
             res.render('index', {
-                navBar: PageLoader.getNavBar(pageBasics.language, pageBasics.languageCode, pageBasics.user),
+                navBar: PageLoader.getNavBar(pageBasics.language.navBar, pageBasics.languageCode, pageBasics.user),
                 index
             });
         }
@@ -108,12 +108,12 @@ router.get('/controlPanel', async (req, res) => {
         let categoryRoundLimit = await Queries.getCategoryRoundLimitAsync();
         let sortedCategories = CategoryService.getCategoryAvailabilities(categories, categoryRoundLimit.round_limit);
         sortedCategories = await CategoryService.matchNextQuestionToCategories(sortedCategories);
-        let players = await Queries.getAllLoggedInPlayersAsync();
+        let users = await Queries.getAllLoggedInUsersAsync();
 
-        let controlPanel = PageLoader.getControlPanelPage(pageBasics.language, players, sortedCategories);
+        let controlPanel = PageLoader.getControlPanelPage(pageBasics.language.controlPanel, users, sortedCategories);
 
         res.render('control-panel', {
-            navBar: PageLoader.getNavBar(pageBasics.language, pageBasics.languageCode, pageBasics.user),
+            navBar: PageLoader.getNavBar(pageBasics.language.navBar, pageBasics.languageCode, pageBasics.user),
             controlPanel
         });
     } else {
