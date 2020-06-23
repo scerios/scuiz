@@ -7,15 +7,15 @@ let question = $('#question');
 let answer = $('#answer');
 
 socket.on('showPlayer', (data) => {
-    addPlayerToList(data.player);
+    addUserToList(data.user);
 });
 
-socket.on('playerLeft', (data) => {
-    playerTable.row($('#' + data.playerSocketId)).remove().draw();
+socket.on('userLeft', (data) => {
+    userTable.row($('#' + data.userSocketId)).remove().draw();
 });
 
 socket.on('getAnswer', (data) => {
-    addAnswerToEvaluationTable(data.player);
+    addAnswerToEvaluationTable(data.user);
 });
 
 socket.on('getQuestion', (data) => {
@@ -32,7 +32,7 @@ socket.on('chosenCategory', (data) => {
 });
 
 $(document).on('click', '.btn-authorize', function () {
-    socket.emit('authorizePlayer', { playerSocketId: $(this).attr('data-socket-id') });
+    socket.emit('authorizeUser', { userSocketId: $(this).attr('data-socket-id') });
 });
 
 categoryBtns.on('click', function () {
@@ -99,7 +99,7 @@ evaluateBtn.on('click', function() {
 });
 
 logoutEveryoneBtn.on('click', function () {
-    playerTable.clear().draw();
+    userTable.clear().draw();
     socket.emit('logoutEveryone');
 });
 
@@ -139,22 +139,22 @@ function getCategoryIndexAndEnableAllCategories(categories) {
     return index;
 }
 
-function addAnswerToEvaluationTable(player) {
-    let value = player.isDoubled? 4 : player.answer.length === 0? 0 : 2;
+function addAnswerToEvaluationTable(user) {
+    let value = user.isDoubled? 4 : user.answer.length === 0? 0 : 2;
     evaluationTable.row.add([
-        player.name,
-        player.timeLeft,
-        player.answer,
+        user.name,
+        user.timeLeft,
+        user.answer,
         '<div class="form-group">' +
         '    <div class="custom-control custom-switch">' +
-        '        <input type="checkbox" class="custom-control-input evaluate" id="' + player.id + '-evaluate"' +
-        '               data-id="' + player.id + '" data-socket-id="' + player.socketId + '">' +
-        '        <label class="custom-control-label" for="' + player.id + '-evaluate"></label>' +
+        '        <input type="checkbox" class="custom-control-input evaluate" id="' + user.id + '-evaluate"' +
+        '               data-id="' + user.id + '" data-socket-id="' + user.socketId + '">' +
+        '        <label class="custom-control-label" for="' + user.id + '-evaluate"></label>' +
         '    </div>' +
         '</div>',
         '<div class="form-group">' +
-        '    <input type="text" class="form-control form-control-sm short-input text-center" id="' + player.id + '-answer-value"' +
-        '           data-id="' + player.id + '" data-socket-id="' + player.socketId + '"' +
+        '    <input type="text" class="form-control form-control-sm short-input text-center" id="' + user.id + '-answer-value"' +
+        '           data-id="' + user.id + '" data-socket-id="' + user.socketId + '"' +
         '           value="' + value + '">' +
         '</div>'
     ]).draw();

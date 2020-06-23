@@ -47,16 +47,16 @@
     <div class="card-container">
         <div class="row">
             <div class="col-12">
-                <table id="player-table" class="table table-hover text-dirty text-center compact hover order-column stripe">
+                <table id="user-table" class="table table-hover text-dirty text-center compact hover order-column stripe">
                     <thead>
                         <tr>
-                            <th scope="col"><%- controlPanel.playersTableHead.name %></th>
-                            <th scope="col"><%- controlPanel.playersTableHead.points %></th>
-                            <th scope="col"><%- controlPanel.playersTableHead.authorizeBtn %></th>
+                            <th scope="col"><%- controlPanel.usersTableHead.name %></th>
+                            <th scope="col"><%- controlPanel.usersTableHead.points %></th>
+                            <th scope="col"><%- controlPanel.usersTableHead.authorizeBtn %></th>
                         </tr>
                     </thead>
-                    <tbody id="player-table-body">
-                        <%- include('partials/players'); %>
+                    <tbody id="user-table-body">
+                        <%- include('partials/users'); %>
                     </tbody>
                 </table>
             </div>
@@ -94,9 +94,9 @@
 <script>
     let socket = io();
 
-    let playerTable;
+    let userTable;
     let evaluationTable;
-    let playerSocketId = '';
+    let userSocketId = '';
 
     let timer = $('#timer');
     let pointValue = $('#point-value');
@@ -104,7 +104,7 @@
     $(document).ready(() => {
         $('#link-control-panel').addClass('active');
         $('[data-toggle="tooltip"]').tooltip();
-        playerTable = $('#player-table').DataTable({
+        userTable = $('#user-table').DataTable({
             paging: false,
             searching: false,
             language: {
@@ -113,7 +113,7 @@
             "order": [[ 1, 'desc' ]],
             createdRow: function (row, data, dataIndex) {
                 if (!$(row).attr('id')) {
-                    let socketId = playerSocketId;
+                    let socketId = userSocketId;
                     $(row).attr('id', socketId);
                     setTimeout(function() {
                         $('#' + socketId + ' td:nth-child(2)').attr('id', socketId + '-point');
@@ -135,17 +135,17 @@
         pointValue.val(2);
     });
 
-    function addPlayerToList(player) {
-        let socketId = player.socket_id;
-        playerSocketId = socketId;
-        playerTable.row.add([
-            player.name,
-            player.point,
+    function addUserToList(user) {
+        let socketId = user.socket_id;
+        userSocketId = socketId;
+        userTable.row.add([
+            user.name,
+            user.point,
             '<button type="button" class="btn btn-orange btn-sm btn-authorize" data-socket-id="' + socketId + '">' +
             '   <%= controlPanel.authorizeBtn %>' +
             '</button>'
         ]).draw();
-        playerSocketId = '';
+        userSocketId = '';
     }
 </script>
 <script src="js/control-panel.js"></script>

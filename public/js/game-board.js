@@ -23,7 +23,7 @@ let counter;
 $(document).ready(() => {
     $('#link-game-board').addClass('active');
     socket.emit('signUpForGame', {
-        playerId: myId
+        userId: myId
     });
 });
 
@@ -132,7 +132,7 @@ function changeTimerColor(minutes, seconds) {
 
 function sendAnswerForEvaluation(isTimeExpired) {
     socket.emit('postAnswer', {
-        player: {
+        user: {
             id: myId,
             name: myName,
             timeLeft: isTimeExpired? '0 : 00' : timer.text(),
