@@ -14,121 +14,110 @@ class PageLoader {
         return {
             languageCode: languageCode,
             language: LanguageVersions.getLanguageVersionByCode(languageCode),
-            user: userId !== null? await Queries.getPlayerByIdAsync(userId) : null
+            user: userId !== null? await Queries.getUserByIdAsync(userId) : null
         }
     }
 
-    getNavBar(language, currentLanguage, user) {
+    getNavBar(navBar, currentLanguage, user) {
         return {
-            home: language.navBar.home,
-            gameBoard: language.navBar.gameBoard,
-            rules: language.navBar.rules,
-            about: language.navBar.about,
-            controlPanel: language.navBar.controlPanel,
-            questionPanel: language.navBar.questionPanel,
-            register: language.navBar.register,
-            greeting: language.navBar.greeting,
-            login: language.navBar.login,
-            profile: language.navBar.profile,
-            logout: language.navBar.logout,
+            home: navBar.home,
+            gameBoard: navBar.gameBoard,
+            rules: navBar.rules,
+            about: navBar.about,
+            controlPanel: navBar.controlPanel,
+            questionPanel: navBar.questionPanel,
+            register: navBar.register,
+            greeting: navBar.greeting,
+            login: navBar.login,
+            profile: navBar.profile,
+            logout: navBar.logout,
             user: user,
             language: currentLanguage
         };
     }
 
-    getIndexPage(language) {
+    getIndexPage(index) {
         return {
-            welcomeMsg: language.index.welcomeMsg,
-            loginBtn: language.index.loginBtn,
-            registerBtn: language.index.registerBtn
+            welcomeMsg: index.welcomeMsg,
+            loginBtn: index.loginBtn,
+            registerBtn: index.registerBtn
         };
     }
 
-    getRegisterPage(language) {
+    getRegisterPage(register) {
         return {
-            welcomeMsg: language.register.welcomeMsg,
-            nameLabel: language.register.nameLabel,
-            namePlaceholder: language.register.namePlaceholder,
-            passwordLabel: language.register.passwordLabel,
-            passwordPlaceholder: language.register.passwordPlaceholder,
-            confirmPasswordLabel: language.register.confirmPasswordLabel,
-            confirmPasswordPlaceholder: language.register.confirmPasswordPlaceholder,
-            registerBtn: language.register.registerBtn,
-            isRegisteredQuestion: language.register.isRegisteredQuestion,
-            loginLink: language.register.loginLink
+            welcomeMsg: register.welcomeMsg,
+            nameLabel: register.nameLabel,
+            namePlaceholder: register.namePlaceholder,
+            passwordLabel: register.passwordLabel,
+            passwordPlaceholder: register.passwordPlaceholder,
+            confirmPasswordLabel: register.confirmPasswordLabel,
+            confirmPasswordPlaceholder: register.confirmPasswordPlaceholder,
+            registerBtn: register.registerBtn,
+            isRegisteredQuestion: register.isRegisteredQuestion,
+            loginLink: register.loginLink
         };
     }
 
-    getLoginPage(language) {
+    getLoginPage(login) {
         return {
-            welcomeMsg: language.login.welcomeMsg,
-            nameLabel: language.login.nameLabel,
-            namePlaceholder: language.login.namePlaceholder,
-            passwordLabel: language.login.passwordLabel,
-            passwordPlaceholder: language.login.passwordPlaceholder,
-            loginBtn: language.login.loginBtn,
-            isNotRegisteredQuestion: language.login.isNotRegisteredQuestion,
-            registerLink: language.login.registerLink
+            welcomeMsg: login.welcomeMsg,
+            nameLabel: login.nameLabel,
+            namePlaceholder: login.namePlaceholder,
+            passwordLabel: login.passwordLabel,
+            passwordPlaceholder: login.passwordPlaceholder,
+            loginBtn: login.loginBtn,
+            isNotRegisteredQuestion: login.isNotRegisteredQuestion,
+            registerLink: login.registerLink
         };
     }
 
-    getAdminLoginPage(language) {
-        return {
-            welcomeMsg: language.adminLogin.welcomeMsg,
-            nameLabel: language.adminLogin.nameLabel,
-            namePlaceholder: language.adminLogin.namePlaceholder,
-            passwordLabel: language.adminLogin.passwordLabel,
-            passwordPlaceholder: language.adminLogin.passwordPlaceholder,
-            loginBtn: language.adminLogin.loginBtn,
-        };
-    }
-
-    getGameBoardPage(language, player, categories) {
+    getGameBoardPage(gameBoard, user, categories) {
         return {
             categories: categories,
-            logoutBtn: language.gameBoard.logoutBtn,
-            question: language.gameBoard.question,
-            timer: language.gameBoard.timer,
-            answer: language.gameBoard.answer,
-            doublerBtn: language.gameBoard.doublerBtn,
-            doublerBtnClicked: language.gameBoard.doublerBtnClicked,
-            answerBtn: language.gameBoard.answerBtn,
-            category: language.gameBoard.category,
-            pointText: language.gameBoard.pointText,
-            selectCategory: language.gameBoard.selectCategory,
-            myId: player.id,
-            myName: player.name,
-            pointValue: player.point
+            logoutBtn: gameBoard.logoutBtn,
+            question: gameBoard.question,
+            timer: gameBoard.timer,
+            answer: gameBoard.answer,
+            doublerBtn: gameBoard.doublerBtn,
+            doublerBtnClicked: gameBoard.doublerBtnClicked,
+            answerBtn: gameBoard.answerBtn,
+            category: gameBoard.category,
+            pointText: gameBoard.pointText,
+            selectCategory: gameBoard.selectCategory,
+            myId: user.id,
+            myName: user.name,
+            pointValue: user.point
         };
     }
 
-    getControlPanelPage(language, players, categories) {
+    getControlPanelPage(controlPanel, users, categories) {
         return {
-            emptyTable: language.controlPanel.emptyTable,
-            playersTableHead: {
-                name: language.controlPanel.playersTableHead.name,
-                points: language.controlPanel.playersTableHead.points,
-                authorizeBtn: language.controlPanel.playersTableHead.authorizeBtn
+            emptyTable: controlPanel.emptyTable,
+            usersTableHead: {
+                name: controlPanel.usersTableHead.name,
+                points: controlPanel.usersTableHead.points,
+                authorizeBtn: controlPanel.usersTableHead.authorizeBtn
             },
-            evaluationTableTitle: language.controlPanel.evaluationTableTitle,
+            evaluationTableTitle: controlPanel.evaluationTableTitle,
             evaluationTableHead: {
-                name: language.controlPanel.evaluationTableHead.name,
-                timeLeft: language.controlPanel.evaluationTableHead.timeLeft,
-                answer: language.controlPanel.evaluationTableHead.answer,
-                evaluate: language.controlPanel.evaluationTableHead.evaluate,
-                point: language.controlPanel.evaluationTableHead.point
+                name: controlPanel.evaluationTableHead.name,
+                timeLeft: controlPanel.evaluationTableHead.timeLeft,
+                answer: controlPanel.evaluationTableHead.answer,
+                evaluate: controlPanel.evaluationTableHead.evaluate,
+                point: controlPanel.evaluationTableHead.point
             },
-            authorizeBtn: language.controlPanel.authorizeBtn,
-            timer: language.controlPanel.timer,
-            timerLegend: language.controlPanel.timerLegend,
-            pointValue: language.controlPanel.pointValue,
-            pointValueLegend: language.controlPanel.pointValueLegend,
-            showEvaluationModalBtn: language.controlPanel.showEvaluationModalBtn,
-            collectAnswersBtn: language.controlPanel.collectAnswersBtn,
-            evaluateBtn: language.controlPanel.evaluateBtn,
-            logoutEveryoneBtn: language.controlPanel.logoutEveryoneBtn,
+            authorizeBtn: controlPanel.authorizeBtn,
+            timer: controlPanel.timer,
+            timerLegend: controlPanel.timerLegend,
+            pointValue: controlPanel.pointValue,
+            pointValueLegend: controlPanel.pointValueLegend,
+            showEvaluationModalBtn: controlPanel.showEvaluationModalBtn,
+            collectAnswersBtn: controlPanel.collectAnswersBtn,
+            evaluateBtn: controlPanel.evaluateBtn,
+            logoutEveryoneBtn: controlPanel.logoutEveryoneBtn,
             categories: categories,
-            players: players
+            users: users
         };
     }
 }
