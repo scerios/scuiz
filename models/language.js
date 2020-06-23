@@ -186,12 +186,12 @@ const LANG_HU = {
     }
 }
 
-function getLanguage(lang) {
-    if (lang === 'us') {
+function getLanguageVersionByCode(languageCode) {
+    if (languageCode === 'us') {
         return LANG_EN;
     } else {
         return LANG_HU;
     }
 }
 
-exports.getLanguage = getLanguage;
+exports.getLanguageVersionByCode = getLanguageVersionByCode;
