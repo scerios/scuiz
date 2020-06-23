@@ -891,7 +891,7 @@ table.dataTable td {
     clear: both;
     height: 0; }
 
-#player-table-body tr:hover {
+#user-table-body tr:hover {
     color: #dcdde1;
 }
 
