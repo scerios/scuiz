@@ -1,11 +1,11 @@
-const mySql = require('./mySqlConnection');
+const mySql = require('../models/mySqlConnection');
 const util = require('util');
 const query = util.promisify(mySql.query).bind(mySql);
 
 class SqlQueries {
 
-    async postPlayerAsync(name, password) {
-        return await query(`INSERT INTO player (name, password) VALUES ('${name}', '${password}')`);
+    postPlayer(name, password) {
+        mySql.query(`INSERT INTO player (name, password) VALUES ('${name}', '${password}')`);
     }
 
     putPlayerStatusById(id, status) {
@@ -33,7 +33,8 @@ class SqlQueries {
     }
 
     async getPlayerByIdAsync(id) {
-        return await query(`SELECT id, socket_id, name, point, status FROM player WHERE id = '${id}'`);
+        let result = await query(`SELECT id, socket_id, name, point, status FROM player WHERE id = '${id}'`);
+        return result[0];
     }
 
     async getPlayerStatusByIdAsync(id) {
@@ -55,7 +56,8 @@ class SqlQueries {
     }
 
     async getCategoryRoundLimitAsync() {
-        return await query('SELECT round_limit FROM category_limit WHERE id = 1');
+        let result = await query('SELECT round_limit FROM category_limit WHERE id = 1');
+        return result[0];
     }
 
     async getAdminPasswordByNameAsync(name) {

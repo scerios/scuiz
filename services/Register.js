@@ -1,4 +1,4 @@
-class Services {
+class Register {
 
     tryGetInputErrors(inputs, errorMessages) {
         let { name, password, confirmPassword} = inputs;
@@ -24,4 +24,4 @@ class Services {
     }
 }
 
-module.exports = Services;
+module.exports = Register;
