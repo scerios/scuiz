@@ -94,6 +94,67 @@ a:hover {
     display: flex;
 }
 
+#category-list {
+
+    /* styling */
+    background-color: #dcdde1;
+    border: thin solid #555555;
+    border-radius: 4px;
+    display: inline-block;
+    font: inherit;
+    line-height: 1.5em;
+    padding: 0.5em 3.5em 0.5em 1em;
+
+    /* reset */
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-image:
+            linear-gradient(55deg, transparent 50%, #2f2f2f 50%),
+            linear-gradient(132deg, #2f2f2f 50%, transparent 50%),
+            linear-gradient(to right, #2f2f2f, #2f2f2f);
+    background-position:
+            calc(100% - 20px) calc(1em + 2px),
+            calc(100% - 15px) calc(1em + 2px),
+            calc(100% - 2.5em) 0.5em;
+    background-size:
+            5px 5px,
+            5px 5px,
+            1px 1.5em;
+    background-repeat: no-repeat;
+}
+
+#category-list:focus {
+    background-image:
+            linear-gradient(55deg, #d5441c 50%, transparent 50%),
+            linear-gradient(132deg, transparent 50%, #d5441c 50%),
+            linear-gradient(to right, #d5441c, #d5441c);
+    background-position:
+            calc(100% - 15px) 1em,
+            calc(100% - 20px) 1em,
+            calc(100% - 2.5em) 0.5em;
+    background-size:
+            5px 5px,
+            5px 5px,
+            1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: #d5441c;
+    outline: 0;
+}
+
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
+#category-list option {
+    background: #dcdde1;
+}
+
 .active {
     color: #b5441C;
 }
@@ -105,6 +166,14 @@ a:hover {
 .card-container {
     min-height: 25rem;
     width: 33%;
+    display: inline-block;
+    margin: auto;
+    padding: 1rem;
+}
+
+.card-container-lg {
+    min-height: 25rem;
+    width: 66%;
     display: inline-block;
     margin: auto;
     padding: 1rem;
