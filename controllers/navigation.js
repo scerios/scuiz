@@ -121,4 +121,23 @@ router.get('/controlPanel', async (req, res) => {
     }
 });
 
+router.get('/questionPanel', async (req, res) => {
+    let session = req.session;
+    let pageBasics = await PageLoader.getPageBasics(session);
+
+    if (pageBasics.user && pageBasics.user.id === 1) {
+        SessionService.setLastPosition(session, '/questionPanel');
+
+        let categories = await Queries.getAllCategoriesAsync();
+        let questionPanel = PageLoader.getQuestionPanelPage(pageBasics.language.questionPanel, categories);
+
+        res.render('question-panel', {
+            navBar: PageLoader.getNavBar(pageBasics.language.navBar, pageBasics.languageCode, pageBasics.user),
+            questionPanel
+        });
+    } else {
+        res.redirect(SessionService.getLastPosition(session));
+    }
+});
+
 module.exports = router;

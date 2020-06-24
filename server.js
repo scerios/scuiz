@@ -67,6 +67,7 @@ app.get('/register', require('./controllers/navigation'));
 app.get('/login', require('./controllers/navigation'));
 app.get('/gameBoard', require('./controllers/navigation'));
 app.get('/controlPanel', require('./controllers/navigation'));
+app.get('/questionPanel', require('./controllers/navigation'));
 
 app.post('/register', require('./controllers/user'));
 app.post('/login', require('./controllers/authentication'));
