@@ -60,18 +60,27 @@ app.use(express.urlencoded({ extended: true }));
 
 //#region Routes definition.
 
-app.get('/', require('./controllers/navigation'));
+// Language selection
 app.get('/setLanguageEn', require('./controllers/navigation'));
 app.get('/setLanguageHu', require('./controllers/navigation'));
+
+// Page loadings
+app.get('/', require('./controllers/navigation'));
 app.get('/register', require('./controllers/navigation'));
 app.get('/login', require('./controllers/navigation'));
 app.get('/gameBoard', require('./controllers/navigation'));
 app.get('/controlPanel', require('./controllers/navigation'));
 app.get('/questionPanel', require('./controllers/navigation'));
 
-app.post('/register', require('./controllers/user'));
+// Authentications
 app.post('/login', require('./controllers/authentication'));
 app.get('/logout', require('./controllers/authentication'));
+
+// User
+app.post('/register', require('./controllers/user'));
+
+// Question
+app.post('/getQuestions', require('./controllers/question'));
 
 //#endregion
 
