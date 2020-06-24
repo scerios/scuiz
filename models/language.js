@@ -92,8 +92,9 @@ const LANG_EN = {
         logoutEveryoneBtn: "Logout everyone"
     },
     questionPanel: {
-        selectCategory: "Select category",
+        categoryHead: "Categories",
         categoryList: "Category list",
+        default: "- - -",
         questions: "Questions"
     }
 }
@@ -192,8 +193,9 @@ const LANG_HU = {
         logoutEveryoneBtn: "Mindenki kiléptetése"
     },
     questionPanel: {
-        selectCategory: "Válassz kategóriát",
+        categoryHead: "Kategóriák",
         categoryList: "Kategória lista",
+        default: "- - -",
         questions: "Kérdések"
     }
 }

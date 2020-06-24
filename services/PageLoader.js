@@ -123,8 +123,9 @@ class PageLoader {
 
     getQuestionPanelPage(questionPanel, categories) {
         return {
-            selectCategory: questionPanel.selectCategory,
+            categoryHead: questionPanel.categoryHead,
             categoryList: questionPanel.categoryList,
+            default: questionPanel.default,
             categories: categories,
             questions: questionPanel.questions
         };

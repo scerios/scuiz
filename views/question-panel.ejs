@@ -8,6 +8,7 @@
                 <div class="form-group">
                     <label for="category-list"><%- questionPanel.categoryList %></label>
                     <select class="form-control" id="category-list">
+                        <option value="0"><%= questionPanel.default %></option>
                         <%- include('partials/category-list'); %>
                     </select>
                 </div>
@@ -25,3 +26,4 @@
         </div>
     </div>
 </div>
+<script src="js/question-panel.js"></script>
