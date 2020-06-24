@@ -1,0 +1,27 @@
+<div class="mt-5 container text-centered">
+    <div class="card-container">
+        <div class="card text-dirty bg-gray shadow bordered">
+            <div class="card-header">
+                <%- questionPanel.selectCategory %>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="category-list"><%- questionPanel.categoryList %></label>
+                    <select class="form-control" id="category-list">
+                        <%- include('partials/category-list'); %>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-container-lg">
+        <div class="card text-dirty bg-gray shadow bordered">
+            <div class="card-header">
+                <%- questionPanel.questions %>
+            </div>
+            <div id="question-list" class="card-body">
+
+            </div>
+        </div>
+    </div>
+</div>
