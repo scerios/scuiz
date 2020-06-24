@@ -120,6 +120,15 @@ class PageLoader {
             users: users
         };
     }
+
+    getQuestionPanelPage(questionPanel, categories) {
+        return {
+            selectCategory: questionPanel.selectCategory,
+            categoryList: questionPanel.categoryList,
+            categories: categories,
+            questions: questionPanel.questions
+        };
+    }
 }
 
 module.exports = PageLoader;

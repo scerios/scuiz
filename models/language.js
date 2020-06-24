@@ -90,6 +90,11 @@ const LANG_EN = {
         collectAnswersBtn: "Collect answers",
         evaluateBtn: "Evaluate",
         logoutEveryoneBtn: "Logout everyone"
+    },
+    questionPanel: {
+        selectCategory: "Select category",
+        categoryList: "Category list",
+        questions: "Questions"
     }
 }
 
@@ -185,6 +190,11 @@ const LANG_HU = {
         collectAnswersBtn: "Válaszok begyűjtése",
         evaluateBtn: "Értékelés",
         logoutEveryoneBtn: "Mindenki kiléptetése"
+    },
+    questionPanel: {
+        selectCategory: "Válassz kategóriát",
+        categoryList: "Kategória lista",
+        questions: "Kérdések"
     }
 }
 
