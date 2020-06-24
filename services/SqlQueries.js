@@ -60,11 +60,12 @@ class SqlQueries {
         return result[0];
     }
 
-    async getAllQuestionsAsync() {
+    async getAllQuestionsByCategoryIdAsync(categoryId) {
         return await query(
-            'SELECT c.name, q.question, q.answer FROM question q ' +
-            'INNER JOIN category c ' +
-            'ON q.category_id = c.id'
+            `SELECT q.question, q.answer FROM question q ` +
+            `INNER JOIN category c ` +
+            `ON q.category_id = c.id ` +
+            `WHERE c.id = ${categoryId}`
         );
     }
 
